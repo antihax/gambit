@@ -10,3 +10,20 @@
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+
+*.ztow
+.externalToolBuilders
+.settings
+.vscode
+evedata-server
+secret.yaml
+secrets.yaml
+configuration.sh
+debug
+profile.out
+coverage.txt
+teamspeakToken.txt
+/bin/*
+mock-local.sh
+/json/*
+__*
