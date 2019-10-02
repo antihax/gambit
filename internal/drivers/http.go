@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"net/http/httputil"
 )
 
 func init() {
@@ -24,5 +25,18 @@ func (s *httpd) ServeTCP(ln net.Listener) error {
 }
 
 func (s *httpd) HelloServer(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, %s!", r.URL.Path[1:])
+
+	b, _ := httputil.DumpRequest(r, true)
+	fmt.Printf("%s\n", b)
+	fmt.Fprintf(w, `
+	<html>
+	<body>
+	<form action="/login.cgi" method="post">
+	<input name="user">
+	<input name="pass" type="password">
+	<button>submit</button>
+	</form>
+	</body>
+	</html>
+	`)
 }
