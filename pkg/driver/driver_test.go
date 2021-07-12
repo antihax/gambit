@@ -18,8 +18,8 @@ func (s *Both) ServeUDP(conn net.Conn) error {
 	return nil
 }
 
-func (s *Both) Banner() ([]uint16, []byte) {
-	return nil, nil
+func (s *Both) Banner(uint16) []byte {
+	return nil
 }
 
 // UDP Struct
