@@ -19,6 +19,10 @@ package muxconn
 import (
 	"io"
 	"net"
+
+	"github.com/google/uuid"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 )
 
 type errListenerClosed string
@@ -47,7 +51,10 @@ func (l MuxListener) Accept() (net.Conn, error) {
 // MuxConn wraps a net.Conn and provides transparent sniffing of connection data.
 type MuxConn struct {
 	net.Conn
-	buf BufferedReader
+	buf      BufferedReader
+	uuid     string
+	hash     string
+	sequence int
 }
 
 // NewMuxConn returns a new sniffable connection.
@@ -55,6 +62,7 @@ func NewMuxConn(c net.Conn) *MuxConn {
 	return &MuxConn{
 		Conn: c,
 		buf:  BufferedReader{source: c},
+		uuid: uuid.NewString(),
 	}
 }
 
@@ -70,6 +78,32 @@ func NewMuxConn(c net.Conn) *MuxConn {
 // return 0, EOF.
 func (m *MuxConn) Read(p []byte) (int, error) {
 	return m.buf.Read(p)
+}
+
+// SetHash based on the first bytes
+// [TODO] Improve this, it's backwards to set this
+func (m *MuxConn) SetHash(hash string) {
+	m.hash = hash
+}
+
+// GetHash for the connection
+func (m *MuxConn) GetHash() string {
+	return m.hash
+}
+
+// GetUUID for the connection
+func (m *MuxConn) GetUUID() string {
+	return m.uuid
+}
+
+// Sequence returns the next sequence number (increments automatically)
+func (m *MuxConn) Sequence() int {
+	m.sequence++
+	return m.sequence
+}
+
+func (m *MuxConn) GetLogger() zerolog.Logger {
+	return log.With().Str("uuid", m.uuid).Str("hash", m.hash).Logger()
 }
 
 func (m *MuxConn) StartSniffing() io.Reader {

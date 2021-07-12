@@ -48,7 +48,7 @@ func doBothInterface(t *testing.T, handle Driver) {
 	}
 	tcpB, ok := handle.(TCPBannerDriver)
 	if assert.True(t, ok) {
-		tcpB.Banner()
+		tcpB.Banner(1)
 	}
 }
 
@@ -71,7 +71,7 @@ func doTCPInterface(t *testing.T, handle Driver) {
 	// Only TCP
 	tcp, ok := handle.(TCPDriver)
 	if assert.True(t, ok) {
-		
+
 		assert.Nil(t, tcp.ServeTCP(nil))
 	}
 }

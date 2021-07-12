@@ -20,6 +20,8 @@ secret.yaml
 secrets.yaml
 configuration.sh
 debug
+raw
+sessions
 profile.out
 coverage.txt
 teamspeakToken.txt

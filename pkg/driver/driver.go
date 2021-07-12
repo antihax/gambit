@@ -19,7 +19,7 @@ type UDPDriver interface {
 // TCPBannerDriver provide optional information to send if an aggressor does not
 // do anything after connecting.
 type TCPBannerDriver interface {
-	// Banner returns a list of ports and byte string to return after a period
+	// Banner returns a byte string to return after a period
 	// of inactivity in order to to coax a response.
-	Banner() ([]uint16, []byte)
+	Banner(uint16) []byte
 }

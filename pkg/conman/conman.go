@@ -2,15 +2,20 @@
 package conman
 
 import (
+	"crypto/sha1"
+	"encoding/hex"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net"
+	"strconv"
 	"sync"
 
 	"github.com/antihax/pass/internal/drivers"
 	"github.com/antihax/pass/pkg/driver"
 	"github.com/antihax/pass/pkg/muxconn"
 	"github.com/antihax/pass/pkg/searchtree"
+	"github.com/rs/zerolog/log"
 )
 
 // ConnectionManager managers listeners
@@ -18,6 +23,9 @@ type ConnectionManager struct {
 	tcpListeners map[uint16]net.Listener
 	doneCh       chan struct{}
 	rules        searchtree.Tree
+
+	// If we are saving raw entries, keep a list to save hitting fs
+	knownHashes map[string]bool
 }
 
 // NewConMan creates a new ConnectionManager
@@ -26,6 +34,7 @@ func NewConMan() *ConnectionManager {
 		tcpListeners: make(map[uint16]net.Listener),
 		doneCh:       make(chan struct{}),
 		rules:        searchtree.NewTree(),
+		knownHashes:  make(map[string]bool),
 	}
 
 	// Find all the TCP drivers and setup multiplexers
@@ -85,34 +94,57 @@ func (s *ConnectionManager) NewTCPDriver(rule []byte, driver muxconn.MuxListener
 func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, wg *sync.WaitGroup) {
 	// create our sniffer
 	muc := muxconn.NewMuxConn(conn)
-
 	defer func() {
 		wg.Done()
 	}()
 
 	// Waiter: How are those first bytes tasting?
 	r := muc.StartSniffing()
-	buf := make([]byte, 1500)
+	n := 1500
+	buf := make([]byte, n)
+
+	// [TODO] timeout and send banner
 	n, err := r.Read(buf)
 	if err != nil {
 		if err != io.EOF {
-			fmt.Println("read error:", err)
+			log.Error().Err(err).Msg("error reading from sniffer")
 		}
 	}
 
-	// See if we match a rule and transfer the connection to the driver
+	// get the hash of the first n bytes and tag the multiplexer
+	h := sha1.New()
+	h.Write(buf[:n])
+	muc.SetHash(hex.EncodeToString(h.Sum(nil)))
+
+	port := strconv.Itoa(root.Addr().(*net.TCPAddr).Port)
+	ip := root.Addr().(*net.TCPAddr).IP.String()
+
+	// log the connection
+	attacklog := muc.GetLogger()
+	attacklog.Info().Str("attacker", ip).Str("dstport", port).Msgf("tcp knock")
+
+	// save the raw data [TODO] from config
+	if _, ok := s.knownHashes[muc.GetHash()]; !ok {
+		if err = ioutil.WriteFile("./raw/"+muc.GetHash(), buf[:n], 0644); err != nil {
+			log.Error().Err(err).Msg("error saving raw data")
+		}
+		s.knownHashes[muc.GetHash()] = false
+	}
+
+	// see if we match a rule and transfer the connection to the driver
 	entry := s.rules.Match(buf)
+
 	muc.DoneSniffing()
 	ln, ok := entry.(muxconn.MuxListener)
 	if ok {
-		// Hack in the source listener
+		// hack in the source listener
 		ln.Listener = root
-		// Pipe the connection into Accept()
+		// pipe the connection into Accept()
 		ln.ConnCh <- muc
+	} else {
+		// no driver
+		if n > 0 {
+			attacklog.Debug().Err(err).Str("dstport", port).Str("raw", string(buf[:n])).Msg("no driver")
+		}
 	}
-	if n > 10 {
-		n = 10
-	}
-	fmt.Printf("---------------\n%s\n%X\n", buf, buf[:n])
-
 }
