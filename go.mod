@@ -7,6 +7,7 @@ require (
 	github.com/google/uuid v1.2.0
 	github.com/lunixbochs/struc v0.0.0-20200707160740-784aaebc1d40
 	github.com/rs/zerolog v1.23.0
+	github.com/sethvargo/go-envconfig v0.3.5
 	github.com/stretchr/testify v1.7.0
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )

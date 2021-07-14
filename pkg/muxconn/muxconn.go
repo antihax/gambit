@@ -22,7 +22,6 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
 )
 
 type errListenerClosed string
@@ -55,14 +54,16 @@ type MuxConn struct {
 	uuid     string
 	hash     string
 	sequence int
+	logger   zerolog.Logger
 }
 
 // NewMuxConn returns a new sniffable connection.
-func NewMuxConn(c net.Conn) *MuxConn {
+func NewMuxConn(c net.Conn, logger zerolog.Logger) *MuxConn {
 	return &MuxConn{
-		Conn: c,
-		buf:  BufferedReader{source: c},
-		uuid: uuid.NewString(),
+		Conn:   c,
+		buf:    BufferedReader{source: c},
+		uuid:   uuid.NewString(),
+		logger: logger,
 	}
 }
 
@@ -103,7 +104,7 @@ func (m *MuxConn) Sequence() int {
 }
 
 func (m *MuxConn) GetLogger() zerolog.Logger {
-	return log.With().Str("uuid", m.uuid).Str("hash", m.hash).Logger()
+	return m.logger.With().Str("uuid", m.uuid).Str("hash", m.hash).Logger()
 }
 
 func (m *MuxConn) StartSniffing() io.Reader {

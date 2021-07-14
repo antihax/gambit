@@ -31,9 +31,51 @@ func init() {
 	AddDriver([]byte("PATCH "), h)
 
 	httpmux := http.NewServeMux()
-	httpmux.Handle("/", logger(http.HandlerFunc(h.HandleAll)))
-	httpmux.Handle("/loginto.cgi", logger(http.HandlerFunc(h.HandleTrap)))
-	httpmux.Handle("/v1.16/version", logger(http.HandlerFunc(h.DockerAPI)))
+
+	/* [TODO] Unknowns
+
+		/api
+		/console/login/LoginForm.jsp
+		/manager/html
+		/.well-known/security.txt ** Research why this is probed?
+		/GponForm/diag_Form?images/
+		/boaform/admin/formLogin
+		POST / CNT: {"id":0,"jsonrpc":"2.0","method":"eth_blockNumber"}
+		POST /service/extdirect
+		POST /api/jsonws/invoke
+		/zc?action=getInfo
+	    /index.php?s=/Index/\think\app/invokefunction&function=call_user_func_array&vars[0]=md5&vars[1][]=HelloThinkPHP21
+		/nice%20ports%2C/Tri%6Eity.txt%2ebak
+		/jars
+		/wp-content/plugins/wp-file-manager/readme.txt
+		/?XDEBUG_SESSION_START=phpstorm
+		/solr/admin/info/system?wt=json
+		/?a=fetch&content=<php>die(@md5(HelloThinkCMF))</php>
+		/_ignition/execute-solution
+		/phpmyadmin/
+		/admin/config.php
+		/config/getuser?index=0
+		/Autodiscover/Autodiscover.xml
+		/console/
+		/stat
+		/status
+
+		# docker
+		/v1.24/containers/create
+
+	*/
+
+	// Catch all
+	httpmux.Handle("/", logger(http.HandlerFunc(http_handleAll)))
+	httpmux.Handle("/loginto.cgi", logger(http.HandlerFunc(http_handleTrap)))
+
+	// Docker
+	httpmux.Handle("/v1.16/version", logger(http.HandlerFunc(http_dockerVersion)))
+	httpmux.Handle("/_ping", logger(http.HandlerFunc(http_dockerPing)))
+	httpmux.Handle("/v1.24/containers/create", logger(http.HandlerFunc(http_dockerContainerCreated)))
+
+	// PHPUnit
+	httpmux.Handle("/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php", logger(http.HandlerFunc(http_phpunit)))
 
 	server = http.Server{
 		ConnContext: SaveMuxInContext,
@@ -67,9 +109,11 @@ func GetConnFromContext(ctx context.Context) *muxconn.MuxConn {
 	return ctx.Value(ConnContextKey).(*muxconn.MuxConn)
 }
 
+// [TODO] pass config up context
 func logger(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		attacklog := GetLoggerFromContext(r.Context())
+
 		conn := GetConnFromContext(r.Context())
 		sequence := conn.Sequence()
 		b, err := httputil.DumpRequest(r, true)
@@ -77,9 +121,9 @@ func logger(next http.Handler) http.Handler {
 			attacklog.Debug().Err(err).Msg("")
 		}
 		if err = ioutil.WriteFile("./sessions/"+conn.GetUUID()+"-"+strconv.Itoa(sequence), b, 0644); err != nil {
-			log.Error().Err(err).Msg("error saving raw data")
+			log.Debug().Err(err).Msg("error saving raw data")
 		}
-		attacklog.Info().Str("url", r.URL.RawPath).Int("sequence", sequence).Msg("URL")
+		attacklog.Info().Str("url", r.URL.Path).Int("sequence", sequence).Msg("URL")
 
 		next.ServeHTTP(w, r)
 	})
@@ -89,13 +133,7 @@ func (s *httpd) ServeTCP(ln net.Listener) error {
 	return server.Serve(ln)
 }
 
-func (s *httpd) HandleTrap(w http.ResponseWriter, r *http.Request) {
-	attacklog := GetLoggerFromContext(r.Context())
-	attacklog.Warn().Msg("Trap triggered")
-	w.Write(nil)
-}
-
-func (s *httpd) HandleAll(w http.ResponseWriter, r *http.Request) {
+func http_handleAll(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, `
 	<html>
 	<body>
@@ -109,7 +147,34 @@ func (s *httpd) HandleAll(w http.ResponseWriter, r *http.Request) {
 	`)
 }
 
-func (s *httpd) DockerAPI(w http.ResponseWriter, r *http.Request) {
+func http_handleTrap(w http.ResponseWriter, r *http.Request) {
+	attacklog := GetLoggerFromContext(r.Context())
+	attacklog.Warn().Msg("Trap triggered")
+	w.Write(nil)
+}
+
+// ######### Docker Handlers
+func http_dockerVersion(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	fmt.Fprintf(w, `{"Client":{"Platform":{"Name":"Docker Engine - Community"},"Version":"19.03.8","ApiVersion":"1.40","DefaultAPIVersion":"1.40","GitCommit":"afacb8b","GoVersion":"go1.12.17","Os":"darwin","Arch":"amd64","BuildTime":"Wed Mar 11 01:21:11 2020","Experimental":true},"Server":{"Platform":{"Name":"Docker Engine - Community"},"Components":[{"Name":"Engine","Version":"19.03.8","Details":{"ApiVersion":"1.40","Arch":"amd64","BuildTime":"Wed Mar 11 01:29:16 2020","Experimental":"true","GitCommit":"afacb8b","GoVersion":"go1.12.17","KernelVersion":"4.19.76-linuxkit","MinAPIVersion":"1.12","Os":"linux"}},{"Name":"containerd","Version":"v1.2.13","Details":{"GitCommit":"7ad184331fa3e55e52b890ea95e65ba581ae3429"}},{"Name":"runc","Version":"1.0.0-rc10","Details":{"GitCommit":"dc9208a3303feef5b3839f4323d9beb36df0a9dd"}},{"Name":"docker-init","Version":"0.18.0","Details":{"GitCommit":"fec3683"}}],"Version":"19.03.8","ApiVersion":"1.40","MinAPIVersion":"1.12","GitCommit":"afacb8b","GoVersion":"go1.12.17","Os":"linux","Arch":"amd64","KernelVersion":"4.19.76-linuxkit","Experimental":true,"BuildTime":"2020-03-11T01:29:16.000000000+00:00"}}`)
+}
+
+func http_dockerPing(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/plain")
+	fmt.Fprintf(w, `OK`)
+}
+
+func http_dockerContainerCreated(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusCreated)
+	w.Header().Set("Content-Type", "application/json")
+	fmt.Fprintf(w, `{"Id":"e90e34656806","Warnings":[]}`)
+}
+
+// ######### Wordpress Handlers
+
+// phpunit\
+func http_phpunit(w http.ResponseWriter, r *http.Request) {
+
+	w.Header().Set("Content-Type", "text/plain")
+	fmt.Fprintf(w, `85af727fd022d3a13e7972fd6a418582`)
 }

@@ -2,7 +2,7 @@ package drivers
 
 import "github.com/antihax/pass/pkg/driver"
 
-var drivers []DriverHandler
+var drivers []*DriverHandler
 
 // DriverHandler matches a pattern to a driver
 type DriverHandler struct {
@@ -11,11 +11,12 @@ type DriverHandler struct {
 }
 
 // AddDriver adds a driver to the internal list
-func AddDriver(pattern []byte, driver driver.Driver) {
-	drivers = append(drivers, DriverHandler{pattern, driver})
+func AddDriver(pattern []byte, handler driver.Driver) {
+	d := &DriverHandler{pattern, handler}
+	drivers = append(drivers, d)
 }
 
 // GetDrivers returns the available driver list
-func GetDrivers() []DriverHandler {
+func GetDrivers() []*DriverHandler {
 	return drivers
 }

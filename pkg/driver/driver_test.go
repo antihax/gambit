@@ -18,8 +18,8 @@ func (s *Both) ServeUDP(conn net.Conn) error {
 	return nil
 }
 
-func (s *Both) Banner(uint16) []byte {
-	return nil
+func (s *Both) Banner() ([]uint16, []byte) {
+	return nil, nil
 }
 
 // UDP Struct
@@ -48,7 +48,7 @@ func doBothInterface(t *testing.T, handle Driver) {
 	}
 	tcpB, ok := handle.(TCPBannerDriver)
 	if assert.True(t, ok) {
-		tcpB.Banner(1)
+		tcpB.Banner()
 	}
 }
 

@@ -21,5 +21,5 @@ type UDPDriver interface {
 type TCPBannerDriver interface {
 	// Banner returns a byte string to return after a period
 	// of inactivity in order to to coax a response.
-	Banner(uint16) []byte
+	Banner() ([]uint16, []byte)
 }
