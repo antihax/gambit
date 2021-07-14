@@ -130,6 +130,7 @@ func (s *ConnectionManager) CreateTCPListener(port uint16) (bool, error) {
 func (s *ConnectionManager) NewProxy() net.Listener {
 	ml := muxconn.MuxListener{
 		ConnCh: make(chan net.Conn, 1500),
+		Logger: s.logger,
 	}
 	return ml
 }
@@ -250,6 +251,7 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	// see if we match a rule and transfer the connection to the driver
 	entry := s.rules.Match(buf)
 
+	// stop sniffing and pass to the driver listener
 	muc.DoneSniffing()
 	ln, ok := entry.(muxconn.MuxListener)
 	if ok {
@@ -264,8 +266,6 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 		}
 
 		// close the connection
-		if err := muc.Close(); err != nil {
-			attacklog.Err(err).Msg("error closing socket")
-		}
+		muc.Close()
 	}
 }

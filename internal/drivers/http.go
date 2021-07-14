@@ -14,9 +14,13 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+var server http.Server
+
 type httpd struct{}
 
-var server http.Server
+func (s *httpd) ServeTCP(ln net.Listener) error {
+	return server.Serve(ln)
+}
 
 func init() {
 	h := &httpd{}
@@ -73,6 +77,7 @@ func init() {
 	httpmux.Handle("/v1.16/version", logger(http.HandlerFunc(http_dockerVersion)))
 	httpmux.Handle("/_ping", logger(http.HandlerFunc(http_dockerPing)))
 	httpmux.Handle("/v1.24/containers/create", logger(http.HandlerFunc(http_dockerContainerCreated)))
+	httpmux.Handle("/v1.24/containers/e90e34656806/attach", logger(http.HandlerFunc(http_dockere90e34656806attach)))
 
 	// PHPUnit
 	httpmux.Handle("/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php", logger(http.HandlerFunc(http_phpunit)))
@@ -129,10 +134,6 @@ func logger(next http.Handler) http.Handler {
 	})
 }
 
-func (s *httpd) ServeTCP(ln net.Listener) error {
-	return server.Serve(ln)
-}
-
 func http_handleAll(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, `
 	<html>
@@ -170,11 +171,21 @@ func http_dockerContainerCreated(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, `{"Id":"e90e34656806","Warnings":[]}`)
 }
 
+// [TODO] build framework for reading and writing these streams
+func http_dockere90e34656806attach(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusSwitchingProtocols)
+	w.Header().Set("Content-Type", "application/vnd.docker.raw-stream")
+	w.Header().Set("Connection", "Upgrade")
+	w.Header().Set("Upgrade", "tcp")
+	attacklog := GetLoggerFromContext(r.Context())
+	attacklog.Warn().Msg("Trap triggered")
+	fmt.Fprintf(w, ``)
+}
+
 // ######### Wordpress Handlers
 
 // phpunit\
 func http_phpunit(w http.ResponseWriter, r *http.Request) {
-
 	w.Header().Set("Content-Type", "text/plain")
 	fmt.Fprintf(w, `85af727fd022d3a13e7972fd6a418582`)
 }

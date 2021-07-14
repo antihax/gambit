@@ -37,6 +37,7 @@ var ErrListenerClosed = errListenerClosed("mux: listener closed")
 type MuxListener struct {
 	net.Listener
 	ConnCh chan net.Conn
+	Logger zerolog.Logger
 }
 
 func (l MuxListener) Accept() (net.Conn, error) {
