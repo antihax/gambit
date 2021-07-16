@@ -5,11 +5,13 @@ metadata:
   namespace: gambit
 spec:
   version: 7.13.3
-  nodeSelector:
-    gambit: worker     
   nodeSets:
   - name: store
     count: 1
     config:
       node.store.allow_mmap: false
+    podTemplate:
+      spec:
+        nodeSelector:
+          gambit: worker    
 

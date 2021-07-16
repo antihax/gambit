@@ -6,8 +6,10 @@ metadata:
 spec:
   version: 7.13.3
   count: 1
-  nodeSelector:
-    gambit: worker     
   elasticsearchRef:
     name: gambit
     namespace: gambit
+  podTemplate:
+    spec:
+      nodeSelector:
+        gambit: worker    

@@ -8,9 +8,7 @@ spec:
   version: 7.13.3
   elasticsearchRef:
     name: gambit
-    namespace: gambit
-    nodeSelector:
-      gambit: worker       
+    namespace: gambit    
   config:
     filebeat.inputs:
     - type: syslog
@@ -23,6 +21,8 @@ spec:
       spec:
         securityContext:
           runAsUser: 0  
+        nodeSelector:
+          gambit: worker              
 ---
 apiVersion: v1
 kind: Service
