@@ -245,7 +245,8 @@ func (s *ConnectionManager) StartConning() {
 		if pkt.Flags&probe.SYN != 0 {
 			known, err := s.CreateTCPListener(pkt.DestPort)
 			if err != nil {
-				s.logger.Debug().Err(err).Msg("creating socket")
+				// Ignore the error because it just wont shut up
+				s.logger.Trace().Err(err).Msg("creating socket")
 			}
 			if !known {
 				s.logger.Debug().Msgf("started tcp server: %v", pkt.DestPort)
