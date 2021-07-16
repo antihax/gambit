@@ -1,0 +1,40 @@
+apiVersion: beat.k8s.elastic.co/v1beta1
+kind: Beat
+metadata:
+  name: gambit
+  namespace: gambit
+spec:
+  type: filebeat
+  version: 7.13.3
+  elasticsearchRef:
+    name: gambit
+    namespace: gambit
+    nodeSelector:
+      gambit: worker       
+  config:
+    filebeat.inputs:
+    - type: syslog
+      enabled: true
+      protocol.udp:
+        host: "0.0.0.0:5140"
+  deployment:
+    replicas: 1
+    podTemplate:
+      spec:
+        securityContext:
+          runAsUser: 0  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gambit-filebeat
+  namespace: gambit
+spec:
+  ports:
+  - port: 5140
+    protocol: UDP
+    targetPort: 5140
+  selector:
+    beat.k8s.elastic.co/name: gambit
+    namespace: gambit
+  type: ClusterIP

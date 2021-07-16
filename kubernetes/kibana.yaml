@@ -1,0 +1,13 @@
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: gambit
+  namespace: gambit
+spec:
+  version: 7.13.3
+  count: 1
+  nodeSelector:
+    gambit: worker     
+  elasticsearchRef:
+    name: gambit
+    namespace: gambit

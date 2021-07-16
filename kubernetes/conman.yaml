@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: conman
+  namespace: gambit
+spec:
+  selector:
+    matchLabels:
+      name: conman
+  template:
+    metadata:
+      labels:
+        name: conman
+    spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      nodeSelector:
+        gambit: conman      
+      containers:
+      - name: conman
+        image: antihax/gambit-conman:latest
+        env:
+        - name: CONMAN_SYSLOG_NETWORK
+          value: "udp"
+        - name: CONMAN_SYSLOG_ADDRESS
+          value: "gambit-filebeat.gambit:5140"
+        - name: CONMAN_LOGLEVEL
+          value: "0"

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Hetzner key for storage
+kubectl create secret generic hcloud-csi --namespace kube-system --from-literal=token=

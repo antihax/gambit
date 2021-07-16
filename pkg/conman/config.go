@@ -11,4 +11,5 @@ type ConnectionManagerConfig struct {
 	S3Host        string `env:"CONMAN_S3_HOST"`
 	S3Bucket      string `env:"CONMAN_S3_BUCKET"`
 	S3Key         string `env:"CONMAN_S3_KEY"`
+	Sanitize      bool   `env:"CONMAN_SANITIZE,default=1"`
 }

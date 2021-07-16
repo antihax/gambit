@@ -2,6 +2,7 @@
 package conman
 
 import (
+	"bytes"
 	"context"
 	"crypto/sha1"
 	"encoding/hex"
@@ -12,6 +13,7 @@ import (
 	"net"
 	"os"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 
@@ -26,15 +28,30 @@ import (
 
 // ConnectionManager managers listeners
 type ConnectionManager struct {
-	tcpListeners map[uint16]net.Listener
-	doneCh       chan struct{}
-	rules        searchtree.Tree
-	banners      map[uint16][]byte
+	tcpListeners      map[uint16]net.Listener
+	doneCh            chan struct{}
+	rules             searchtree.Tree
+	banners           map[uint16][]byte
+	sanitizeAddresses []net.IP
 
 	// If we are saving raw entries, keep a list to save hitting fs
 	knownHashes map[string]bool
 	logger      zerolog.Logger
 	config      ConnectionManagerConfig
+}
+
+// [TODO] Remove after golang 1.17 released
+func privateIP(ip net.IP) bool {
+	private := false
+	if ip.IsLoopback() || ip.IsMulticast() || ip.IsUnspecified() || ip.IsLinkLocalUnicast() {
+		return true
+	}
+	_, private24BitBlock, _ := net.ParseCIDR("10.0.0.0/8")
+	_, private20BitBlock, _ := net.ParseCIDR("172.16.0.0/12")
+	_, private16BitBlock, _ := net.ParseCIDR("192.168.0.0/16")
+	private = private24BitBlock.Contains(ip) || private20BitBlock.Contains(ip) || private16BitBlock.Contains(ip)
+
+	return private
 }
 
 // NewConMan creates a new ConnectionManager
@@ -74,6 +91,34 @@ func NewConMan() (*ConnectionManager, error) {
 		config:       cfg,
 	}
 
+	// get a list of addresses to sanitize from exported data
+	if cfg.Sanitize {
+		ifaces, err := net.Interfaces()
+		if err != nil {
+			return nil, err
+		}
+		for _, i := range ifaces {
+			addrs, err := i.Addrs()
+			if err != nil {
+				return nil, err
+			}
+			for _, addr := range addrs {
+				var ip net.IP
+				switch v := addr.(type) {
+				case *net.IPNet:
+					ip = v.IP
+				case *net.IPAddr:
+					ip = v.IP
+				}
+				if !privateIP(ip) {
+					s.sanitizeAddresses = append(s.sanitizeAddresses, ip)
+				}
+			}
+		}
+	}
+
+	fmt.Printf("%+v\n", s.sanitizeAddresses)
+
 	// Find all the TCP drivers and setup multiplexers
 	drivers := drivers.GetDrivers()
 	for _, d := range drivers {
@@ -96,6 +141,15 @@ func NewConMan() (*ConnectionManager, error) {
 		}
 	}
 	return s, nil
+}
+
+// Make some dumb attempt to remove our addresses from data. It won't catch them all.
+func (s *ConnectionManager) Sanitize(data []byte) []byte {
+	for _, ip := range s.sanitizeAddresses {
+		data = bytes.ReplaceAll(data, ip, bytes.Repeat([]byte{255}, len(ip)))
+		data = []byte(strings.ReplaceAll(string(data), ip.String(), "xxx.xxx.xxx.xxx"))
+	}
+	return data
 }
 
 // CreateTCPListener will create a new listener if one does not already exist and return if it was created or not.
@@ -241,7 +295,7 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	// save the raw data [TODO] from config
 	if n > 0 {
 		if _, ok := s.knownHashes[muc.GetHash()]; !ok {
-			if err = ioutil.WriteFile(s.config.OutputFolder+"raw/"+muc.GetHash(), buf[:n], 0644); err != nil {
+			if err = ioutil.WriteFile(s.config.OutputFolder+"raw/"+muc.GetHash(), s.Sanitize(buf[:n]), 0644); err != nil {
 				s.logger.Debug().Err(err).Msg("error saving raw data")
 			}
 			s.knownHashes[muc.GetHash()] = false
