@@ -13,7 +13,7 @@ spec:
     filebeat.inputs:
     - type: syslog
       enabled: true
-      protocol.udp:
+      protocol.tcp:
         host: "0.0.0.0:5140"
   deployment:
     replicas: 1
@@ -32,9 +32,8 @@ metadata:
 spec:
   ports:
   - port: 5140
-    protocol: UDP
+    protocol: TCP
     targetPort: 5140
   selector:
     beat.k8s.elastic.co/name: gambit
-    namespace: gambit
   type: ClusterIP

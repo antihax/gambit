@@ -21,8 +21,8 @@ spec:
         image: antihax/gambit-conman:latest
         env:
         - name: CONMAN_SYSLOG_NETWORK
-          value: "udp"
+          value: "tcp"
         - name: CONMAN_SYSLOG_ADDRESS
-          value: "gambit-filebeat.gambit:5140"
+          value: "gambit-filebeat.gambit.svc:5140"
         - name: CONMAN_LOGLEVEL
           value: "0"
