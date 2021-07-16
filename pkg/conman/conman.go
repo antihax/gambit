@@ -117,8 +117,6 @@ func NewConMan() (*ConnectionManager, error) {
 		}
 	}
 
-	fmt.Printf("%+v\n", s.sanitizeAddresses)
-
 	// Find all the TCP drivers and setup multiplexers
 	drivers := drivers.GetDrivers()
 	for _, d := range drivers {
