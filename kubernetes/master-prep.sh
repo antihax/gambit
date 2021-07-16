@@ -34,5 +34,8 @@ kubectl delete pod --all -n kube-system
 # add eck for elastic
 kubectl apply -f https://download.elastic.co/downloads/eck/1.6.0/all-in-one.yaml
 
+# hetzner volumes
+kubectl apply -f https://raw.githubusercontent.com/hetznercloud/csi-driver/v1.5.1/deploy/kubernetes/hcloud-csi.yml
+
 # create namespace
 kubectl apply -f gambit.yaml
