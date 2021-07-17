@@ -33,7 +33,7 @@ type ConnectionManager struct {
 	addresses    []net.IP
 
 	// If we are saving raw entries, keep a list to save hitting fs
-	knownHashes map[string]bool
+	knownHashes sync.Map
 	logger      zerolog.Logger
 	config      ConnectionManagerConfig
 }
@@ -75,7 +75,6 @@ func NewConMan() (*ConnectionManager, error) {
 		doneCh:       make(chan struct{}),
 		rules:        searchtree.NewTree(),
 		banners:      make(map[uint16][]byte),
-		knownHashes:  make(map[string]bool),
 		logger:       logger,
 		config:       cfg,
 	}
@@ -282,11 +281,11 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 
 	// save the raw data [TODO] from config
 	if n > 0 {
-		if _, ok := s.knownHashes[muc.GetHash()]; !ok {
+		if _, ok := s.knownHashes.Load(muc.GetHash()); !ok {
 			if err = ioutil.WriteFile(s.config.OutputFolder+"raw/"+muc.GetHash(), s.Sanitize(buf[:n]), 0644); err != nil {
 				s.logger.Debug().Err(err).Msg("error saving raw data")
 			}
-			s.knownHashes[muc.GetHash()] = false
+			s.knownHashes.Store(muc.GetHash(), false)
 		}
 	}
 
