@@ -2,7 +2,6 @@
 package conman
 
 import (
-	"bytes"
 	"context"
 	"crypto/sha1"
 	"encoding/hex"
@@ -13,7 +12,6 @@ import (
 	"net"
 	"os"
 	"strconv"
-	"strings"
 	"sync"
 	"time"
 
@@ -40,20 +38,6 @@ type ConnectionManager struct {
 	config      ConnectionManagerConfig
 }
 
-// [TODO] Remove after golang 1.17 released
-func privateIP(ip net.IP) bool {
-	private := false
-	if ip.IsLoopback() || ip.IsMulticast() || ip.IsUnspecified() || ip.IsLinkLocalUnicast() {
-		return true
-	}
-	_, private24BitBlock, _ := net.ParseCIDR("10.0.0.0/8")
-	_, private20BitBlock, _ := net.ParseCIDR("172.16.0.0/12")
-	_, private16BitBlock, _ := net.ParseCIDR("192.168.0.0/16")
-	private = private24BitBlock.Contains(ip) || private20BitBlock.Contains(ip) || private16BitBlock.Contains(ip)
-
-	return private
-}
-
 // NewConMan creates a new ConnectionManager
 func NewConMan() (*ConnectionManager, error) {
 	// load config
@@ -68,9 +52,13 @@ func NewConMan() (*ConnectionManager, error) {
 			cfg.OutputFolder = pw + "/"
 		}
 	}
+
+	// [TODO] determine if we don't save locally
+	// make file directories and ignore failures
 	os.Mkdir(cfg.OutputFolder+"raw", 0755)
 	os.Mkdir(cfg.OutputFolder+"sessions", 0755)
 
+	// setup the logger
 	logger := zerolog.New(os.Stdout)
 	if cfg.SyslogNetwork != "stdout" {
 		syslogWriter, err := syslog.Dial(cfg.SyslogNetwork, cfg.SyslogAddress, syslog.LOG_DAEMON, "conman")
@@ -130,25 +118,14 @@ func NewConMan() (*ConnectionManager, error) {
 
 		// Copy the banners to a map
 		if handler, ok := d.Driver.(driver.TCPBannerDriver); ok {
-			if driv, ok := handler.(driver.TCPBannerDriver); ok {
-				if ports, banner := driv.Banner(); len(ports) > 0 {
-					for _, port := range ports {
-						s.banners[port] = banner
-					}
+			if ports, banner := handler.Banner(); len(ports) > 0 {
+				for _, port := range ports {
+					s.banners[port] = banner
 				}
 			}
 		}
 	}
 	return s, nil
-}
-
-// Make some dumb attempt to remove our addresses from data. It won't catch them all.
-func (s *ConnectionManager) Sanitize(data []byte) []byte {
-	for _, ip := range s.sanitizeAddresses {
-		data = bytes.ReplaceAll(data, ip, bytes.Repeat([]byte{255}, len(ip)))
-		data = []byte(strings.ReplaceAll(string(data), ip.String(), "xxx.xxx.xxx.xxx"))
-	}
-	return data
 }
 
 // CreateTCPListener will create a new listener if one does not already exist and return if it was created or not.
