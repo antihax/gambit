@@ -26,11 +26,11 @@ import (
 
 // ConnectionManager managers listeners
 type ConnectionManager struct {
-	tcpListeners      map[uint16]net.Listener
-	doneCh            chan struct{}
-	rules             searchtree.Tree
-	banners           map[uint16][]byte
-	sanitizeAddresses []net.IP
+	tcpListeners map[uint16]net.Listener
+	doneCh       chan struct{}
+	rules        searchtree.Tree
+	banners      map[uint16][]byte
+	addresses    []net.IP
 
 	// If we are saving raw entries, keep a list to save hitting fs
 	knownHashes map[string]bool
@@ -80,28 +80,26 @@ func NewConMan() (*ConnectionManager, error) {
 		config:       cfg,
 	}
 
-	// get a list of addresses to sanitize from exported data
-	if cfg.Sanitize {
-		ifaces, err := net.Interfaces()
+	// get a list of addresses
+	ifaces, err := net.Interfaces()
+	if err != nil {
+		return nil, err
+	}
+	for _, i := range ifaces {
+		addrs, err := i.Addrs()
 		if err != nil {
 			return nil, err
 		}
-		for _, i := range ifaces {
-			addrs, err := i.Addrs()
-			if err != nil {
-				return nil, err
+		for _, addr := range addrs {
+			var ip net.IP
+			switch v := addr.(type) {
+			case *net.IPNet:
+				ip = v.IP
+			case *net.IPAddr:
+				ip = v.IP
 			}
-			for _, addr := range addrs {
-				var ip net.IP
-				switch v := addr.(type) {
-				case *net.IPNet:
-					ip = v.IP
-				case *net.IPAddr:
-					ip = v.IP
-				}
-				if !privateIP(ip) {
-					s.sanitizeAddresses = append(s.sanitizeAddresses, ip)
-				}
+			if !privateIP(ip) {
+				s.addresses = append(s.addresses, ip)
 			}
 		}
 	}
@@ -133,9 +131,22 @@ func (s *ConnectionManager) CreateTCPListener(port uint16) (bool, error) {
 	var wg sync.WaitGroup
 	wg.Wait()
 
+	address := "0.0.0.0"
+	if s.config.BindAddress != "" {
+		if s.config.BindAddress == "public" {
+			for _, addr := range s.addresses {
+				if !privateIP(addr) && addr.To4() != nil {
+					address = addr.String()
+				}
+			}
+		} else {
+			address = s.config.BindAddress
+		}
+	}
+
 	// create a new listener if one does not already exist
 	if _, ok := s.tcpListeners[port]; !ok {
-		addr := fmt.Sprintf("0.0.0.0:%d", port)
+		addr := fmt.Sprintf("%s:%d", address, port)
 		ln, err := net.Listen("tcp", addr)
 		if err != nil {
 			return true, err

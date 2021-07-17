@@ -22,9 +22,11 @@ func privateIP(ip net.IP) bool {
 
 // Sanitize makes a dumb attempt to remove our addresses from data. It won't catch them all.
 func (s *ConnectionManager) Sanitize(data []byte) []byte {
-	for _, ip := range s.sanitizeAddresses {
-		data = bytes.ReplaceAll(data, ip, bytes.Repeat([]byte{255}, len(ip)))
-		data = []byte(strings.ReplaceAll(string(data), ip.String(), "xxx.xxx.xxx.xxx"))
+	if s.config.Sanitize {
+		for _, ip := range s.addresses {
+			data = bytes.ReplaceAll(data, ip, bytes.Repeat([]byte{255}, len(ip)))
+			data = []byte(strings.ReplaceAll(string(data), ip.String(), "xxx.xxx.xxx.xxx"))
+		}
 	}
 	return data
 }
