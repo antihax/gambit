@@ -8,21 +8,60 @@ spec:
   version: 7.13.3
   elasticsearchRef:
     name: gambit
-    namespace: gambit    
+    namespace: gambit
   config:
     filebeat.inputs:
-    - type: syslog
-      enabled: true
-      protocol.tcp:
-        host: "0.0.0.0:5140"
+      - type: syslog
+        enabled: true
+        format: auto
+        protocol.udp:
+          host: "0.0.0.0:5140"
+    processors:
+      - drop_fields:
+          fields:
+            [
+              "event.severity",
+              "hostname",
+              "process.program",
+              "process.pid",
+              "syslog.severity_label",
+              "syslog.priority",
+              "syslog.facility_label",
+              "syslog.facility",
+              "suricata.eve.alert.severity",
+              "agent.name",
+              "host.name",
+              "log.source.address",
+              "agent.ephemeral_id",
+              "agent.hostname",
+              "agent.id",
+              "agent.type",
+              "agent.version",
+              "ecs.version",
+              "input.type",
+              "log.offset",
+              "version",
+            ]
+      - script:
+          lang: javascript
+          id: decode_cee
+          source: >
+            function process(e) {
+                var m = String(e.Get("message")).replace("@cee:", "");
+                var j = JSON.parse(m);
+                for (var k in j) {
+                  e.Put("gambit." + k,j[k]);
+                }
+                return e;
+            }
   deployment:
     replicas: 1
     podTemplate:
       spec:
         securityContext:
-          runAsUser: 0  
+          runAsUser: 0
         nodeSelector:
-          gambit: worker              
+          gambit: worker
 ---
 apiVersion: v1
 kind: Service
@@ -31,9 +70,9 @@ metadata:
   namespace: gambit
 spec:
   ports:
-  - port: 5140
-    protocol: TCP
-    targetPort: 5140
+    - port: 5140
+      protocol: UDP
+      targetPort: 5140
   selector:
     beat.k8s.elastic.co/name: gambit
   type: ClusterIP

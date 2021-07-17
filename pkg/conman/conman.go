@@ -77,6 +77,7 @@ func NewConMan() (*ConnectionManager, error) {
 		if err != nil {
 			return nil, err
 		}
+		//logger = zerolog.New(syslogWriter)
 		logger = zerolog.New(zerolog.SyslogCEEWriter(syslogWriter))
 	}
 	zerolog.SetGlobalLevel(zerolog.Level(cfg.LogLevel))
