@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 
+	"github.com/antihax/pass/internal/store"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -12,14 +13,14 @@ import (
 )
 
 // Store data if needed
-func (s *ConnectionManager) Store(filename, location string, data []byte) {
+func (s *ConnectionManager) store(filename, location string, data []byte) {
 	// write out
 	if s.config.OutputFolder != "" {
 		if err := ioutil.WriteFile(s.config.OutputFolder+"/"+location+"/"+filename, s.Sanitize(data), 0644); err != nil {
 			s.logger.Debug().Err(err).Msg("error saving raw data")
 		}
 	}
-	// Upload to s3
+	// upload to s3
 	if s.uploader != nil {
 		if _, err := s.uploader.Upload(&s3manager.UploadInput{
 			Bucket: aws.String(s.config.S3Bucket),
@@ -31,8 +32,17 @@ func (s *ConnectionManager) Store(filename, location string, data []byte) {
 	}
 }
 
-func (s *ConnectionManager) setupStore() error {
+// read files to store
+func (s *ConnectionManager) storePump() {
+	for {
+		file := <-s.storeChan
+		s.store(file.Filename, file.Location, file.Data)
+	}
+}
 
+func (s *ConnectionManager) setupStore() error {
+	s.storeChan = make(chan store.File, 20)
+	go s.storePump()
 	// setup local storage
 	if s.config.OutputFolder == "." {
 		if pw, err := os.Getwd(); err != nil {

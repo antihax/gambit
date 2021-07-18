@@ -15,6 +15,7 @@ import (
 	"time"
 
 	"github.com/antihax/pass/internal/drivers"
+	"github.com/antihax/pass/internal/store"
 	"github.com/antihax/pass/pkg/driver"
 	"github.com/antihax/pass/pkg/muxconn"
 
@@ -38,6 +39,7 @@ type ConnectionManager struct {
 	logger      zerolog.Logger
 	config      ConnectionManagerConfig
 	uploader    *s3manager.Uploader
+	storeChan   chan store.File
 }
 
 // NewConMan creates a new ConnectionManager
@@ -242,7 +244,7 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	defer wg.Done()
 
 	// create our sniffer
-	muc := muxconn.NewMuxConn(conn, s.logger)
+	muc := muxconn.NewMuxConn(conn, s.logger, s.storeChan)
 	r := muc.StartSniffing()
 	port := strconv.Itoa(root.Addr().(*net.TCPAddr).Port)
 	ip := conn.RemoteAddr().(*net.TCPAddr).IP.String()
@@ -279,7 +281,7 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	// save the raw data [TODO] from config
 	if n > 0 {
 		if _, ok := s.knownHashes.Load(muc.GetHash()); !ok {
-			s.Store(muc.GetHash(), "raw", buf[:n])
+			s.storeChan <- store.File{Filename: muc.GetHash(), Location: "raw", Data: buf[:n]}
 			s.knownHashes.Store(muc.GetHash(), false)
 		}
 	}

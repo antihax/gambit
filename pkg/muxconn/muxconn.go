@@ -20,6 +20,7 @@ import (
 	"io"
 	"net"
 
+	"github.com/antihax/pass/internal/store"
 	"github.com/google/uuid"
 	"github.com/rs/zerolog"
 )
@@ -51,20 +52,22 @@ func (l MuxListener) Accept() (net.Conn, error) {
 // MuxConn wraps a net.Conn and provides transparent sniffing of connection data.
 type MuxConn struct {
 	net.Conn
-	buf      BufferedReader
-	uuid     string
-	hash     string
-	sequence int
-	logger   zerolog.Logger
+	buf       BufferedReader
+	uuid      string
+	hash      string
+	sequence  int
+	logger    zerolog.Logger
+	StoreChan chan store.File
 }
 
 // NewMuxConn returns a new sniffable connection.
-func NewMuxConn(c net.Conn, logger zerolog.Logger) *MuxConn {
+func NewMuxConn(c net.Conn, logger zerolog.Logger, storeChan chan store.File) *MuxConn {
 	return &MuxConn{
-		Conn:   c,
-		buf:    BufferedReader{source: c},
-		uuid:   uuid.NewString(),
-		logger: logger,
+		Conn:      c,
+		buf:       BufferedReader{source: c},
+		uuid:      uuid.NewString(),
+		logger:    logger,
+		StoreChan: storeChan,
 	}
 }
 

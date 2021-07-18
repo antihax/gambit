@@ -3,15 +3,14 @@ package drivers
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
 	"net"
 	"net/http"
 	"net/http/httputil"
 	"strconv"
 
+	"github.com/antihax/pass/internal/store"
 	"github.com/antihax/pass/pkg/muxconn"
 	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
 )
 
 var server http.Server
@@ -118,15 +117,18 @@ func GetConnFromContext(ctx context.Context) *muxconn.MuxConn {
 func logger(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		attacklog := GetLoggerFromContext(r.Context())
-
 		conn := GetConnFromContext(r.Context())
 		sequence := conn.Sequence()
 		b, err := httputil.DumpRequest(r, true)
 		if err != nil {
 			attacklog.Debug().Err(err).Msg("")
 		}
-		if err = ioutil.WriteFile("./sessions/"+conn.GetUUID()+"-"+strconv.Itoa(sequence), b, 0644); err != nil {
-			log.Debug().Err(err).Msg("error saving raw data")
+
+		// save session data
+		conn.StoreChan <- store.File{
+			Filename: conn.GetUUID() + "-" + strconv.Itoa(sequence),
+			Location: "sessions",
+			Data:     b,
 		}
 		attacklog.Info().Str("url", r.URL.Path).Int("sequence", sequence).Msg("URL")
 
