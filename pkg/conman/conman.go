@@ -7,7 +7,6 @@ import (
 	"encoding/hex"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log/syslog"
 	"net"
 	"os"
@@ -18,8 +17,10 @@ import (
 	"github.com/antihax/pass/internal/drivers"
 	"github.com/antihax/pass/pkg/driver"
 	"github.com/antihax/pass/pkg/muxconn"
+
 	"github.com/antihax/pass/pkg/probe"
 	"github.com/antihax/pass/pkg/searchtree"
+	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/rs/zerolog"
 	"github.com/sethvargo/go-envconfig"
 )
@@ -36,6 +37,7 @@ type ConnectionManager struct {
 	knownHashes sync.Map
 	logger      zerolog.Logger
 	config      ConnectionManagerConfig
+	uploader    *s3manager.Uploader
 }
 
 // NewConMan creates a new ConnectionManager
@@ -45,18 +47,6 @@ func NewConMan() (*ConnectionManager, error) {
 	if err := envconfig.Process(context.Background(), &cfg); err != nil {
 		return nil, err
 	}
-	if cfg.OutputFolder == "" {
-		if pw, err := os.Getwd(); err != nil {
-			return nil, err
-		} else {
-			cfg.OutputFolder = pw + "/"
-		}
-	}
-
-	// [TODO] determine if we don't save locally
-	// make file directories and ignore failures
-	os.Mkdir(cfg.OutputFolder+"raw", 0755)
-	os.Mkdir(cfg.OutputFolder+"sessions", 0755)
 
 	// setup the logger
 	logger := zerolog.New(os.Stdout)
@@ -65,11 +55,11 @@ func NewConMan() (*ConnectionManager, error) {
 		if err != nil {
 			return nil, err
 		}
-		//logger = zerolog.New(syslogWriter)
 		logger = zerolog.New(zerolog.SyslogCEEWriter(syslogWriter))
 	}
 	zerolog.SetGlobalLevel(zerolog.Level(cfg.LogLevel))
 
+	// setup the conman
 	s := &ConnectionManager{
 		tcpListeners: make(map[uint16]net.Listener),
 		doneCh:       make(chan struct{}),
@@ -77,6 +67,11 @@ func NewConMan() (*ConnectionManager, error) {
 		banners:      make(map[uint16][]byte),
 		logger:       logger,
 		config:       cfg,
+	}
+
+	// setup any storage from config
+	if err := s.setupStore(); err != nil {
+		return nil, err
 	}
 
 	// get a list of addresses
@@ -103,7 +98,7 @@ func NewConMan() (*ConnectionManager, error) {
 		}
 	}
 
-	// Find all the TCP drivers and setup multiplexers
+	// find all the TCP drivers and setup multiplexers
 	drivers := drivers.GetDrivers()
 	for _, d := range drivers {
 		// start listeners for tcp handlers
@@ -113,7 +108,7 @@ func NewConMan() (*ConnectionManager, error) {
 			s.NewTCPDriver(d.Pattern, conn.(muxconn.MuxListener))
 		}
 
-		// Copy the banners to a map
+		// copy the banners to a map
 		if handler, ok := d.Driver.(driver.TCPBannerDriver); ok {
 			if ports, banner := handler.Banner(); len(ports) > 0 {
 				for _, port := range ports {
@@ -209,10 +204,12 @@ func (s *ConnectionManager) timeoutConnection(ctx context.Context, muc *muxconn.
 func (s *ConnectionManager) StartConning() {
 	conn, _ := net.ListenIP("ip4:tcp", nil)
 	// prelisten everything
-	for i := uint16(1); i < 65535; i++ {
-		_, err := s.CreateTCPListener(i)
-		if err != nil {
-			s.logger.Debug().Err(err).Msg("creating socket")
+	if s.config.Preload > 0 {
+		for i := uint16(1); i < s.config.Preload; i++ {
+			_, err := s.CreateTCPListener(i)
+			if err != nil {
+				s.logger.Debug().Err(err).Msg("creating socket")
+			}
 		}
 	}
 
@@ -282,9 +279,7 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	// save the raw data [TODO] from config
 	if n > 0 {
 		if _, ok := s.knownHashes.Load(muc.GetHash()); !ok {
-			if err = ioutil.WriteFile(s.config.OutputFolder+"raw/"+muc.GetHash(), s.Sanitize(buf[:n]), 0644); err != nil {
-				s.logger.Debug().Err(err).Msg("error saving raw data")
-			}
+			s.Store(muc.GetHash(), "raw", buf[:n])
 			s.knownHashes.Store(muc.GetHash(), false)
 		}
 	}

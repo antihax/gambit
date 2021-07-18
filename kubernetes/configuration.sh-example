@@ -2,3 +2,11 @@
 
 # Hetzner key for storage
 kubectl create secret generic hcloud-csi --namespace kube-system --from-literal=token=
+
+# Our secrets
+kubectl create secret generic s3-secret -ngambit \
+    --from-literal=s3-endpoint="" \
+    --from-literal=s3-region="" \
+    --from-literal=s3-bucket="" \
+    --from-literal=s3-key="" \
+    --from-literal=s3-keyid="" \

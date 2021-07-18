@@ -23,6 +23,39 @@ spec:
             - name: CONMAN_SYSLOG_NETWORK
               value: "udp"
             - name: CONMAN_SYSLOG_ADDRESS
-              value: "gambit-filebeat.gambit.svc:5140"
+              value: "gambit-filebeat:5140"
             - name: CONMAN_LOGLEVEL
               value: "0"
+            - name: CONMAN_S3_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: s3-secret
+                  key: s3-endpoint
+            - name: CONMAN_S3_REGION
+              valueFrom:
+                secretKeyRef:
+                  name: s3-secret
+                  key: s3-region
+            - name: CONMAN_S3_BUCKET
+              valueFrom:
+                secretKeyRef:
+                  name: s3-secret
+                  key: s3-bucket
+            - name: CONMAN_S3_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: s3-secret
+                  key: s3-key
+            - name: CONMAN_S3_KEYID
+              valueFrom:
+                secretKeyRef:
+                  name: s3-secret
+                  key: s3-keyid
+          volumeMounts:
+          - mountPath: /etc/ssl/certs
+            name: ca-certs
+      volumes:
+      - name: ca-certs
+        hostPath:
+          path: /etc/ssl/certs
+          type: Directory

@@ -3,6 +3,7 @@ module github.com/antihax/pass
 go 1.16
 
 require (
+	github.com/aws/aws-sdk-go v1.40.2
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/google/uuid v1.3.0
 	github.com/lunixbochs/struc v0.0.0-20200707160740-784aaebc1d40
