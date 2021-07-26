@@ -1,6 +1,6 @@
 package drivers
 
-import "github.com/antihax/pass/pkg/driver"
+import "github.com/antihax/gambit/internal/driver"
 
 var drivers []*DriverHandler
 

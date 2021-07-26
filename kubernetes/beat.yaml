@@ -1,3 +1,51 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gambit-index-template
+  namespace: gambit
+  labels:
+    name: 'gambit-index-template'
+data:
+  gambit-template.json: |-
+    {
+      "index_patterns":[
+          "gambit*"
+      ],
+      "template":{
+          "aliases": {
+            "gambit": {}
+          },
+          "settings": {
+            "number_of_shards": 1
+          },
+          "mappings":{
+            "dynamic":"true",
+            "dynamic_date_formats":[
+                "strict_date_optional_time",
+                "yyyy/MM/dd HH:mm:ss Z||yyyy/MM/dd Z"
+            ],
+            "date_detection":true,
+            "numeric_detection":true,
+            "properties":{
+                "@timestamp":{
+                  "type":"date",
+                  "format":"epoch_millis"
+                },
+                "gambit":{
+                  "type":"object",
+                  "dynamic":"true",
+                  "enabled":true,
+                  "properties":{
+                      "attacker":{
+                        "type":"keyword"
+                      }
+                  }
+                }
+            }
+          }
+      }
+    }
+---
 apiVersion: beat.k8s.elastic.co/v1beta1
 kind: Beat
 metadata:
@@ -10,6 +58,12 @@ spec:
     name: gambit
     namespace: gambit
   config:
+    setup.template.enabled: true
+    setup.template.json.enabled: true
+    setup.template.type: index
+    setup.template.json.path: "/etc/gambit-template.json"
+    setup.template.json.name: "gambit"    
+    logging.metrics.enabled: false
     filebeat.inputs:
       - type: syslog
         enabled: true
@@ -62,6 +116,18 @@ spec:
           runAsUser: 0
         nodeSelector:
           gambit: worker
+        containers:
+        - name: filebeat          
+          volumeMounts:
+          - name: gambit-index-template
+            mountPath: /etc/gambit-template.json
+            readOnly: true
+            subPath: gambit-template.json
+        volumes:
+        - name: gambit-index-template
+          configMap:
+            defaultMode: 0644
+            name: gambit-index-template
 ---
 apiVersion: v1
 kind: Service

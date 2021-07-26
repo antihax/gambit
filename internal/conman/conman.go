@@ -14,13 +14,14 @@ import (
 	"sync"
 	"time"
 
-	"github.com/antihax/pass/internal/drivers"
-	"github.com/antihax/pass/internal/store"
-	"github.com/antihax/pass/pkg/driver"
-	"github.com/antihax/pass/pkg/muxconn"
+	"github.com/antihax/gambit/internal/conman/gctx"
+	"github.com/antihax/gambit/internal/driver"
+	"github.com/antihax/gambit/internal/drivers"
+	"github.com/antihax/gambit/internal/muxconn"
+	"github.com/antihax/gambit/internal/store"
 
-	"github.com/antihax/pass/pkg/probe"
-	"github.com/antihax/pass/pkg/searchtree"
+	"github.com/antihax/gambit/pkg/probe"
+	"github.com/antihax/gambit/pkg/searchtree"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/rs/zerolog"
 	"github.com/sethvargo/go-envconfig"
@@ -40,6 +41,7 @@ type ConnectionManager struct {
 	config      ConnectionManagerConfig
 	uploader    *s3manager.Uploader
 	storeChan   chan store.File
+	RootContext context.Context
 }
 
 // NewConMan creates a new ConnectionManager
@@ -75,6 +77,10 @@ func NewConMan() (*ConnectionManager, error) {
 	if err := s.setupStore(); err != nil {
 		return nil, err
 	}
+
+	// add logger and store to the global context
+	s.RootContext = context.WithValue(context.Background(), gctx.LoggerContextKey, logger)
+	s.RootContext = context.WithValue(s.RootContext, gctx.StoreContextKey, s.storeChan)
 
 	// get a list of addresses
 	ifaces, err := net.Interfaces()
@@ -167,7 +173,6 @@ func (s *ConnectionManager) CreateTCPListener(port uint16) (bool, error) {
 func (s *ConnectionManager) NewProxy() net.Listener {
 	ml := muxconn.MuxListener{
 		ConnCh: make(chan net.Conn, 1500),
-		Logger: s.logger,
 	}
 	return ml
 }
@@ -185,8 +190,8 @@ func (s *ConnectionManager) sendBanner(ctx context.Context, muc *muxconn.MuxConn
 	default: // send the banner if one exists
 		if banner, ok := s.banners[port]; ok {
 			if _, err := muc.Write(banner); err != nil {
-				log := muc.GetLogger()
-				log.Debug().Err(err).Msg("")
+				log := gctx.GetLoggerFromContext(muc.Context)
+				log.Debug().Err(err).Msg("Sent Banner")
 			}
 		}
 	}
@@ -216,6 +221,7 @@ func (s *ConnectionManager) StartConning() {
 	}
 
 	for {
+		// read max MTU if available
 		buf := make([]byte, 1500)
 		n, addr, err := conn.ReadFrom(buf)
 		if err != nil { // get out if we error
@@ -244,7 +250,7 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	defer wg.Done()
 
 	// create our sniffer
-	muc := muxconn.NewMuxConn(conn, s.logger, s.storeChan)
+	muc := muxconn.NewMuxConn(s.RootContext, conn)
 	r := muc.StartSniffing()
 	port := strconv.Itoa(root.Addr().(*net.TCPAddr).Port)
 	ip := conn.RemoteAddr().(*net.TCPAddr).IP.String()
@@ -269,20 +275,23 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	bannerCancel()  // Cancel the banner
 	timeoutCancel() // Cancel the timeout
 
-	// get the hash of the first n bytes and tag the multiplexer
+	// get the hash of the first n bytes and tag the context
 	h := sha1.New()
 	h.Write(buf[:n])
-	muc.SetHash(hex.EncodeToString(h.Sum(nil)))
+	hash := hex.EncodeToString(h.Sum(nil))
+	muc.Context = context.WithValue(muc.Context, gctx.HashContextKey, hash)
 
 	// log the connection
-	attacklog := muc.GetLogger()
-	attacklog.Info().Str("attacker", ip).Str("dstport", port).Msgf("tcp knock")
+	attacklog := gctx.GetLoggerFromContext(muc.Context).With().Str("attacker", ip).Str("dstport", port).Str("hash", hash).Logger()
+	muc.Context = context.WithValue(muc.Context, gctx.LoggerContextKey, attacklog)
+
+	attacklog.Info().Msgf("tcp knock")
 
 	// save the raw data [TODO] from config
 	if n > 0 {
-		if _, ok := s.knownHashes.Load(muc.GetHash()); !ok {
-			s.storeChan <- store.File{Filename: muc.GetHash(), Location: "raw", Data: buf[:n]}
-			s.knownHashes.Store(muc.GetHash(), false)
+		if _, ok := s.knownHashes.Load(hash); !ok {
+			s.storeChan <- store.File{Filename: hash, Location: "raw", Data: buf[:n]}
+			s.knownHashes.Store(hash, false)
 		}
 	}
 
@@ -300,7 +309,7 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	} else {
 		// no driver
 		if n > 0 {
-			attacklog.Debug().Err(err).Str("dstport", port).Str("raw", string(buf[:n])).Msg("no driver")
+			attacklog.Debug().Err(err).Str("raw", string(buf[:n])).Msg("no driver")
 		}
 
 		// close the connection

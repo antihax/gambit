@@ -1,0 +1,70 @@
+{{define "head"}}
+
+{{end}}
+
+{{define "body"}}
+<script>
+    function gambitOutputRow(row, index) {
+        var classes = [
+            'bg-primary',
+            'bg-info',
+            'bg-warning',
+            'bg-danger'
+        ];
+        switch (row.level) {
+            case "debug":
+                return { classes: classes[0] }
+            case "warn":
+                return { classes: classes[1] }
+            case "error":
+                return { classes: classes[2] }
+            default:
+                return {}
+        }
+        return {}
+    }
+
+    $(document).ready(function () {
+        var data = $.getJSON("/api/recent", function (data) {
+            data.forEach((row, index) => {
+                data[index] = Object.keys(row).reduce((prev, current) =>
+                    ({ ...prev, [current.replace("gambit.", "")]: row[current][0] }), {})
+            });
+            $('#output').bootstrapTable('load', data);
+            $('#output').bootstrapTable('scrollTo', 'bottom');
+        });
+    });
+
+    function connect() {
+        var ws = new WebSocket('ws://' + document.location.host + '/api/recent-ws');
+        ws.onerror = function () {
+            ws.close();
+        };
+        ws.onclose = function (e) {
+            console.log('Socket is closed. Reconnect will be attempted.', e.reason);
+            this.close();
+            connect();
+        };
+        ws.onmessage = function (msgevent) {
+            var msg = JSON.parse(msgevent.data);
+
+            // remove gambit. and flatten the array response
+            msg = Object.keys(msg).reduce((prev, current) =>
+                ({ ...prev, [current.replace("gambit.", "")]: msg[current][0] }), {})
+
+            $('#output').bootstrapTable('append', msg)
+            $('#output').bootstrapTable('scrollTo', 'bottom')
+        };
+    };
+    connect()
+</script>
+<table class="thintable" id="output" data-toggle="table" data-height="400" data-row-style="gambitOutputRow">
+    <thead>
+        <th data-field="hash" data-align="center" data-width="250">hash</th>
+        <th data-field="message">message</th>
+        <th data-field="attacker" data-align="center" data-width="100">ip</th>
+        <th data-field="dstport" data-width="5" data-align="right">port</th>
+        <th data-field="sequence" data-width="2" data-align="center">s#</th>
+    </thead>
+</table>
+{{end}}

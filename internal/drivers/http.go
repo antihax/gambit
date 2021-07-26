@@ -8,9 +8,9 @@ import (
 	"net/http/httputil"
 	"strconv"
 
-	"github.com/antihax/pass/internal/store"
-	"github.com/antihax/pass/pkg/muxconn"
-	"github.com/rs/zerolog"
+	"github.com/antihax/gambit/internal/conman/gctx"
+	"github.com/antihax/gambit/internal/muxconn"
+	"github.com/antihax/gambit/internal/store"
 )
 
 var server http.Server
@@ -85,39 +85,25 @@ func init() {
 		ConnContext: SaveMuxInContext,
 		Handler:     httpmux,
 	}
-
 }
 
-type contextKey struct {
-	key string
-}
-
-var LoggerContextKey = &contextKey{"logger"}
-var ConnContextKey = &contextKey{"conn"}
-
-// Save the logger and tag our driver
+// copy context values to the http context
 func SaveMuxInContext(ctx context.Context, c net.Conn) context.Context {
 	if mux, ok := c.(*muxconn.MuxConn); ok {
-		ctx = context.WithValue(ctx, LoggerContextKey, mux.GetLogger().With().Str("driver", "http").Logger())
-		ctx = context.WithValue(ctx, ConnContextKey, mux)
+		ctx = context.WithValue(ctx, gctx.StoreContextKey, gctx.GetStoreFromContext(mux.Context))
+		ctx = context.WithValue(ctx, gctx.LoggerContextKey, gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "http").Logger())
+		ctx = context.WithValue(ctx, gctx.ConnContextKey, mux)
 		return ctx
 	}
 	return ctx
 }
 
-func GetLoggerFromContext(ctx context.Context) zerolog.Logger {
-	return ctx.Value(LoggerContextKey).(zerolog.Logger)
-}
-
-func GetConnFromContext(ctx context.Context) *muxconn.MuxConn {
-	return ctx.Value(ConnContextKey).(*muxconn.MuxConn)
-}
-
 // [TODO] pass config up context
 func logger(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		attacklog := GetLoggerFromContext(r.Context())
-		conn := GetConnFromContext(r.Context())
+		attacklog := gctx.GetLoggerFromContext(r.Context())
+		conn := gctx.GetConnFromContext(r.Context())
+		storeChan := gctx.GetStoreFromContext(r.Context())
 		sequence := conn.Sequence()
 		b, err := httputil.DumpRequest(r, true)
 		if err != nil {
@@ -125,13 +111,12 @@ func logger(next http.Handler) http.Handler {
 		}
 
 		// save session data
-		conn.StoreChan <- store.File{
+		storeChan <- store.File{
 			Filename: conn.GetUUID() + "-" + strconv.Itoa(sequence),
 			Location: "sessions",
 			Data:     b,
 		}
 		attacklog.Info().Str("url", r.URL.Path).Int("sequence", sequence).Msg("URL")
-
 		next.ServeHTTP(w, r)
 	})
 }
@@ -151,7 +136,7 @@ func http_handleAll(w http.ResponseWriter, r *http.Request) {
 }
 
 func http_handleTrap(w http.ResponseWriter, r *http.Request) {
-	attacklog := GetLoggerFromContext(r.Context())
+	attacklog := gctx.GetLoggerFromContext(r.Context())
 	attacklog.Warn().Msg("Trap triggered")
 	w.Write(nil)
 }
@@ -179,7 +164,7 @@ func http_dockere90e34656806attach(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/vnd.docker.raw-stream")
 	w.Header().Set("Connection", "Upgrade")
 	w.Header().Set("Upgrade", "tcp")
-	attacklog := GetLoggerFromContext(r.Context())
+	attacklog := gctx.GetLoggerFromContext(r.Context())
 	attacklog.Warn().Msg("Trap triggered")
 	fmt.Fprintf(w, ``)
 }

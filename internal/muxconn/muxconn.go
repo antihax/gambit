@@ -17,10 +17,10 @@
 package muxconn
 
 import (
+	"context"
 	"io"
 	"net"
 
-	"github.com/antihax/pass/internal/store"
 	"github.com/google/uuid"
 	"github.com/rs/zerolog"
 )
@@ -52,22 +52,19 @@ func (l MuxListener) Accept() (net.Conn, error) {
 // MuxConn wraps a net.Conn and provides transparent sniffing of connection data.
 type MuxConn struct {
 	net.Conn
-	buf       BufferedReader
-	uuid      string
-	hash      string
-	sequence  int
-	logger    zerolog.Logger
-	StoreChan chan store.File
+	buf      BufferedReader
+	uuid     string
+	sequence int
+	Context  context.Context
 }
 
 // NewMuxConn returns a new sniffable connection.
-func NewMuxConn(c net.Conn, logger zerolog.Logger, storeChan chan store.File) *MuxConn {
+func NewMuxConn(ctx context.Context, c net.Conn) *MuxConn {
 	return &MuxConn{
-		Conn:      c,
-		buf:       BufferedReader{source: c},
-		uuid:      uuid.NewString(),
-		logger:    logger,
-		StoreChan: storeChan,
+		Conn:    c,
+		buf:     BufferedReader{source: c},
+		uuid:    uuid.NewString(),
+		Context: ctx,
 	}
 }
 
@@ -85,17 +82,6 @@ func (m *MuxConn) Read(p []byte) (int, error) {
 	return m.buf.Read(p)
 }
 
-// SetHash based on the first bytes
-// [TODO] Improve this, it's backwards to set this
-func (m *MuxConn) SetHash(hash string) {
-	m.hash = hash
-}
-
-// GetHash for the connection
-func (m *MuxConn) GetHash() string {
-	return m.hash
-}
-
 // GetUUID for the connection
 func (m *MuxConn) GetUUID() string {
 	return m.uuid
@@ -105,10 +91,6 @@ func (m *MuxConn) GetUUID() string {
 func (m *MuxConn) Sequence() int {
 	m.sequence++
 	return m.sequence
-}
-
-func (m *MuxConn) GetLogger() zerolog.Logger {
-	return m.logger.With().Str("uuid", m.uuid).Str("hash", m.hash).Logger()
 }
 
 func (m *MuxConn) StartSniffing() io.Reader {

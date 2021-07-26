@@ -2,8 +2,6 @@ package drivers
 
 import (
 	"bytes"
-	"encoding/binary"
-	"io"
 	"log"
 	"net"
 	"unsafe"
@@ -17,7 +15,6 @@ func init() {
 }
 
 type smb struct {
-
 }
 
 func (s *smb) ServeTCP(ln net.Listener) error {
@@ -73,9 +70,9 @@ func (s *smb) ServeTCP(ln net.Listener) error {
 	}
 }
 
-func bread(b io.Reader, v interface{}) error {
+/*func bread(b io.Reader, v interface{}) error {
 	return binary.Read(b, binary.BigEndian, v)
-}
+}*/
 
 const (
 	CommandNegotiate uint8 = iota + 114

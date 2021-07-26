@@ -7,7 +7,8 @@ import (
 	"log"
 	"net"
 
-	"github.com/antihax/pass/pkg/muxconn"
+	"github.com/antihax/gambit/internal/conman/gctx"
+	"github.com/antihax/gambit/internal/muxconn"
 	"github.com/rs/zerolog"
 	"golang.org/x/crypto/ssh"
 )
@@ -21,17 +22,17 @@ type sshd struct {
 }
 
 func (s *sshd) ServeTCP(ln net.Listener) error {
-	if mux, ok := ln.(muxconn.MuxListener); ok {
-		s.logger = mux.Logger.With().Str("driver", "sshd").Logger()
-	} else {
-		log.Fatalln("cannot obtain logger")
-	}
+
 	for {
-		nConn, err := ln.Accept()
+		c, err := ln.Accept()
 		if err != nil {
-			s.logger.Debug().Err(err).Msg("failed accept")
+			log.Println("failed accept")
 		}
-		_, _, _, err = ssh.NewServerConn(nConn, &config)
+		if mux, ok := c.(*muxconn.MuxConn); ok {
+			s.logger = gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "sshd").Logger()
+		}
+
+		_, _, _, err = ssh.NewServerConn(c, &config)
 		if err != nil {
 			s.logger.Debug().Err(err).Msg("failed handshake")
 			continue

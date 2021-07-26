@@ -1,0 +1,7 @@
+FROM scratch
+ADD bin/contrive /
+
+ADD internal/contrive/templates /templates
+ADD internal/contrive/static /static
+
+ENTRYPOINT ["/contrive"]
