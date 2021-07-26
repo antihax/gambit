@@ -30,8 +30,39 @@
                 data[index] = Object.keys(row).reduce((prev, current) =>
                     ({ ...prev, [current.replace("gambit.", "")]: row[current][0] }), {})
             });
-            $('#output').bootstrapTable('load', data);
-            $('#output').bootstrapTable('scrollTo', 'bottom');
+
+            $('#output').DataTable({
+                data: data,
+                "scrollY": "400px",
+                "scrollCollapse": true,
+                "searching": false,
+                "paging": false,
+                "createdRow": function (row, data, dataIndex) {
+                    switch (data.level) {
+                        case "debug":
+                            $(row).addClass('bg-primary')
+                            break;
+                        case "warn":
+                            $(row).addClass('bg-warning')
+                            break;
+                        case "error":
+                            $(row).addClass('bg-danger')
+                            break;
+                    }
+                },
+                columns: [
+                    { data: "hash" },
+                    { data: "message" },
+                    { data: "attacker" },
+                    { data: "dstport" },
+                    { data: "sequence", defaultContent: "-", },
+                ]
+            })
+
+            // scroll to bottom
+            var table = $('#output').DataTable();
+            var scrollBody = $(table.table().node()).parent();
+            scrollBody.scrollTop(scrollBody.get(0).scrollHeight);
         });
     });
 
@@ -52,19 +83,14 @@
             msg = Object.keys(msg).reduce((prev, current) =>
                 ({ ...prev, [current.replace("gambit.", "")]: msg[current][0] }), {})
 
-            $('#output').bootstrapTable('append', msg)
-            $('#output').bootstrapTable('scrollTo', 'bottom')
+            $('#output').DataTable().row.add(msg).draw(false);
+            
+
         };
     };
     connect()
 </script>
-<table class="thintable" id="output" data-toggle="table" data-height="400" data-row-style="gambitOutputRow">
-    <thead>
-        <th data-field="hash" data-align="center" data-width="250">hash</th>
-        <th data-field="message">message</th>
-        <th data-field="attacker" data-align="center" data-width="100">ip</th>
-        <th data-field="dstport" data-width="5" data-align="right">port</th>
-        <th data-field="sequence" data-width="2" data-align="center">s#</th>
-    </thead>
+<table class="thintable display" id="output">
+
 </table>
 {{end}}
