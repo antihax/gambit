@@ -55,6 +55,7 @@ func (e *ESQ) RecentWS() ([]GambitFrame, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	data := []GambitFrame{}
 	if len(hits) > 0 {
 		for _, hit := range hits {

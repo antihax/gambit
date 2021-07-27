@@ -33,11 +33,15 @@
 
             $('#output').DataTable({
                 data: data,
-                "scrollY": "400px",
-                "scrollCollapse": true,
-                "searching": false,
-                "paging": false,
-                "createdRow": function (row, data, dataIndex) {
+                scrollY: "400px",
+                scrollCollapse: true,
+                searching: false,
+                bSort: false,
+                bInfo: false,
+                ordering: false,
+                paging: false,
+                createdRow: function (row, data, dataIndex) {
+                    console.log(data)
                     switch (data.level) {
                         case "debug":
                             $(row).addClass('bg-primary')
@@ -83,8 +87,13 @@
             msg = Object.keys(msg).reduce((prev, current) =>
                 ({ ...prev, [current.replace("gambit.", "")]: msg[current][0] }), {})
 
-            $('#output').DataTable().row.add(msg).draw(false);
-            
+            $('#output').DataTable().row.add(msg);
+            let remove = $('#output').DataTable().rows().count();
+            while (remove > 100) {
+                $('#output').DataTable().row(0).remove();
+                remove--;
+            }
+            $('#output').DataTable().draw(false);
 
         };
     };

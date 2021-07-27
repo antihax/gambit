@@ -282,7 +282,7 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	muc.Context = context.WithValue(muc.Context, gctx.HashContextKey, hash)
 
 	// log the connection
-	attacklog := gctx.GetLoggerFromContext(muc.Context).With().Str("attacker", ip).Str("dstport", port).Str("hash", hash).Logger()
+	attacklog := gctx.GetLoggerFromContext(muc.Context).With().Str("attacker", ip).Str("uuid", muc.GetUUID()).Str("dstport", port).Str("hash", hash).Logger()
 	muc.Context = context.WithValue(muc.Context, gctx.LoggerContextKey, attacklog)
 
 	attacklog.Info().Msgf("tcp knock")

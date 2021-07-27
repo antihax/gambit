@@ -23,12 +23,11 @@ func (c *Contrive) recentPump() {
 	ignoreMessages := make(map[string]time.Time)
 	for {
 		time.Sleep(time.Second / 15)
-		data, err := c.ESQ.Recent()
+		data, err := c.ESQ.RecentWS()
 		if err != nil {
 			log.Println(err)
 			continue
 		}
-
 		if len(data) > 0 {
 			for _, frame := range data {
 				var key string
@@ -41,6 +40,7 @@ func (c *Contrive) recentPump() {
 				if len(frame.Message) > 0 {
 					key += frame.Message[0]
 				}
+
 				if _, ok := ignoreMessages[key]; !ok {
 					b, err := json.Marshal(frame)
 					if err != nil {
@@ -61,7 +61,7 @@ func (c *Contrive) recentPump() {
 			}
 		}
 		for k, t := range ignoreMessages {
-			if time.Since(t) > time.Second*10 {
+			if time.Since(t) > time.Second*15 {
 				delete(ignoreMessages, k)
 			}
 		}
