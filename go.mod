@@ -3,11 +3,12 @@ module github.com/antihax/gambit
 go 1.16
 
 require (
-	github.com/aws/aws-sdk-go v1.40.2
+	github.com/aws/aws-sdk-go v1.40.12
 	github.com/elastic/go-elasticsearch/v7 v7.13.1
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/context v1.1.1
 	github.com/gorilla/mux v1.8.0
+	github.com/klauspost/compress v1.13.1 // indirect
 	github.com/lunixbochs/struc v0.0.0-20200707160740-784aaebc1d40
 	github.com/rs/zerolog v1.23.0
 	github.com/sethvargo/go-envconfig v0.3.5
