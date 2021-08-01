@@ -1,0 +1,20 @@
+.hex_address {
+     vertical-align: right;
+}
+
+.hex_base {
+    float:left;
+    overflow: hidden;
+    width:fit-content;
+    height:fit-content;    
+    white-space: nowrap;
+}
+
+.hex_address, .hex_raw, .hex_text {
+    padding: 5px;
+    white-space: pre;
+    display: inline-block;
+    font-family: monospace;
+    font-size: 12px;
+    border: 1px;
+}

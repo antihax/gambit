@@ -240,7 +240,7 @@ func (s *ConnectionManager) StartConning() {
 				s.logger.Trace().Err(err).Msg("creating socket")
 			}
 			if !known {
-				s.logger.Debug().Msgf("started tcp server: %v", pkt.DestPort)
+				s.logger.Trace().Msgf("started tcp server: %v", pkt.DestPort)
 			}
 		}
 	}

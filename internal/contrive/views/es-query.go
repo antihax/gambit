@@ -4,13 +4,16 @@ import (
 	"context"
 	"log"
 	"net/http"
+	"regexp"
 	"time"
 
 	"github.com/antihax/gambit/internal/contrive"
+	"github.com/gorilla/mux"
 	"nhooyr.io/websocket"
 )
 
 func init() {
+	checkHash := regexp.MustCompile(`^[a-zA-Z0-9-]+$`)
 	contrive.AddRoute("GET", "/api/recent-ws",
 		func(w http.ResponseWriter, r *http.Request) {
 			c := contrive.GlobalsFromContext(r.Context())
@@ -43,7 +46,6 @@ func init() {
 			}
 		})
 
-	// [TODO] refactor this query out into a package
 	contrive.AddRoute("GET", "/api/recent",
 		func(w http.ResponseWriter, r *http.Request) {
 			c := contrive.GlobalsFromContext(r.Context())
@@ -53,5 +55,24 @@ func init() {
 				return
 			}
 			renderJSON(w, data, time.Second*30)
+		})
+
+	contrive.AddRoute("GET", "/api/sessionsForHash/{hash}",
+		func(w http.ResponseWriter, r *http.Request) {
+			c := contrive.GlobalsFromContext(r.Context())
+
+			params := mux.Vars(r)
+
+			// sanitize input
+			if len(params["hash"]) > 40 || !checkHash.MatchString(params["hash"]) {
+				return
+			}
+
+			data, err := c.ESQ.SessionsForHash(params["hash"])
+			if err != nil {
+				log.Println(err)
+				return
+			}
+			renderJSON(w, data, time.Minute*5)
 		})
 }

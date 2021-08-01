@@ -17,6 +17,7 @@ func (e *ESQ) Search(query map[string]interface{}, limit int) ([]*json.RawMessag
 		e.es.Search.WithSource("false"),
 		e.es.Search.WithSize(limit),
 	)
+
 	if err != nil {
 		return nil, err
 	}

@@ -4,62 +4,44 @@
 
 {{define "body"}}
 <script>
-    function gambitOutputRow(row, index) {
-        var classes = [
-            'bg-primary',
-            'bg-info',
-            'bg-warning',
-            'bg-danger'
-        ];
-        switch (row.level) {
-            case "debug":
-                return { classes: classes[0] }
-            case "warn":
-                return { classes: classes[1] }
-            case "error":
-                return { classes: classes[2] }
-            default:
-                return {}
-        }
-        return {}
-    }
-
     $(document).ready(function () {
-        var data = $.getJSON("/api/recent", function (data) {
-            data.forEach((row, index) => {
-                data[index] = Object.keys(row).reduce((prev, current) =>
-                    ({ ...prev, [current.replace("gambit.", "")]: row[current][0] }), {})
-            });
-
+        getESJSON("/api/recent", function (data) {
             $('#output').DataTable({
                 data: data,
                 scrollY: "400px",
-                scrollCollapse: true,
                 searching: false,
                 bSort: false,
                 bInfo: false,
                 ordering: false,
                 paging: false,
                 createdRow: function (row, data, dataIndex) {
-                    console.log(data)
                     switch (data.level) {
                         case "debug":
-                            $(row).addClass('bg-primary')
+                            $(row).addClass('gambit-debug')
                             break;
                         case "warn":
-                            $(row).addClass('bg-warning')
+                            $(row).addClass('gambit-warn')
                             break;
                         case "error":
-                            $(row).addClass('bg-danger')
+                            $(row).addClass('gambit-error')
                             break;
+                    }
+                    if (data.sequence) {
+                        $(row).addClass('gambit-hit')
                     }
                 },
                 columns: [
-                    { data: "hash" },
-                    { data: "message" },
-                    { data: "attacker" },
-                    { data: "dstport" },
-                    { data: "sequence", defaultContent: "-", },
+                    {
+                        data: "hash", title: "hash", width: "17em",
+                        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                            if (oData.hash != "da39a3ee5e6b4b0d3255bfef95601890afd80709")
+                                $(nTd).html("<a href='/hash/" + oData.hash + "'>" + oData.hash + "</a>");
+                        }
+                    },
+                    { data: "message", title: "msg", },
+                    { data: "attacker", title: "ip", width: "7em" },
+                    { data: "dstport", title: "port", width: "5em" },
+                    { data: "sequence", defaultContent: "-", title: "s#", width: "2em" },
                 ]
             })
 
@@ -99,7 +81,17 @@
     };
     connect()
 </script>
-<table class="thintable display" id="output">
+<div class="container">
+    <div class="row">
+        <div class="col card">
+            <h3>Recent Packets</h3>
+            <table class="thintable display" id="output"></table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
 
-</table>
+        </div>
+    </div>
+</div>
 {{end}}

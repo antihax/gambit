@@ -11,6 +11,7 @@ type Contrive struct {
 	ESQ           *esq.ESQ
 	recentClients []chan []byte
 	RootContext   context.Context
+	Config        ContriveConfig
 }
 
 func NewContrive() (*Contrive, error) {
@@ -35,6 +36,7 @@ func NewContrive() (*Contrive, error) {
 	c := &Contrive{
 		ESQ:         esq,
 		RootContext: context.Background(),
+		Config:      cfg,
 	}
 
 	// start recent pump

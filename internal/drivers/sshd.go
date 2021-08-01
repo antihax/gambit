@@ -22,7 +22,6 @@ type sshd struct {
 }
 
 func (s *sshd) ServeTCP(ln net.Listener) error {
-
 	for {
 		c, err := ln.Accept()
 		if err != nil {

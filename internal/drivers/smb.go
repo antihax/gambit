@@ -6,7 +6,10 @@ import (
 	"net"
 	"unsafe"
 
+	"github.com/antihax/gambit/internal/conman/gctx"
+	"github.com/antihax/gambit/internal/muxconn"
 	"github.com/lunixbochs/struc"
+	"github.com/rs/zerolog"
 )
 
 func init() {
@@ -15,6 +18,7 @@ func init() {
 }
 
 type smb struct {
+	logger zerolog.Logger
 }
 
 func (s *smb) ServeTCP(ln net.Listener) error {
@@ -23,6 +27,9 @@ func (s *smb) ServeTCP(ln net.Listener) error {
 		if err != nil {
 			log.Printf("failed to accept %s\n", err)
 			return err
+		}
+		if mux, ok := conn.(*muxconn.MuxConn); ok {
+			s.logger = gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "sshd").Logger()
 		}
 		go func(conn net.Conn) {
 			defer conn.Close()

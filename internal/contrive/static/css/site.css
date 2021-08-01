@@ -6,6 +6,11 @@ body {
     border: 1px solid rgb(237, 151, 21);
 }
 
+.fit-content {
+    width: fit-content !important;
+    height: fit-content !important;
+}
+
 .sidebar {
     border: 1px solid rgb(237, 151, 21);
     position: fixed;
@@ -78,4 +83,39 @@ body {
 
 .thintable td {
     padding: 1px;
+}
+
+.map {
+    position: relative;
+    margin: 0 auto;
+    width: 400px;
+    height: 250px;
+}
+
+th, td {
+    white-space: nowrap;
+}
+
+.gambit-debug {
+    background-color: #2a9fd622!important;
+    color: rgb(99, 99, 99);
+}
+
+.gambit-warn {
+    background-color: #d62a2a!important;
+    color: white;
+}
+
+.gambit-warn a:link {
+    color: white;
+}
+
+.gambit-error {
+    background-color: #2a9fd6!important;
+    color: silver;
+}
+
+.gambit-hit {
+    background-color: #4b4effb4!important;
+    color: silver;
 }

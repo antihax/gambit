@@ -1,0 +1,113 @@
+{{define "head"}}
+<link rel="stylesheet" href="/s/css/hexview.css">
+<script src="/s/js/hexview.js"></script>
+<script>
+    $(document).ready(function () {
+        var jqxhr = $.get("{{.Bucket}}{{.Hash}}", function (raw) {
+            $("#hex").HexView({ bin: raw });
+        }).fail(function (e) {
+            $("#hex").append("<h1>Unable to load hash raw file</h1>");
+            console.log(e)
+        });
+    });
+
+    getESJSON("/api/sessionsForHash/{{.Hash}}", function (data) {
+        if (data.length == 0) {
+            $('#sessions_card').remove()
+            return;
+        }
+        $('#sessions').DataTable({
+            data: data,
+            scrollY: "400px",
+            scrollCollapse: true,
+            searching: false,
+            bSort: false,
+            bInfo: false,
+            ordering: false,
+            paging: false,
+            createdRow: function (row, data, dataIndex) {
+                switch (data.level) {
+                    case "debug":
+                        $(row).addClass('bg-primary')
+                        break;
+                    case "warn":
+                        $(row).addClass('bg-warning')
+                        break;
+                    case "error":
+                        $(row).addClass('bg-danger')
+                        break;
+                }
+            },
+            columns: [
+                {
+                    data: "uuid", title: "uuid", width: "17em",
+                    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                        $(nTd).html("<a href='/sessions/" + oData.uuid + "'>" + oData.uuid + "</a>");
+                    }
+                },
+                { data: "sequence", defaultContent: "-", title: "s#", width: "2em" },
+                { data: "attacker", title: "ip", width: "7em" },
+                { data: "dstport", title: "port", width: "5em" },
+            ]
+        })
+    })
+
+
+    getESJSON("/api/addressesForHash/{{.Hash}}", function (data) {
+        if (data.length == 0) {
+            $('#sessions_card').remove()
+            return;
+        }
+        $('#sessions').DataTable({
+            data: data,
+            searching: false,
+            createdRow: function (row, data, dataIndex) {
+                switch (data.level) {
+                    case "debug":
+                        $(row).addClass('bg-primary')
+                        break;
+                    case "warn":
+                        $(row).addClass('bg-warning')
+                        break;
+                    case "error":
+                        $(row).addClass('bg-danger')
+                        break;
+                }
+            },
+            columns: [
+                {
+                    data: "uuid", title: "uuid", width: "17em",
+                    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                        $(nTd).html("<a href='/sessions/" + oData.uuid + "'>" + oData.uuid + "</a>");
+                    }
+                },
+                { data: "sequence", defaultContent: "-", title: "s#", width: "2em" },
+                { data: "attacker", title: "ip", width: "7em" },
+                { data: "dstport", title: "port", width: "5em" },
+            ]
+        })
+    })
+</script>
+</script>
+{{end}}
+
+{{define "body"}}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 fit-content card">
+            <h4>Packet</h1>
+                <div id="hex"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div id="sessions_card" class="col-md-2 fit-content card">
+            <h4>Recent Sessions</h1>
+                <table id="sessions"></table>
+        </div>
+    </div>
+</div>
+
+
+
+{{end}}
