@@ -5,7 +5,7 @@ import (
 )
 
 func (e *ESQ) Recent() ([]GambitFrame, error) {
-	hits, err := e.Search(
+	hits, _, err := e.Search(
 		map[string]interface{}{
 			"fields": []interface{}{
 				map[string]interface{}{"field": "@timestamp", "format": "strict_date_optional_time"},
@@ -37,7 +37,7 @@ func (e *ESQ) Recent() ([]GambitFrame, error) {
 }
 
 func (e *ESQ) RecentWS() ([]GambitFrame, error) {
-	hits, err := e.Search(
+	hits, _, err := e.Search(
 		map[string]interface{}{
 			"fields": []interface{}{
 				map[string]interface{}{"field": "@timestamp", "format": "strict_date_optional_time"},

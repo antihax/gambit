@@ -1,0 +1,54 @@
+{{define "head"}}
+<link rel="stylesheet" href="/s/css/hexview.css">
+<script src="/s/js/hexview.js"></script>
+<script>
+    var rawSessions = {};
+    function loadSequence(sequence) {
+        var jqxhr = $.get("{{.Bucket}}{{.Session}}-" + sequence, function (raw) {
+            $("#hex").HexView({ bin: raw });
+        }).fail(function (e) {
+            $("#hex").append("<h1>Unable to load session file</h1>");
+            console.log(e)
+        });
+    }
+
+    $(document).ready(function () {
+        loadSequence(1);
+        nextURL(1);
+
+        $('#sequence').on('click', 'li.raw', function () {
+            $("#hex").HexView({ bin: rawSessions[$(this).val()] });
+
+        });
+    });
+
+    function nextURL(sequence) {
+        var jqxhr = $.get("{{.Bucket}}{{.Session}}-" + sequence, function (raw) {
+            rawSessions[sequence] = raw;
+            $("#sequence").append(
+                `<li class="raw" value="${sequence}"><a href="#">${sequence}</a></li>`
+            );
+            nextURL(sequence + 1);
+        }).fail(function (e) {
+            return;
+        });
+    }
+</script>
+{{end}}
+
+{{define "body"}}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-11 fit-content card">
+            <h4>Packet</h1>
+                <div id="hex"></div>
+        </div>
+        <div class="col-md-1 fit-content card">
+            <h4>Seq#</h1>
+                <ul id="sequence"></ul>
+        </div>
+    </div>
+</div>
+
+{{end}}

@@ -46,6 +46,17 @@ func init() {
 			}
 		})
 
+	contrive.AddRoute("GET", "/api/recentPasswords",
+		func(w http.ResponseWriter, r *http.Request) {
+			c := contrive.GlobalsFromContext(r.Context())
+			data, err := c.ESQ.RecentPasswords()
+			if err != nil {
+				log.Println(err)
+				return
+			}
+			renderJSON(w, data, time.Hour)
+		})
+
 	contrive.AddRoute("GET", "/api/recent",
 		func(w http.ResponseWriter, r *http.Request) {
 			c := contrive.GlobalsFromContext(r.Context())

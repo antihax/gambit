@@ -5,7 +5,7 @@ import (
 )
 
 func (e *ESQ) SessionsForHash(hash string) ([]GambitFrame, error) {
-	hits, err := e.Search(
+	hits, _, err := e.Search(
 		map[string]interface{}{
 			"sort": []interface{}{
 				map[string]interface{}{"@timestamp": map[string]interface{}{"order": "desc", "unmapped_type": "boolean"}},

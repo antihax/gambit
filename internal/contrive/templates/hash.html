@@ -28,13 +28,13 @@
             createdRow: function (row, data, dataIndex) {
                 switch (data.level) {
                     case "debug":
-                        $(row).addClass('bg-primary')
+                        $(row).addClass('gambit-debug')
                         break;
                     case "warn":
-                        $(row).addClass('bg-warning')
+                        $(row).addClass('gambit-warn')
                         break;
                     case "error":
-                        $(row).addClass('bg-danger')
+                        $(row).addClass('gambit-error')
                         break;
                 }
             },
@@ -42,7 +42,7 @@
                 {
                     data: "uuid", title: "uuid", width: "17em",
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                        $(nTd).html("<a href='/sessions/" + oData.uuid + "'>" + oData.uuid + "</a>");
+                        $(nTd).html("<a href='/session/" + oData.uuid + "'>" + oData.uuid + "</a>");
                     }
                 },
                 { data: "sequence", defaultContent: "-", title: "s#", width: "2em" },
@@ -78,7 +78,7 @@
                 {
                     data: "uuid", title: "uuid", width: "17em",
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                        $(nTd).html("<a href='/sessions/" + oData.uuid + "'>" + oData.uuid + "</a>");
+                        $(nTd).html("<a href='/session/" + oData.uuid + "'>" + oData.uuid + "</a>");
                     }
                 },
                 { data: "sequence", defaultContent: "-", title: "s#", width: "2em" },
@@ -87,7 +87,6 @@
             ]
         })
     })
-</script>
 </script>
 {{end}}
 
@@ -107,7 +106,5 @@
         </div>
     </div>
 </div>
-
-
 
 {{end}}

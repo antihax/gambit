@@ -16,7 +16,8 @@
             };
 
             var cfg = $.extend({}, defaults, options);
-            this.addClass("hex_base")
+            this.empty();
+            this.addClass("hex_base");
             return this.filter("div").each((function () {
                 let line_data, position = 0;
 

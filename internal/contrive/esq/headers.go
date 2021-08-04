@@ -24,5 +24,6 @@ type ESHeader struct {
 			Score  float64          `json:"_score"`
 			Fields *json.RawMessage `json:"fields"`
 		} `json:"hits"`
-	} `json:"hits"`
+	} `json:"hits,omitempty"`
+	Aggregations *json.RawMessage `json:"aggregations,omitempty"`
 }
