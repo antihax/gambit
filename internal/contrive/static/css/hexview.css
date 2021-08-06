@@ -16,5 +16,15 @@
     display: inline-block;
     font-family: monospace;
     font-size: 12px;
-    border: 1px;
+
+}
+
+.hex_textview {
+    padding: 5px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    display: none;
+    font-family: monospace;
+    width: 490px;
+    font-size: 12px;
 }

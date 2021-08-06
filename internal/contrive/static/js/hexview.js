@@ -14,16 +14,40 @@
                 step: 16,
                 word_size: 1,
             };
+            let parent = this;
+            this.on("click", "button", function () {
+                switch ($(this).val()) {
+                    case "hex":
+                        $("div.hex_hexview").css("display", "inline-block");
+                        $("div.hex_textview").css("display", "none");
+                        break;
+                    default:
+                        $("div.hex_hexview").css("display", "none");
+                        $("div.hex_textview").css("display", "inline-block");
+                }
+            });
 
             var cfg = $.extend({}, defaults, options);
+            cfg.original_bin = cfg.bin;
             this.empty();
             this.addClass("hex_base");
             return this.filter("div").each((function () {
                 let line_data, position = 0;
 
-                $(this).append("<div class='hex_address'></div>")
-                    .append("<div class='hex_text'>")
-                    .append("</div><div class='hex_raw'></div>")
+                $(this).append(`
+                <div class='hex_controls'>
+                    <button class="hex_mode" value="hex">hex</button>
+                    <button class="hex_mode" value="asc">asc</button>
+                </div>
+                <div class="hex_hexview">
+                    <div class='hex_address'></div>
+                    <div class='hex_text'></div>
+                    <div class='hex_raw'></div>
+                </div>                   
+                <div class="hex_textview"></div>
+                    `);
+
+                $("div.hex_textview").append(cfg.bin);
 
                 while (cfg.bin.length > 0) {
                     line_data = cfg.bin.slice(0, cfg.step)
