@@ -22,6 +22,27 @@ type smb struct {
 }
 
 func (s *smb) ServeTCP(ln net.Listener) error {
+	const (
+		CommandNegotiate uint8 = iota + 114
+		CommandSessionSetup
+		CommandLogoff
+		CommandTreeConnect
+		CommandTreeDisconnect
+		CommandCreate
+		CommandClose
+		CommandFlush
+		CommandRead
+		CommandWrite
+		CommandLock
+		CommandIOCtl
+		CommandCancel
+		CommandEcho
+		CommandQueryDirectory
+		CommandChangeNotify
+		CommandQueryInfo
+		CommandSetInfo
+		CommandOplockBreak
+	)
 	for {
 		conn, err := ln.Accept()
 		if err != nil {
@@ -35,7 +56,7 @@ func (s *smb) ServeTCP(ln net.Listener) error {
 			defer conn.Close()
 			for {
 				var size uint32
-				hdr := &HeaderV1{}
+				hdr := &smb_HeaderV1{}
 
 				// Get the whole message
 				struc.Unpack(conn, &size)
@@ -49,7 +70,7 @@ func (s *smb) ServeTCP(ln net.Listener) error {
 
 				switch hdr.Command {
 				case CommandNegotiate:
-					r := &NegotiateRespV1{
+					r := &smb_NegotiateRespV1{
 						SecurityMode:    0x2,
 						DialectRevision: 0x0202,
 					}
@@ -59,13 +80,13 @@ func (s *smb) ServeTCP(ln net.Listener) error {
 					struc.Pack(conn, r)
 
 				case CommandSessionSetup:
-					r := &NegotiateRespV1{}
+					r := &smb_NegotiateRespV1{}
 					r.Command = CommandSessionSetup
 					struc.Pack(conn, uint32(unsafe.Sizeof(r)))
 					struc.Pack(conn, r)
 
 				case CommandTreeConnect:
-					r := &NegotiateRespV1{}
+					r := &smb_NegotiateRespV1{}
 					r.Command = CommandTreeConnect
 					struc.Pack(conn, uint32(unsafe.Sizeof(r)))
 					struc.Pack(conn, r)
@@ -81,29 +102,7 @@ func (s *smb) ServeTCP(ln net.Listener) error {
 	return binary.Read(b, binary.BigEndian, v)
 }*/
 
-const (
-	CommandNegotiate uint8 = iota + 114
-	CommandSessionSetup
-	CommandLogoff
-	CommandTreeConnect
-	CommandTreeDisconnect
-	CommandCreate
-	CommandClose
-	CommandFlush
-	CommandRead
-	CommandWrite
-	CommandLock
-	CommandIOCtl
-	CommandCancel
-	CommandEcho
-	CommandQueryDirectory
-	CommandChangeNotify
-	CommandQueryInfo
-	CommandSetInfo
-	CommandOplockBreak
-)
-
-type HeaderV1 struct {
+type smb_HeaderV1 struct {
 	ProtocolID       [4]uint8
 	Command          uint8
 	Status           uint32
@@ -118,8 +117,8 @@ type HeaderV1 struct {
 	MID              uint16
 }
 
-type NegotiateRespV1 struct {
-	HeaderV1
+type smb_NegotiateRespV1 struct {
+	smb_HeaderV1
 	StructureSize        uint16
 	SecurityMode         uint16
 	DialectRevision      uint16

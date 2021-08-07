@@ -35,7 +35,7 @@ func (s *rdp) ServeTCP(ln net.Listener) error {
 			go func(conn net.Conn) {
 				sequence := mux.Sequence()
 				defer conn.Close()
-				hdr := &TPKTHeader{}
+				hdr := &rdp_TPKTHeader{}
 
 				// Get the header
 				struc.Unpack(conn, hdr)
@@ -54,13 +54,13 @@ func (s *rdp) ServeTCP(ln net.Listener) error {
 	}
 }
 
-type TPKTHeader struct {
+type rdp_TPKTHeader struct {
 	Version  uint8
 	Reserved uint8
 	Size     uint16
 }
 
-type TPDU struct {
+type rdp_TPDU struct {
 	Length                uint8
 	ConnectionRequestCode uint8
 	DstRef                [2]uint8
@@ -68,7 +68,7 @@ type TPDU struct {
 	ClassOption           uint8
 }
 
-type RDPNegReq struct {
+type rdp_RDPNegReq struct {
 	Type               byte
 	Flags              byte
 	Length             [2]byte
