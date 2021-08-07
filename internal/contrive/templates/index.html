@@ -1,13 +1,31 @@
 {{define "head"}}
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.0.0/d3.min.js"
+    integrity="sha512-0x7/VCkKLLt4wnkFqI8Cgv6no+AaS1TDgmHLOoU3hy/WVtYta2J6gnOIHhYYDJlDxPqEqAYLPS4gzVex4mGJLw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dc/4.2.7/dc.min.js"
+    integrity="sha512-vIRU1/ofrqZ6nA3aOsDQf8kiJnAHnLrzaDh4ob8yBcJNry7Czhb8mdKIP+p8y7ixiNbT/As1Oii9IVk+ohSFiA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"
+    integrity="sha512-nlO6OGj6wb0uu/thpSry7qFal63hfhCLExpWxYomYB3tBznqWmKggsDHNHSLjnVaoade9tv/rErN498NSzwBnA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dc/4.2.7/style/dc.min.css"
+    integrity="sha512-t38Qn1jREPvzPvDLgIP2fjtOayaA1KKBuNpNj9BGgiMi+tGLOdvDB+aWLMe2BvokHg1OxRLQLE7qrlLo+A+MLA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 {{end}}
 
 {{define "body"}}
 <script>
+    // dc.config.defaultColors(d3.scaleSequential(d3.schemeDark2));
+    var cfData, cfDim;
+    var charts = {};
     $(document).ready(function () {
         getESJSON("/api/recent", function (data) {
+            cfData = crossfilter(data);
+            cfDim = cfData.dimension(function (d) {
+                return d["@timestamp"];
+            });
             $('#output').DataTable({
-                data: data,
+                data: cfDim.top(500),
                 scrollY: "400px",
                 searching: false,
                 bSort: false,
@@ -45,10 +63,66 @@
                 ]
             })
 
-            // scroll to bottom
-            var table = $('#output').DataTable();
-            var scrollBody = $(table.table().node()).parent();
-            scrollBody.scrollTop(scrollBody.get(0).scrollHeight);
+            const messageDim = cfData.dimension(d => { return d.message; });
+            const messageGroup = messageDim.group();
+
+            const ipDim = cfData.dimension(d => { return d.attacker; });
+            const ipGroup = ipDim.group();
+
+            const driverDim = cfData.dimension(d => { if (!d.driver) return "unknown"; return d.driver; });
+            const driverGroup = driverDim.group();
+
+            const levelDim = cfData.dimension(d => { return d.level; });
+            const levelGroup = levelDim.group();
+            
+
+            const colors = d3.scaleOrdinal().range(d3.schemeDark2)
+            charts.msgTypeChart = new dc.RowChart('#msgTypeChart')
+                .width(240)
+                .height(200)
+                .group(messageGroup)
+                .colors(colors)
+                .dimension(messageDim)
+                .elasticX(true)
+                .xAxis().ticks(4);
+
+            charts.ipChart = new dc.RowChart('#ipChart')
+                .width(240)
+                .height(200)
+                .group(ipGroup)
+                .dimension(ipDim)
+                .colors(colors)
+                .elasticX(true)
+                .cap(10)
+                .xAxis().ticks(4);
+
+            charts.driverChart = new dc.PieChart('#driverChart')
+                .width(240)
+                .height(200)
+                .group(driverGroup)
+                .colors(colors)
+                .innerRadius(40)
+                .dimension(driverDim)
+                .cap(10);
+
+            charts.levelChart = new dc.PieChart('#levelChart')
+                .width(240)
+                .height(200)
+                .group(levelGroup)
+                .colors(colors)
+                .innerRadius(40)
+                .dimension(levelDim)
+                .cap(10);
+
+            dc.renderAll();
+
+            dc.chartRegistry.list().forEach(function (chart) {
+                chart.on('filtered', function () {
+                    $('#output').DataTable().clear().rows.add(cfDim.top(500)).draw();
+                });
+            });
+
+            connect();
         });
     });
 
@@ -58,28 +132,19 @@
             ws.close();
         };
         ws.onclose = function (e) {
-            console.log('Socket is closed. Reconnect will be attempted.', e.reason);
             this.close();
             connect();
         };
         ws.onmessage = function (msgevent) {
             var msg = JSON.parse(msgevent.data);
-
-            // remove gambit. and flatten the array response
             msg = Object.keys(msg).reduce((prev, current) =>
                 ({ ...prev, [current.replace("gambit.", "")]: msg[current][0] }), {})
 
-            $('#output').DataTable().row.add(msg);
-            let remove = $('#output').DataTable().rows().count();
-            while (remove > 100) {
-                $('#output').DataTable().row(0).remove();
-                remove--;
-            }
-            $('#output').DataTable().draw(false);
-
+            cfData.add([msg]);
+            $('#output').DataTable().clear().rows.add(cfDim.top(500)).draw();
+            dc.redrawAll();
         };
     };
-    connect()
 </script>
 <div class="container">
     <div class="row">
@@ -89,8 +154,29 @@
         </div>
     </div>
     <div class="row">
-        <div class="col">
+        <div class="col card">
+            <button onclick="dc.filterAll();dc.redrawAll();">Reset</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2 fit-content card">
+            <strong>msg type</strong>
+            <div id="msgTypeChart"></div>
+        </div>
 
+        <div class="col-sm-2 fit-content card">
+            <strong>ip</strong>
+            <div id="ipChart"></div>
+        </div>
+
+        <div class="col-sm-2 fit-content card">
+            <strong>driver</strong>
+            <div id="driverChart"></div>
+        </div>
+
+        <div class="col-sm-2 fit-content card">
+            <strong>level</strong>
+            <div id="levelChart"></div>
         </div>
     </div>
 </div>

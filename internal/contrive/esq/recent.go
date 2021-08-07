@@ -19,7 +19,7 @@ func (e *ESQ) Recent() ([]GambitFrame, error) {
 					},
 				},
 			},
-		}, 1000)
+		}, 10000)
 	if err != nil {
 		return nil, err
 	}

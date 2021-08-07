@@ -137,7 +137,7 @@ func http_handleAll(w http.ResponseWriter, r *http.Request) {
 
 func http_handleTrap(w http.ResponseWriter, r *http.Request) {
 	attacklog := gctx.GetLoggerFromContext(r.Context())
-	attacklog.Warn().Msg("Trap triggered")
+	attacklog.Warn().Msg("tripwire")
 	w.Write(nil)
 }
 
@@ -156,6 +156,8 @@ func http_dockerContainerCreated(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	w.Header().Set("Content-Type", "application/json")
 	fmt.Fprintf(w, `{"Id":"e90e34656806","Warnings":[]}`)
+	attacklog := gctx.GetLoggerFromContext(r.Context())
+	attacklog.Warn().Str("system", "docker").Msg("tripwire")
 }
 
 // [TODO] build framework for reading and writing these streams
@@ -165,7 +167,7 @@ func http_dockere90e34656806attach(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Connection", "Upgrade")
 	w.Header().Set("Upgrade", "tcp")
 	attacklog := gctx.GetLoggerFromContext(r.Context())
-	attacklog.Warn().Msg("Trap triggered")
+	attacklog.Warn().Str("system", "docker").Msg("tripwire")
 	fmt.Fprintf(w, ``)
 }
 
@@ -175,4 +177,6 @@ func http_dockere90e34656806attach(w http.ResponseWriter, r *http.Request) {
 func http_phpunit(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain")
 	fmt.Fprintf(w, `85af727fd022d3a13e7972fd6a418582`)
+	attacklog := gctx.GetLoggerFromContext(r.Context())
+	attacklog.Warn().Str("system", "wordpress").Msg("tripwire")
 }
