@@ -303,7 +303,6 @@ func (s *ConnectionManager) fakeTLSCertificate() (*tls.Certificate, error) {
 }
 
 func (s *ConnectionManager) unwrapTLS(conn net.Conn) (*muxconn.MuxConn, []byte, int, error) {
-	s.logger.Debug().Msg("unwrapping tls")
 	n := 1500
 	buf := make([]byte, n)
 	tlsConn := tls.Server(conn, &s.tlsConfig)
@@ -312,8 +311,9 @@ func (s *ConnectionManager) unwrapTLS(conn net.Conn) (*muxconn.MuxConn, []byte, 
 	n, err := r.Read(buf)
 	if err != nil {
 		if err != io.EOF {
-			s.logger.Debug().Err(err).Msg("error reading from sniffer")
+			s.logger.Debug().Err(err).Msg("error unwrapping tls")
 			muc.DoneSniffing()
+			return nil, nil, 0, err
 		}
 	}
 
