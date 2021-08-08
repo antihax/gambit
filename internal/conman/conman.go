@@ -349,6 +349,7 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	bannerCancel()  // Cancel the banner
 	timeoutCancel() // Cancel the timeout
 
+	tlsUnwrap := false
 	// Try unwrapping TLS/SSL
 	if buf[0] == 0x16 {
 		muc.DoneSniffing()
@@ -357,6 +358,7 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 			muc = newMuxConn
 			buf = newBuf
 			n = newN
+			tlsUnwrap = true
 		}
 	}
 
@@ -367,9 +369,8 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	muc.Context = context.WithValue(muc.Context, gctx.HashContextKey, hash)
 
 	// log the connection
-	attacklog := gctx.GetLoggerFromContext(muc.Context).With().Str("attacker", ip).Str("uuid", muc.GetUUID()).Str("dstport", port).Str("hash", hash).Logger()
+	attacklog := gctx.GetLoggerFromContext(muc.Context).With().Bool("tlsunwrap", tlsUnwrap).Str("attacker", ip).Str("uuid", muc.GetUUID()).Str("dstport", port).Str("hash", hash).Logger()
 	muc.Context = context.WithValue(muc.Context, gctx.LoggerContextKey, attacklog)
-
 	attacklog.Trace().Msgf("tcp knock")
 
 	// save the raw data
