@@ -4,6 +4,8 @@ go 1.16
 
 require (
 	github.com/aws/aws-sdk-go v1.40.17
+	github.com/brianvoe/gofakeit/v6 v6.7.0
+	github.com/datastax/go-cassandra-native-protocol v0.0.0-20210625183157-078df009bd1b
 	github.com/elastic/go-elasticsearch/v7 v7.14.0
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/context v1.1.1

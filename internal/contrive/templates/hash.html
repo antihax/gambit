@@ -52,7 +52,6 @@
         })
     })
 
-
     getESJSON("/api/addressesForHash/{{.Hash}}", function (data) {
         if (data.length == 0) {
             $('#sessions_card').remove()

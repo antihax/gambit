@@ -20,7 +20,7 @@ func init() {
 			if len(params["hash"]) > 40 || !checkHash.MatchString(params["hash"]) {
 				return
 			}
-			page := newPage(r, "GaMBiT - Hash")
+			page := newPage(r, "GaMBiT - Hash "+params["hash"])
 			page["Hash"] = params["hash"]
 			page["Bucket"] = c.Config.BucketURL + "raw/"
 
