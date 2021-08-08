@@ -3,11 +3,18 @@ package conman
 
 import (
 	"context"
+	"crypto/rand"
+	"crypto/rsa"
 	"crypto/sha1"
+	"crypto/tls"
+	"crypto/x509"
+	"crypto/x509/pkix"
 	"encoding/hex"
+	"encoding/pem"
 	"fmt"
 	"io"
 	"log/syslog"
+	"math/big"
 	"net"
 	"os"
 	"strconv"
@@ -18,10 +25,10 @@ import (
 	"github.com/antihax/gambit/internal/drivers"
 	"github.com/antihax/gambit/internal/muxconn"
 	"github.com/antihax/gambit/internal/store"
-
 	"github.com/antihax/gambit/pkg/probe"
 	"github.com/antihax/gambit/pkg/searchtree"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
+	fake "github.com/brianvoe/gofakeit/v6"
 	"github.com/rs/zerolog"
 	"github.com/sethvargo/go-envconfig"
 )
@@ -38,6 +45,7 @@ type ConnectionManager struct {
 	knownHashes sync.Map
 	logger      zerolog.Logger
 	config      ConnectionManagerConfig
+	tlsConfig   tls.Config
 	uploader    *s3manager.Uploader
 	storeChan   chan store.File
 	RootContext context.Context
@@ -70,7 +78,15 @@ func NewConMan() (*ConnectionManager, error) {
 		banners:      make(map[uint16][]byte),
 		logger:       logger,
 		config:       cfg,
+		tlsConfig: tls.Config{
+			MinVersion: 0,
+		},
 	}
+	fakeCert, err := s.fakeTLSCertificate()
+	if err != nil {
+		return nil, err
+	}
+	s.tlsConfig.Certificates = []tls.Certificate{*fakeCert}
 
 	// setup any storage from config
 	if err := s.setupStore(); err != nil {
@@ -216,7 +232,7 @@ func (s *ConnectionManager) StartConning() {
 		for i := uint16(1); i < s.config.Preload; i++ {
 			_, err := s.CreateTCPListener(i)
 			if err != nil {
-				s.logger.Debug().Err(err).Msg("creating socket")
+				s.logger.Trace().Err(err).Msg("creating socket")
 			}
 		}
 	}
@@ -226,7 +242,7 @@ func (s *ConnectionManager) StartConning() {
 		buf := make([]byte, 1500)
 		n, addr, err := conn.ReadFrom(buf)
 		if err != nil { // get out if we error
-			s.logger.Debug().Err(err).
+			s.logger.Trace().Err(err).
 				Str("address", addr.String()).
 				Msg("reading socket")
 			continue
@@ -245,6 +261,63 @@ func (s *ConnectionManager) StartConning() {
 			}
 		}
 	}
+}
+
+func (s *ConnectionManager) fakeTLSCertificate() (*tls.Certificate, error) {
+	key, err := rsa.GenerateKey(rand.Reader, 2048)
+	if err != nil {
+		return nil, err
+	}
+
+	keyPem := pem.EncodeToMemory(&pem.Block{
+		Type:  "RSA PRIVATE KEY",
+		Bytes: x509.MarshalPKCS1PrivateKey(key),
+	})
+
+	tml := x509.Certificate{
+		NotBefore:    time.Now(),
+		NotAfter:     time.Now().AddDate(25, 0, 0),
+		SerialNumber: big.NewInt(fake.Int64()),
+		Subject: pkix.Name{
+			CommonName:   fake.DomainName(),
+			Organization: []string{fake.Company()},
+		},
+		BasicConstraintsValid: true,
+	}
+
+	cert, err := x509.CreateCertificate(rand.Reader, &tml, &tml, &key.PublicKey, key)
+	if err != nil {
+		return nil, err
+	}
+
+	certPem := pem.EncodeToMemory(&pem.Block{
+		Type:  "CERTIFICATE",
+		Bytes: cert,
+	})
+
+	tlsCert, err := tls.X509KeyPair(certPem, keyPem)
+	if err != nil {
+		return nil, err
+	}
+	return &tlsCert, nil
+}
+
+func (s *ConnectionManager) unwrapTLS(conn net.Conn) (*muxconn.MuxConn, []byte, int, error) {
+	s.logger.Debug().Msg("unwrapping tls")
+	n := 1500
+	buf := make([]byte, n)
+	tlsConn := tls.Server(conn, &s.tlsConfig)
+	muc := muxconn.NewMuxConn(s.RootContext, tlsConn)
+	r := muc.StartSniffing()
+	n, err := r.Read(buf)
+	if err != nil {
+		if err != io.EOF {
+			s.logger.Debug().Err(err).Msg("error reading from sniffer")
+			muc.DoneSniffing()
+		}
+	}
+
+	return muc, buf, n, err
 }
 
 func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, wg *sync.WaitGroup) {
@@ -276,6 +349,17 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	bannerCancel()  // Cancel the banner
 	timeoutCancel() // Cancel the timeout
 
+	// Try unwrapping TLS/SSL
+	if buf[0] == 0x16 {
+		muc.DoneSniffing()
+		newMuxConn, newBuf, newN, err := s.unwrapTLS(muc)
+		if err == nil {
+			muc = newMuxConn
+			buf = newBuf
+			n = newN
+		}
+	}
+
 	// get the hash of the first n bytes and tag the context
 	h := sha1.New()
 	h.Write(buf[:n])
@@ -288,7 +372,7 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 
 	attacklog.Trace().Msgf("tcp knock")
 
-	// save the raw data [TODO] from config
+	// save the raw data
 	if n > 0 {
 		if _, ok := s.knownHashes.Load(hash); !ok {
 			s.storeChan <- store.File{Filename: hash, Location: "raw", Data: buf[:n]}

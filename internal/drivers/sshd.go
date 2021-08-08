@@ -13,22 +13,22 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
-var (
-	config ssh.ServerConfig
-)
+var ()
 
 type sshd struct {
 	logger zerolog.Logger
+	config ssh.ServerConfig
 }
 
 func init() {
 	s := &sshd{}
-	config = ssh.ServerConfig{
+	s.config = ssh.ServerConfig{
 		MaxAuthTries:      -1,
 		ServerVersion:     "SSH-2.0-libssh-0.6.0",
 		PasswordCallback:  s.passwordCallback,
 		PublicKeyCallback: s.keyCallback,
 	}
+
 	key, err := rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
 		log.Fatal(err)
@@ -37,7 +37,7 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	config.AddHostKey(hostKey)
+	s.config.AddHostKey(hostKey)
 
 	AddDriver(s)
 }
@@ -57,7 +57,7 @@ func (s *sshd) ServeTCP(ln net.Listener) error {
 			s.logger = gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "sshd").Logger()
 		}
 
-		_, _, _, err = ssh.NewServerConn(c, &config)
+		_, _, _, err = ssh.NewServerConn(c, &s.config)
 		if err != nil {
 			s.logger.Debug().Err(err).Msg("failed handshake")
 			continue
