@@ -20,6 +20,18 @@ type cassandra struct {
 	logger zerolog.Logger
 }
 
+func init() {
+	s := &cassandra{}
+	AddDriver(s)
+}
+
+func (s *cassandra) Patterns() [][]byte {
+	return [][]byte{
+		{0x04, 0x00, 0x12, 0x34, 0x01},
+		{0x42, 0x00, 0x00, 0x00, 0x05},
+	}
+}
+
 func (s *cassandra) ServeTCP(ln net.Listener) error {
 	codec := frame.NewCodec()
 
@@ -97,10 +109,4 @@ func (s *cassandra) ServeTCP(ln net.Listener) error {
 			}(c)
 		}
 	}
-}
-
-func init() {
-	s := &cassandra{}
-	AddDriver([]byte{0x04, 0x00, 0x12, 0x34, 0x01}, s)
-	AddDriver([]byte{0x42, 0x00, 0x00, 0x00, 0x05}, s)
 }

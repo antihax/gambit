@@ -1,4 +1,4 @@
-package driver
+package drivers
 
 import (
 	"net"
@@ -22,8 +22,16 @@ func (s *Both) Banner() ([]uint16, []byte) {
 	return nil, nil
 }
 
+func (s *Both) Patterns() [][]byte {
+	return nil
+}
+
 // UDP Struct
 type UDP struct{}
+
+func (s *UDP) Patterns() [][]byte {
+	return nil
+}
 
 func (s *UDP) ServeUDP(conn net.Conn) error {
 	return nil
@@ -33,6 +41,10 @@ func (s *UDP) ServeUDP(conn net.Conn) error {
 type TCP struct{}
 
 func (s *TCP) ServeTCP(ln net.Listener) error {
+	return nil
+}
+
+func (s *TCP) Patterns() [][]byte {
 	return nil
 }
 

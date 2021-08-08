@@ -17,13 +17,18 @@ import (
 )
 
 func init() {
-	// CTRL + A I20100
-	// https://www.veeder.com/us/sites/veeder.com.us/files/2020-09/577013-776%20-%20TCP-IP%20Interface%20Module.PDF
-	AddDriver([]byte("I20100"), &atg{})
+
+	AddDriver(&atg{})
 }
 
 type atg struct {
 	logger zerolog.Logger
+}
+
+func (s *atg) Patterns() [][]byte {
+	return [][]byte{
+		[]byte("I20100"),
+	}
 }
 
 func (s *atg) ServeTCP(ln net.Listener) error {

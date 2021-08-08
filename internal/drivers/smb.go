@@ -12,13 +12,19 @@ import (
 	"github.com/rs/zerolog"
 )
 
-func init() {
-	//xFF SMB
-	AddDriver([]byte{255, 83, 77, 66}, &smb{})
-}
-
 type smb struct {
 	logger zerolog.Logger
+}
+
+func init() {
+	//xFF SMB
+	AddDriver(&smb{})
+}
+
+func (s *smb) Patterns() [][]byte {
+	return [][]byte{
+		{255, 83, 77, 66},
+	}
 }
 
 func (s *smb) ServeTCP(ln net.Listener) error {
@@ -50,7 +56,7 @@ func (s *smb) ServeTCP(ln net.Listener) error {
 			return err
 		}
 		if mux, ok := conn.(*muxconn.MuxConn); ok {
-			s.logger = gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "sshd").Logger()
+			s.logger = gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "smb").Logger()
 		}
 		go func(conn net.Conn) {
 			defer conn.Close()

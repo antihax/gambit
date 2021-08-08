@@ -13,6 +13,7 @@ require (
 	github.com/klauspost/compress v1.13.3 // indirect
 	github.com/lunixbochs/struc v0.0.0-20200707160740-784aaebc1d40
 	github.com/rs/zerolog v1.23.0
+	github.com/secmask/go-redisproto v0.1.0
 	github.com/sethvargo/go-envconfig v0.3.5
 	github.com/stretchr/testify v1.7.0
 	golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97

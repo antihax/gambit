@@ -20,19 +20,23 @@ type httpd struct{}
 func (s *httpd) ServeTCP(ln net.Listener) error {
 	return server.Serve(ln)
 }
+func (s *httpd) Patterns() [][]byte {
+	return [][]byte{
+		[]byte("GET "),
+		[]byte("POST "),
+		[]byte("HEAD "),
+		[]byte("PUT "),
+		[]byte("DELETE "),
+		[]byte("CONNECT "),
+		[]byte("OPTIONS "),
+		[]byte("TRACE "),
+		[]byte("PATCH "),
+	}
+}
 
 func init() {
 	h := &httpd{}
-	AddDriver([]byte("GET "), h)
-	AddDriver([]byte("POST "), h)
-	AddDriver([]byte("HEAD "), h)
-	AddDriver([]byte("PUT "), h)
-	AddDriver([]byte("DELETE "), h)
-	AddDriver([]byte("CONNECT "), h)
-	AddDriver([]byte("OPTIONS "), h)
-	AddDriver([]byte("TRACE "), h)
-	AddDriver([]byte("PATCH "), h)
-
+	AddDriver(h)
 	httpmux := http.NewServeMux()
 
 	/* [TODO] Unknowns

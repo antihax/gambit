@@ -13,8 +13,15 @@ import (
 )
 
 func init() {
-	// this may be too aggressive
-	AddDriver([]byte{3, 0, 0}, &rdp{})
+
+	AddDriver(&rdp{})
+}
+
+// [TODO] this may be too aggressive
+func (s *rdp) Patterns() [][]byte {
+	return [][]byte{
+		{3, 0, 0},
+	}
 }
 
 type rdp struct {
@@ -42,7 +49,7 @@ func (s *rdp) ServeTCP(ln net.Listener) error {
 				b := make([]byte, hdr.Size-7)
 
 				struc.Unpack(conn, &b)
-				s.logger.Warn().Int("sequence", sequence).Msg("rdp knock")
+				s.logger.Debug().Int("sequence", sequence).Msg("rdp knock")
 				// save session data
 				storeChan <- store.File{
 					Filename: mux.GetUUID() + "-" + strconv.Itoa(sequence),

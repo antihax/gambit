@@ -96,14 +96,15 @@
                 .cap(10)
                 .xAxis().ticks(4);
 
-            charts.driverChart = new dc.PieChart('#driverChart')
+            charts.driverChart = new dc.RowChart('#driverChart')
                 .width(240)
                 .height(200)
                 .group(driverGroup)
-                .colors(colors)
-                .innerRadius(40)
                 .dimension(driverDim)
-                .cap(10);
+                .colors(colors)
+                .elasticX(true)
+                .cap(10)
+                .xAxis().ticks(4);
 
             charts.levelChart = new dc.PieChart('#levelChart')
                 .width(240)

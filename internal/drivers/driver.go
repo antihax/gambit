@@ -1,9 +1,22 @@
-package driver
+package drivers
 
 import "net"
 
+var drivers []Driver
+
+// AddDriver adds a driver to the internal list
+func AddDriver(handler Driver) {
+	drivers = append(drivers, handler)
+}
+
+// GetDrivers returns the available driver list
+func GetDrivers() []Driver {
+	return drivers
+}
+
 // Driver implements a protocol handler
 type Driver interface {
+	Patterns() [][]byte
 }
 
 // TCPDriver handles TCP based aggressors after matching a sniff test

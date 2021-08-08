@@ -15,7 +15,6 @@ import (
 	"time"
 
 	"github.com/antihax/gambit/internal/conman/gctx"
-	"github.com/antihax/gambit/internal/driver"
 	"github.com/antihax/gambit/internal/drivers"
 	"github.com/antihax/gambit/internal/muxconn"
 	"github.com/antihax/gambit/internal/store"
@@ -107,17 +106,17 @@ func NewConMan() (*ConnectionManager, error) {
 	}
 
 	// find all the TCP drivers and setup multiplexers
-	drivers := drivers.GetDrivers()
-	for _, d := range drivers {
+	driverList := drivers.GetDrivers()
+	for _, d := range driverList {
 		// start listeners for tcp handlers
-		if handler, ok := d.Driver.(driver.TCPDriver); ok {
+		if handler, ok := d.(drivers.TCPDriver); ok {
 			conn := s.NewProxy()
 			go handler.ServeTCP(conn)
-			s.NewTCPDriver(d.Pattern, conn.(muxconn.MuxListener))
+			s.NewTCPDriver(d.Patterns(), conn.(muxconn.MuxListener))
 		}
 
 		// copy the banners to a map
-		if handler, ok := d.Driver.(driver.TCPBannerDriver); ok {
+		if handler, ok := d.(drivers.TCPBannerDriver); ok {
 			if ports, banner := handler.Banner(); len(ports) > 0 {
 				for _, port := range ports {
 					s.banners[port] = banner
@@ -178,8 +177,10 @@ func (s *ConnectionManager) NewProxy() net.Listener {
 }
 
 // NewTCPDriver adds a driver to ConMan
-func (s *ConnectionManager) NewTCPDriver(rule []byte, driver muxconn.MuxListener) {
-	s.rules.Insert(rule, driver)
+func (s *ConnectionManager) NewTCPDriver(rules [][]byte, driver muxconn.MuxListener) {
+	for _, rule := range rules {
+		s.rules.Insert(rule, driver)
+	}
 }
 
 func (s *ConnectionManager) sendBanner(ctx context.Context, muc *muxconn.MuxConn, port uint16) {
@@ -285,7 +286,7 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	attacklog := gctx.GetLoggerFromContext(muc.Context).With().Str("attacker", ip).Str("uuid", muc.GetUUID()).Str("dstport", port).Str("hash", hash).Logger()
 	muc.Context = context.WithValue(muc.Context, gctx.LoggerContextKey, attacklog)
 
-	attacklog.Info().Msgf("tcp knock")
+	attacklog.Trace().Msgf("tcp knock")
 
 	// save the raw data [TODO] from config
 	if n > 0 {
