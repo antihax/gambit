@@ -13,11 +13,14 @@ import (
 )
 
 // Store data if needed
-func (s *ConnectionManager) store(filename, location string, data []byte) {
+func (s *ConnectionManager) store(filename, location string, data []byte) error {
 	// write out
+
 	if s.config.OutputFolder != "" {
 		if err := ioutil.WriteFile(s.config.OutputFolder+"/"+location+"/"+filename, s.Sanitize(data), 0644); err != nil {
 			s.logger.Debug().Err(err).Msg("error saving raw data")
+		} else {
+			s.knownHashes.Store(filename, true)
 		}
 	}
 	// upload to s3
@@ -28,21 +31,28 @@ func (s *ConnectionManager) store(filename, location string, data []byte) {
 			Body:   ioutil.NopCloser(bytes.NewReader(data)),
 		}); err != nil {
 			s.logger.Debug().Err(err).Msg("error saving raw data")
+			return err
 		}
+		s.knownHashes.Store(filename, true)
+
 	}
+	return nil
 }
 
 // read files to store
 func (s *ConnectionManager) storePump() {
 	for {
 		file := <-s.storeChan
-		s.store(file.Filename, file.Location, file.Data)
+		if err := s.store(file.Filename, file.Location, file.Data); err != nil {
+			s.storeChan <- file
+		}
 	}
 }
 
 func (s *ConnectionManager) setupStore() error {
 	s.storeChan = make(chan store.File, 20)
 	go s.storePump()
+
 	// setup local storage
 	if s.config.OutputFolder == "." {
 		if pw, err := os.Getwd(); err != nil {

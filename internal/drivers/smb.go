@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"log"
 	"net"
+	"time"
 	"unsafe"
 
 	"github.com/antihax/gambit/internal/conman/gctx"
@@ -61,6 +62,7 @@ func (s *smb) ServeTCP(ln net.Listener) error {
 		go func(conn net.Conn) {
 			defer conn.Close()
 			for {
+				conn.SetDeadline(time.Now().Add(time.Second * 5))
 				var size uint32
 				hdr := &smb_HeaderV1{}
 

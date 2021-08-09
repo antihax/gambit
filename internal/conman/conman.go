@@ -377,7 +377,6 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	if n > 0 {
 		if _, ok := s.knownHashes.Load(hash); !ok {
 			s.storeChan <- store.File{Filename: hash, Location: "raw", Data: buf[:n]}
-			s.knownHashes.Store(hash, false)
 		}
 	}
 

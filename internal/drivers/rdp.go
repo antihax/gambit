@@ -1,9 +1,11 @@
 package drivers
 
 import (
+	"fmt"
 	"log"
 	"net"
 	"strconv"
+	"time"
 
 	"github.com/antihax/gambit/internal/conman/gctx"
 	"github.com/antihax/gambit/internal/muxconn"
@@ -40,6 +42,7 @@ func (s *rdp) ServeTCP(ln net.Listener) error {
 			storeChan := gctx.GetStoreFromContext(mux.Context)
 
 			go func(conn net.Conn) {
+				conn.SetDeadline(time.Now().Add(time.Second * 5))
 				sequence := mux.Sequence()
 				defer conn.Close()
 				hdr := &rdp_TPKTHeader{}
@@ -47,8 +50,9 @@ func (s *rdp) ServeTCP(ln net.Listener) error {
 				// Get the header
 				struc.Unpack(conn, hdr)
 				b := make([]byte, hdr.Size-7)
-
 				struc.Unpack(conn, &b)
+
+				fmt.Printf("\n%+v\n\n", b)
 				s.logger.Debug().Int("sequence", sequence).Msg("rdp knock")
 				// save session data
 				storeChan <- store.File{
@@ -70,14 +74,14 @@ type rdp_TPKTHeader struct {
 type rdp_TPDU struct {
 	Length                uint8
 	ConnectionRequestCode uint8
-	DstRef                [2]uint8
-	SrcRef                [2]uint8
+	DstRef                uint16
+	SrcRef                uint16
 	ClassOption           uint8
 }
 
 type rdp_RDPNegReq struct {
-	Type               byte
-	Flags              byte
-	Length             [2]byte
-	RequestedProtocols [4]byte
+	Type               uint8
+	Flags              uint8
+	Length             uint16
+	RequestedProtocols uint32
 }

@@ -14,7 +14,7 @@ func (e *ESQ) Recent() ([]GambitFrame, error) {
 			"query": map[string]interface{}{
 				"bool": map[string]interface{}{
 					"filter": []interface{}{
-						map[string]interface{}{"range": map[string]interface{}{"@timestamp": map[string]interface{}{"gte": "now-1h", "format": "strict_date_optional_time"}}},
+						map[string]interface{}{"range": map[string]interface{}{"@timestamp": map[string]interface{}{"gte": "now-4h", "format": "strict_date_optional_time"}}},
 						map[string]interface{}{"exists": map[string]interface{}{"field": "gambit.hash"}},
 					},
 				},

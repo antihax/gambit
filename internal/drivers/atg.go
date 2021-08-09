@@ -72,7 +72,6 @@ TANK PRODUCT               VOLUME TC-VOLUME   ULLAGE   HEIGHT    WATER    TEMP
 				reader := bufio.NewReader(conn)
 				tp := textproto.NewReader(reader)
 				for {
-
 					conn.SetDeadline(time.Now().Add(time.Second * 5))
 					b, err := tp.ReadLineBytes()
 					if err != nil {
