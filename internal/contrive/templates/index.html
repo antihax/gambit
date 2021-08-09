@@ -15,13 +15,15 @@
 
 {{define "body"}}
 <script>
-    // dc.config.defaultColors(d3.scaleSequential(d3.schemeDark2));
     var cfData, cfDim;
     var charts = {};
     $(document).ready(function () {
         getESJSON("/api/recent", function (data) {
             cfData = crossfilter(data);
             cfDim = cfData.dimension(function (d) {
+                if (!d.message) 
+                    d.message = ""
+                
                 return d["@timestamp"];
             });
             $('#output').DataTable({
