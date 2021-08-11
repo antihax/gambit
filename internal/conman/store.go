@@ -28,7 +28,7 @@ func (s *ConnectionManager) store(filename, location string, data []byte) error 
 		if _, err := s.uploader.Upload(&s3manager.UploadInput{
 			Bucket: aws.String(s.config.S3Bucket),
 			Key:    aws.String(location + "/" + filename),
-			Body:   ioutil.NopCloser(bytes.NewReader(data)),
+			Body:   ioutil.NopCloser(bytes.NewReader(s.Sanitize(data))),
 		}); err != nil {
 			s.logger.Debug().Err(err).Msg("error saving raw data")
 			return err
