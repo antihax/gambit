@@ -1,12 +1,12 @@
 .hex_address {
-     vertical-align: right;
+    vertical-align: right;
 }
 
 .hex_base {
-    float:left;
+    float: left;
     overflow: hidden;
-    width:fit-content;
-    height:fit-content;    
+    width: fit-content;
+    height: fit-content;
     white-space: nowrap;
 }
 
@@ -16,7 +16,6 @@
     display: inline-block;
     font-family: monospace;
     font-size: 12px;
-
 }
 
 .hex_textview {
@@ -27,4 +26,12 @@
     font-family: monospace;
     width: 490px;
     font-size: 12px;
+}
+
+.hex_highlight {
+    background-color: yellow ;
+}
+
+.hex_hover {
+    background-color: coral;
 }

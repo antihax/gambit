@@ -14,18 +14,56 @@
                 step: 16,
                 word_size: 1,
             };
-            let parent = this;
+            let parent = this,
+                isHighlighting = false;
             this.on("click", "button", function () {
                 switch ($(this).val()) {
                     case "hex":
                         $("div.hex_hexview").css("display", "inline-block");
                         $("div.hex_textview").css("display", "none");
                         break;
-                    default:
+                    case "asc":
                         $("div.hex_hexview").css("display", "none");
                         $("div.hex_textview").css("display", "inline-block");
+                        break;
+                    case "clear":
+                        $(".hex_selector").removeClass("hex_highlight");
+                        break;
                 }
             });
+
+            this.on("mousemove", ".hex_selector", function () {
+                let pos = parseInt(this.id.substring(5), 10);
+                if (pos >= 0) {
+                    $(`#hex_b${pos}`).addClass("hex_hover")
+                    $(`#hex_t${pos}`).addClass("hex_hover")
+                    $(`#hex_position`).text(pos)
+                    if (isHighlighting) {
+                        $(`#hex_b${pos}`).addClass("hex_highlight")
+                        $(`#hex_t${pos}`).addClass("hex_highlight")
+                    }
+                }
+            });
+
+            this.on("mouseout", ".hex_selector", function () {
+                let pos = parseInt(this.id.substring(5), 10);
+                if (pos >= 0) {
+                    $(`#hex_b${pos}`).removeClass("hex_hover")
+                    $(`#hex_t${pos}`).removeClass("hex_hover")
+                    $(`#hex_position`).text("")
+                }
+            });
+
+            this.on("mousedown", ".hex_hexview", function (e) {
+                if (e.button == 0)
+                    isHighlighting = true;
+                if (typeof e.preventDefault != 'undefined') { e.preventDefault(); }
+            });
+
+            this.on("mouseup", ".hex_hexview", function () {
+                isHighlighting = false;
+            });
+
 
             var cfg = $.extend({}, defaults, options);
             cfg.original_bin = cfg.bin;
@@ -38,6 +76,8 @@
                 <div class='hex_controls'>
                     <button class="hex_mode" value="hex">hex</button>
                     <button class="hex_mode" value="asc">asc</button>
+                    <button class="hex_mode" value="clear">clear</button>
+                    <span>pos:</span> <span id="hex_position"></span>
                 </div>
                 <div class="hex_hexview">
                     <div class='hex_address'></div>
@@ -59,18 +99,19 @@
                         let num = ""
                         for (var j = 0; j < cfg.word_size; j++)
                             num += hex(line_data.charCodeAt(i + j));
-                        $("div.hex_text", this).append(num).append(" ")
+
+                        $("div.hex_text", this).append(`<span class="hex_selector" id="hex_b${i + position}">${num}</span>`).append(" ")
                     }
                     $("div.hex_text", this).append("\n")
 
                     var text = ""
                     for (var i = 0; i < line_data.length; i++) {
                         var c = line_data.charCodeAt(i)
-
-                        if ((c >= 32) && (c <= 126))
-                            text = text + line_data.charAt(i)
+                        if ((c < 32) || (c > 126))
+                            c = "."
                         else
-                            text = text + "."
+                            c = line_data.charAt(i)
+                        text += `<span class="hex_selector" id="hex_t${i + position}">${c}</span>`
                     }
 
                     position += cfg.step
