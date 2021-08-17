@@ -115,6 +115,7 @@ func NewConMan() (*ConnectionManager, error) {
 			case *net.IPAddr:
 				ip = v.IP
 			}
+
 			if !privateIP(ip) {
 				s.addresses = append(s.addresses, ip)
 			}

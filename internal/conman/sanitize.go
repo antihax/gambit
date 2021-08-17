@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-// [TODO] Remove after golang 1.17 released
+// [TODO] Keep since we care about loopback and uni/multicast
 func privateIP(ip net.IP) bool {
 	private := false
 	if ip.IsLoopback() || ip.IsMulticast() || ip.IsUnspecified() || ip.IsLinkLocalUnicast() {
