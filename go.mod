@@ -3,7 +3,7 @@ module github.com/antihax/gambit
 go 1.17
 
 require (
-	github.com/aws/aws-sdk-go v1.40.23
+	github.com/aws/aws-sdk-go v1.40.27
 	github.com/brianvoe/gofakeit/v6 v6.7.0
 	github.com/datastax/go-cassandra-native-protocol v0.0.0-20210625183157-078df009bd1b
 	github.com/elastic/go-elasticsearch/v7 v7.14.0

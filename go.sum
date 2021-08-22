@@ -1,5 +1,5 @@
-github.com/aws/aws-sdk-go v1.40.23 h1:o0cw9jVlbXkDd3eZU7MDIXp3a8zhECnl0BfUs2WNBIM=
-github.com/aws/aws-sdk-go v1.40.23/go.mod h1:585smgzpB/KqRA+K3y/NL/oYRqQvpNJYvLm+LY1U59Q=
+github.com/aws/aws-sdk-go v1.40.27 h1:8fWW0CpmBZ8WWduNwl4vE9t07nMYFrhAsUHjPj81qUM=
+github.com/aws/aws-sdk-go v1.40.27/go.mod h1:585smgzpB/KqRA+K3y/NL/oYRqQvpNJYvLm+LY1U59Q=
 github.com/brianvoe/gofakeit/v6 v6.7.0 h1:AjkIRgKiLTUmK+50pgDZ1iPJiTzOQxy1zn898C0Zksc=
 github.com/brianvoe/gofakeit/v6 v6.7.0/go.mod h1:palrJUk4Fyw38zIFB/uBZqsgzW5VsNllhHKKwAebzew=
 github.com/coreos/go-systemd v0.0.0-20190321100706-95778dfbb74e/go.mod h1:F5haX7vjVVG0kc13fIWeqUViNPyEJxv/OmvnBo0Yme4=
