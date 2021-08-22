@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: conman
+  name: gambit-connmanager
   namespace: gambit
 spec:
   selector:
