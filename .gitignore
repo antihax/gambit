@@ -19,6 +19,7 @@ evedata-server
 secret.yaml
 secrets.yaml
 configuration.sh
+license.txt
 debug
 raw
 sessions
