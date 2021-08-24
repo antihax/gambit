@@ -31,8 +31,24 @@ EOF
 # restart kubernetes pods to make sure everything is now clean
 kubectl delete pod --all -n kube-system
 
+# setup helm
+curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+helm repo add haproxytech https://haproxytech.github.io/helm-charts
+helm repo update
+
+# setup haproxy ingress
+kubectl create namespace haproxy
+helm install haproxy haproxytech/kubernetes-ingress \
+  --namespace=haproxy \
+  --set controller.kind=DaemonSet \
+  --set controller.daemonset.useHostPort=true \
+  --set controller.nodeSelector.gambit=haproxy
+
+# setup cert manager
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
+
 # add eck for elastic
-kubectl apply -f https://download.elastic.co/downloads/eck/1.6.0/all-in-one.yaml
+kubectl apply -f https://download.elastic.co/downloads/eck/1.7.1/all-in-one.yaml
 
 # hetzner volumes
 kubectl apply -f https://raw.githubusercontent.com/hetznercloud/csi-driver/v1.5.1/deploy/kubernetes/hcloud-csi.yml

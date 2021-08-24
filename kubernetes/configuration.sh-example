@@ -10,3 +10,6 @@ kubectl create secret generic s3-secret -ngambit \
     --from-literal=s3-bucket="" \
     --from-literal=s3-key="" \
     --from-literal=s3-keyid="" \
+    --from-literal= s3-bucket-url=""
+
+kubectl create secret generic cloudflare-apikey-secret --namespace haproxy --from-literal=apikey=

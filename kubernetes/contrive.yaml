@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gambit-contrive
+  namespace: gambit
+spec:
+  selector:
+    matchLabels:
+      name: contrive
+  replicas: 1      
+  template:
+    metadata:
+      labels:
+        name: contrive
+        app: gambit-contrive
+    spec:
+      nodeSelector:
+        gambit: worker
+      containers:
+        - name: contrive
+          image: antihax/gambit-contrive:latest
+          env:
+            - name: CONTRIVE_ELASTIC_ADDRESS
+              value: "https://gambit-es-store:9200"
+            - name: CONTRIVE_ELASTIC_USER
+              value: "elastic"
+            - name: CONTRIVE_ELASTIC_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: gambit-es-elastic-user
+                  key: elastic  
+            - name: CONTRIVE_BUCKET_URL
+              valueFrom:
+                secretKeyRef:
+                  name: s3-secret
+                  key: s3-bucket-url              
+          ports:
+          - containerPort: 3000
+          volumeMounts:
+          - mountPath: /etc/ssl/certs
+            name: ca-certs
+      volumes:
+      - name: ca-certs
+        hostPath:
+          path: /etc/ssl/certs
+          type: Directory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gambit-contrive
+  namespace: gambit
+spec:
+  selector:
+    app: gambit-contrive
+  ports:
+  - name: gambit-contrive
+    protocol: TCP
+    port: 3000
+    targetPort: 3000          
