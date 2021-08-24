@@ -47,11 +47,13 @@ func (s *sshd) Patterns() [][]byte {
 		[]byte("SSH-2.0"),
 	}
 }
+
 func (s *sshd) ServeTCP(ln net.Listener) error {
 	for {
 		c, err := ln.Accept()
 		if err != nil {
 			log.Println("failed accept")
+			return err
 		}
 		if mux, ok := c.(*muxconn.MuxConn); ok {
 			s.logger = gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "sshd").Logger()

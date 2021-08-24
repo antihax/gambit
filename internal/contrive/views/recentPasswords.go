@@ -19,4 +19,16 @@ func init() {
 				time.Hour*24*31,
 				page)
 		})
+
+	contrive.AddRoute("GET", "/passwordList",
+		func(w http.ResponseWriter, r *http.Request) {
+			//c := contrive.GlobalsFromContext(r.Context())
+			page := newPage(r, "GaMBiT - Password List")
+
+			renderTemplate(w,
+				"passwordList.html",
+				time.Hour*24*31,
+				page)
+		})
+
 }

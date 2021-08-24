@@ -18,6 +18,7 @@ func (e *ESQ) SearchStr(query string, limit int) ([]*json.RawMessage, *json.RawM
 	res, err := e.es.Search(
 		e.es.Search.WithIndex("filebeat*"),
 		e.es.Search.WithBody(strings.NewReader(query)),
+		e.es.Search.WithSort("@timestamp:desc"),
 		e.es.Search.WithSource("false"),
 		e.es.Search.WithSize(limit),
 	)

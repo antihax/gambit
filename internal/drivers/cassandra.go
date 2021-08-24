@@ -39,6 +39,7 @@ func (s *cassandra) ServeTCP(ln net.Listener) error {
 		c, err := ln.Accept()
 		if err != nil {
 			log.Println("failed accept")
+			return err
 		}
 		if mux, ok := c.(*muxconn.MuxConn); ok {
 			s.logger = gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "cassandra").Logger()

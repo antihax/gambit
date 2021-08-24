@@ -19,6 +19,42 @@ type RecentPasswords struct {
 	} `json:"user"`
 }
 
+func (e *ESQ) PasswordList() ([]GambitFrame, error) {
+	hits, _, err := e.Search(
+		map[string]interface{}{
+			"fields": []interface{}{
+				map[string]interface{}{"field": "@timestamp"},
+				"gambit.attacker",
+				"gambit.driver",
+				"gambit.dstport",
+				"gambit.password",
+				"gambit.user",
+			},
+			"query": map[string]interface{}{
+				"bool": map[string]interface{}{
+					"filter": []interface{}{
+						map[string]interface{}{"range": map[string]interface{}{"@timestamp": map[string]interface{}{"gte": "now-30d", "format": "strict_date_optional_time"}}},
+						map[string]interface{}{"exists": map[string]interface{}{"field": "gambit.password"}},
+					},
+				},
+			},
+		}, 10000)
+	if err != nil {
+		return nil, err
+	}
+	data := []GambitFrame{}
+	if len(hits) > 0 {
+		for _, hit := range hits {
+			frame := GambitFrame{}
+			if err := json.Unmarshal(*hit, &frame); err != nil {
+				return nil, err
+			}
+			data = append(data, frame)
+		}
+	}
+	return data, nil
+}
+
 func (e *ESQ) RecentPasswords() (*RecentPasswords, error) {
 	_, agg, err := e.SearchStr(`
 	{
