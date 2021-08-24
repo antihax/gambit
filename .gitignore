@@ -20,6 +20,8 @@ secret.yaml
 secrets.yaml
 configuration.sh
 license.txt
+acme.yaml
+ingress.yaml
 debug
 raw
 sessions
