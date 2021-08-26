@@ -402,7 +402,7 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	} else {
 		// no driver
 		if n > 0 {
-			attacklog.Debug().Err(err).Str("raw", string(buf[:n])).Msg("no driver")
+			attacklog.Debug().Err(err).Msg("no driver")
 		}
 
 		// close the connection
