@@ -11,6 +11,7 @@ import (
 	"crypto/x509/pkix"
 	"encoding/hex"
 	"encoding/pem"
+	"errors"
 	"fmt"
 	"io"
 	"log/syslog"
@@ -147,6 +148,11 @@ func NewConMan() (*ConnectionManager, error) {
 // CreateTCPListener will create a new listener if one does not already exist and return if it was created or not.
 func (s *ConnectionManager) CreateTCPListener(port uint16) (bool, error) {
 	var wg sync.WaitGroup
+
+	if port > s.config.MaxPort {
+		return false, errors.New("above config.Maxport")
+	}
+
 	wg.Wait()
 
 	address := "0.0.0.0"
@@ -163,6 +169,7 @@ func (s *ConnectionManager) CreateTCPListener(port uint16) (bool, error) {
 	}
 
 	// create a new listener if one does not already exist
+
 	if _, ok := s.tcpListeners[port]; !ok {
 		addr := fmt.Sprintf("%s:%d", address, port)
 		ln, err := net.Listen("tcp", addr)
