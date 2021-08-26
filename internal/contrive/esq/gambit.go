@@ -10,6 +10,7 @@ type GambitFrame struct {
 	Hash      []string    `json:"gambit.hash,omitempty"`
 	Level     []string    `json:"gambit.level,omitempty"`
 	Message   []string    `json:"gambit.message,omitempty"`
+	TLSUnwrap []bool      `json:"gambit.tlsunwrap,omitempty"`
 	Password  []string    `json:"gambit.password,omitempty"`
 	Sequence  []int       `json:"gambit.sequence,omitempty"`
 	Timestamp []time.Time `json:"@timestamp,omitempty"`
