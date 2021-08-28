@@ -1,7 +1,11 @@
 github.com/aws/aws-sdk-go v1.40.27 h1:8fWW0CpmBZ8WWduNwl4vE9t07nMYFrhAsUHjPj81qUM=
 github.com/aws/aws-sdk-go v1.40.27/go.mod h1:585smgzpB/KqRA+K3y/NL/oYRqQvpNJYvLm+LY1U59Q=
+github.com/aws/aws-sdk-go v1.40.31 h1:RqozVt+A4tqH8Nv9ITw8eRWtKLkIUAqqZm2Sh2ayMA4=
+github.com/aws/aws-sdk-go v1.40.31/go.mod h1:585smgzpB/KqRA+K3y/NL/oYRqQvpNJYvLm+LY1U59Q=
 github.com/brianvoe/gofakeit/v6 v6.7.0 h1:AjkIRgKiLTUmK+50pgDZ1iPJiTzOQxy1zn898C0Zksc=
 github.com/brianvoe/gofakeit/v6 v6.7.0/go.mod h1:palrJUk4Fyw38zIFB/uBZqsgzW5VsNllhHKKwAebzew=
+github.com/brianvoe/gofakeit/v6 v6.7.1 h1:b7qWTFee06udGZL8yw9XQd+gtMD2WRLBPILBt6yVbMM=
+github.com/brianvoe/gofakeit/v6 v6.7.1/go.mod h1:palrJUk4Fyw38zIFB/uBZqsgzW5VsNllhHKKwAebzew=
 github.com/coreos/go-systemd v0.0.0-20190321100706-95778dfbb74e/go.mod h1:F5haX7vjVVG0kc13fIWeqUViNPyEJxv/OmvnBo0Yme4=
 github.com/coreos/go-systemd/v22 v22.3.2/go.mod h1:Y58oyj3AT4RCenI/lSvhwexgC+NSVTIJ3seZv2GcEnc=
 github.com/datastax/go-cassandra-native-protocol v0.0.0-20210625183157-078df009bd1b h1:WBfvDQmaVUrkInvOEgvk+P7rr5/poPloZRwjmYei1rE=
