@@ -6,11 +6,9 @@ import (
 	"net"
 	"net/http"
 	"net/http/httputil"
-	"strconv"
 
 	"github.com/antihax/gambit/internal/conman/gctx"
 	"github.com/antihax/gambit/internal/muxconn"
-	"github.com/antihax/gambit/internal/store"
 )
 
 var server http.Server
@@ -114,13 +112,8 @@ func (s *httpd) logger(next http.Handler) http.Handler {
 			attacklog.Debug().Err(err).Msg("")
 		}
 
-		// save session data
-		storeChan <- store.File{
-			Filename: conn.GetUUID() + "-" + strconv.Itoa(sequence),
-			Location: "sessions",
-			Data:     b,
-		}
-		attacklog.Info().Str("url", r.URL.Path).Int("sequence", sequence).Msg("URL")
+		hash := StoreHash(b, storeChan)
+		attacklog.Info().Str("url", r.URL.Path).Int("sequence", sequence).Str("hash", hash).Msg("URL")
 		next.ServeHTTP(w, r)
 	})
 }

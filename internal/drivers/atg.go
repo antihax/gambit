@@ -6,12 +6,10 @@ import (
 	"log"
 	"net"
 	"net/textproto"
-	"strconv"
 	"time"
 
 	"github.com/antihax/gambit/internal/conman/gctx"
 	"github.com/antihax/gambit/internal/muxconn"
-	"github.com/antihax/gambit/internal/store"
 	fake "github.com/brianvoe/gofakeit/v6"
 	"github.com/rs/zerolog"
 )
@@ -79,12 +77,8 @@ TANK PRODUCT               VOLUME TC-VOLUME   ULLAGE   HEIGHT    WATER    TEMP
 						return
 					}
 					sequence := mux.Sequence()
-					s.logger.Warn().Int("sequence", sequence).Msg("atg knock")
-					storeChan <- store.File{
-						Filename: mux.GetUUID() + "-" + strconv.Itoa(sequence),
-						Location: "sessions",
-						Data:     b,
-					}
+					hash := StoreHash(b, storeChan)
+					s.logger.Warn().Int("sequence", sequence).Str("hash", hash).Msg("atg knock")
 				}
 			}(conn)
 		}

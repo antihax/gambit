@@ -6,12 +6,10 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"strconv"
 	"time"
 
 	"github.com/antihax/gambit/internal/conman/gctx"
 	"github.com/antihax/gambit/internal/muxconn"
-	"github.com/antihax/gambit/internal/store"
 	"github.com/lunixbochs/struc"
 	"github.com/rs/zerolog"
 )
@@ -32,6 +30,7 @@ type rdp struct {
 	logger zerolog.Logger
 }
 
+// [TODO] Refactor this cluster or find an actual library to do it
 type rdp_CONNECTIONCONFIRM struct {
 	Version   uint8
 	Reserved  uint8
@@ -82,7 +81,8 @@ func (s *rdp) UnwrapTPKT(conn net.Conn) (*rdp_TPKTHeader, []byte, error) {
 	if err := struc.Unpack(conn, hdr); err != nil {
 		return nil, nil, err
 	}
-	if hdr.Size < 7 || hdr.Size > 260 {
+	if hdr.Size < 4 || hdr.Size > 500 {
+		fmt.Printf("%+v\n", hdr)
 		return nil, nil, errors.New("wrong payload size")
 	}
 	if hdr.Version != 3 {
@@ -115,7 +115,7 @@ func (s *rdp) ReadNegotiationRequest(reader *bytes.Reader, size uint8) (*rdp_X22
 	if err := struc.Unpack(reader, &neg); err != nil {
 		return nil, nil, err
 	}
-	fmt.Printf("%+v %d\n", neg, size)
+
 	// read cookie and req
 	if size > 14 {
 		for {
@@ -152,6 +152,7 @@ func (s *rdp) ServeTCP(ln net.Listener) error {
 			return err
 		}
 		if mux, ok := conn.(*muxconn.MuxConn); ok {
+
 			s.logger = gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "rdp").Logger()
 			storeChan := gctx.GetStoreFromContext(mux.Context)
 
@@ -163,20 +164,29 @@ func (s *rdp) ServeTCP(ln net.Listener) error {
 
 					hdr, b, err := s.UnwrapTPKT(conn)
 					if err != nil {
-						s.logger.Debug().Err(err).Int("sequence", sequence).Msg("rdp knock")
+						s.logger.Trace().Err(err).Msg("rdp knock")
 						return
 					}
+
+					// repack the header... [TODO] this better
+					var buf bytes.Buffer
+					struc.Pack(&buf, hdr)
+
+					// save session data
+					hash := StoreHash(append(buf.Bytes(), b...), storeChan)
+					s.logger.Debug().Int("sequence", sequence).Str("hash", hash).Msg("rdp message")
+
 					reader := bytes.NewReader(b)
 					pdu, err := s.UnwrapTPDUHeader(reader)
 					if err != nil {
-						s.logger.Debug().Err(err).Int("sequence", sequence).Msg("rdp knock")
+						s.logger.Trace().Err(err).Int("sequence", sequence).Msg("rdp knock")
 						return
 					}
 					switch pdu.Code >> 4 {
 					case TPDU_CR:
 						neg, req, err := s.ReadNegotiationRequest(reader, pdu.Length)
 						if err != nil {
-							s.logger.Debug().Err(err).Int("sequence", sequence).Msg("rdp knock")
+							s.logger.Trace().Err(err).Int("sequence", sequence).Msg("rdp knock")
 							return
 						}
 
@@ -191,21 +201,14 @@ func (s *rdp) ServeTCP(ln net.Listener) error {
 							Flags:     req.Flags,
 							Type:      0x02,
 							Length2:   0x08,
-							Protocols: req.Protocols,
+							Protocols: 0x00000000,
 						}); err != nil {
-							s.logger.Debug().Err(err).Int("sequence", sequence).Msg("rdp knock")
+							s.logger.Trace().Err(err).Int("sequence", sequence).Msg("rdp knock")
 							return
 						}
 						conn.Write(buf.Bytes())
 					default:
 						fmt.Printf("\n%+v\n%+v\n\n", hdr, b)
-					}
-
-					// save session data
-					storeChan <- store.File{
-						Filename: mux.GetUUID() + "-" + strconv.Itoa(sequence),
-						Location: "sessions",
-						Data:     b,
 					}
 				}
 			}(conn)

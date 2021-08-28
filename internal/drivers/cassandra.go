@@ -3,12 +3,10 @@ package drivers
 import (
 	"log"
 	"net"
-	"strconv"
 	"time"
 
 	"github.com/antihax/gambit/internal/conman/gctx"
 	"github.com/antihax/gambit/internal/muxconn"
-	"github.com/antihax/gambit/internal/store"
 	"github.com/datastax/go-cassandra-native-protocol/client"
 	"github.com/datastax/go-cassandra-native-protocol/frame"
 	"github.com/datastax/go-cassandra-native-protocol/message"
@@ -99,13 +97,8 @@ func (s *cassandra) ServeTCP(ln net.Listener) error {
 							return
 						}
 					}
-
-					s.logger.Info().Str("opcode", in.Header.OpCode.String()).Int("sequence", sequence).Msg("cassandra opCode")
-					storeChan <- store.File{
-						Filename: mux.GetUUID() + "-" + strconv.Itoa(sequence),
-						Location: "sessions",
-						Data:     []byte(in.String()),
-					}
+					hash := StoreHash([]byte(in.String()), storeChan)
+					s.logger.Info().Str("opcode", in.Header.OpCode.String()).Int("sequence", sequence).Str("hash", hash).Msg("cassandra opCode")
 				}
 			}(c)
 		}

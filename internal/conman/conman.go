@@ -5,11 +5,9 @@ import (
 	"context"
 	"crypto/rand"
 	"crypto/rsa"
-	"crypto/sha1"
 	"crypto/tls"
 	"crypto/x509"
 	"crypto/x509/pkix"
-	"encoding/hex"
 	"encoding/pem"
 	"errors"
 	"fmt"
@@ -71,6 +69,11 @@ func NewConMan() (*ConnectionManager, error) {
 	}
 	zerolog.SetGlobalLevel(zerolog.Level(cfg.LogLevel))
 
+	suites := []uint16{}
+	for _, cipher := range append(tls.CipherSuites(), tls.InsecureCipherSuites()...) {
+		suites = append(suites, cipher.ID)
+	}
+
 	// setup the conman
 	s := &ConnectionManager{
 		tcpListeners: make(map[uint16]net.Listener),
@@ -80,7 +83,8 @@ func NewConMan() (*ConnectionManager, error) {
 		logger:       logger,
 		config:       cfg,
 		tlsConfig: tls.Config{
-			MinVersion: 0,
+			MinVersion:   0,
+			CipherSuites: suites,
 		},
 	}
 	fakeCert, err := s.fakeTLSCertificate()
@@ -371,9 +375,7 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	}
 
 	// get the hash of the first n bytes and tag the context
-	h := sha1.New()
-	h.Write(buf[:n])
-	hash := hex.EncodeToString(h.Sum(nil))
+	hash := drivers.GetHash(buf[:n])
 	muc.Context = context.WithValue(muc.Context, gctx.HashContextKey, hash)
 
 	// log the connection
