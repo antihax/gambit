@@ -19,6 +19,7 @@ package probe
 import (
 	"bytes"
 	"encoding/binary"
+	"errors"
 	"log"
 	"net"
 )
@@ -65,6 +66,10 @@ func (t *TCPPacket) Decode(pkt []byte) ([]byte, error) {
 	err := binary.Read(bytes.NewReader(pkt), binary.BigEndian, t)
 	if err != nil {
 		return nil, err
+	}
+
+	if t.DataOffset() > len(pkt) {
+		return nil, errors.New("packet is too small")
 	}
 
 	return pkt[t.DataOffset():], nil
