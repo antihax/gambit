@@ -42,6 +42,7 @@ type ConnectionManager struct {
 
 	// If we are saving raw entries, keep a list to save hitting fs
 	knownHashes sync.Map
+	lastAddress sync.Map
 	logger      zerolog.Logger
 	config      ConnectionManagerConfig
 	tlsConfig   tls.Config
@@ -173,7 +174,6 @@ func (s *ConnectionManager) CreateTCPListener(port uint16) (bool, error) {
 	}
 
 	// create a new listener if one does not already exist
-
 	if _, ok := s.tcpListeners[port]; !ok {
 		addr := fmt.Sprintf("%s:%d", address, port)
 		ln, err := net.Listen("tcp", addr)
@@ -182,11 +182,14 @@ func (s *ConnectionManager) CreateTCPListener(port uint16) (bool, error) {
 		}
 		s.tcpListeners[port] = ln
 
+		// handle the connections
 		go func() {
 			for {
-				conn, _ := ln.Accept()
-				wg.Add(1)
-				go s.handleConnection(conn, ln, &wg)
+				conn, err := ln.Accept()
+				if err == nil {
+					wg.Add(1)
+					go s.handleConnection(conn, ln, &wg)
+				}
 			}
 		}()
 
@@ -248,6 +251,16 @@ func (s *ConnectionManager) StartConning() {
 			}
 		}
 	}
+
+	ticker := time.NewTicker(60 * time.Second)
+	go func() {
+		for {
+			select {
+			case <-ticker.C:
+				s.clearBanlist()
+			}
+		}
+	}()
 
 	for {
 		// read max MTU if available
@@ -332,8 +345,30 @@ func (s *ConnectionManager) unwrapTLS(conn net.Conn) (*muxconn.MuxConn, []byte, 
 	return muc, buf, n, err
 }
 
+func (s *ConnectionManager) clearBanlist() {
+	s.lastAddress.Range(func(key interface{}, value interface{}) bool {
+		s.lastAddress.Delete(key)
+		return true
+	})
+}
+
 func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, wg *sync.WaitGroup) {
 	defer wg.Done()
+
+	// Ban hammers
+	if addr, ok := conn.RemoteAddr().(*net.TCPAddr); ok {
+		var c int
+		count, ok := s.lastAddress.Load(addr.IP.String())
+		if ok {
+			if count.(int) > s.config.BanCount {
+				conn.Close()
+				return
+			}
+			c = count.(int)
+			c++
+		}
+		s.lastAddress.Store(addr.IP.String(), c)
+	}
 
 	// create our sniffer
 	muc := muxconn.NewMuxConn(s.RootContext, conn)
