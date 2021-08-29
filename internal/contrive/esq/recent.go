@@ -7,6 +7,9 @@ import (
 func (e *ESQ) Recent() ([]GambitFrame, error) {
 	hits, _, err := e.Search(
 		map[string]interface{}{
+			"sort": []interface{}{
+				map[string]interface{}{"@timestamp": map[string]interface{}{"order": "desc", "unmapped_type": "boolean"}},
+			},
 			"fields": []interface{}{
 				map[string]interface{}{"field": "@timestamp", "format": "strict_date_optional_time"},
 				"gambit.*",
@@ -14,7 +17,7 @@ func (e *ESQ) Recent() ([]GambitFrame, error) {
 			"query": map[string]interface{}{
 				"bool": map[string]interface{}{
 					"filter": []interface{}{
-						map[string]interface{}{"range": map[string]interface{}{"@timestamp": map[string]interface{}{"gte": "now-4h", "format": "strict_date_optional_time"}}},
+						map[string]interface{}{"range": map[string]interface{}{"@timestamp": map[string]interface{}{"gte": "now-8h", "format": "strict_date_optional_time"}}},
 						map[string]interface{}{"exists": map[string]interface{}{"field": "gambit.hash"}},
 					},
 				},

@@ -8,6 +8,7 @@ type GambitFrame struct {
 	Dstport   []string    `json:"gambit.dstport,omitempty"`
 	Error     []string    `json:"gambit.error,omitempty"`
 	Hash      []string    `json:"gambit.hash,omitempty"`
+	PHash     []string    `json:"gambit.phash,omitempty"`
 	Level     []string    `json:"gambit.level,omitempty"`
 	Message   []string    `json:"gambit.message,omitempty"`
 	TLSUnwrap []bool      `json:"gambit.tlsunwrap,omitempty"`

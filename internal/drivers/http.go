@@ -113,7 +113,7 @@ func (s *httpd) logger(next http.Handler) http.Handler {
 		}
 
 		hash := StoreHash(b, storeChan)
-		attacklog.Info().Str("url", r.URL.Path).Int("sequence", sequence).Str("hash", hash).Msg("URL")
+		attacklog.Info().Str("url", r.URL.Path).Int("sequence", sequence).Str("phash", hash).Msg("URL")
 		next.ServeHTTP(w, r)
 	})
 }

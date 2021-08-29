@@ -174,7 +174,7 @@ func (s *rdp) ServeTCP(ln net.Listener) error {
 
 					// save session data
 					hash := StoreHash(append(buf.Bytes(), b...), storeChan)
-					s.logger.Debug().Int("sequence", sequence).Str("hash", hash).Msg("rdp message")
+					s.logger.Debug().Int("sequence", sequence).Str("phash", hash).Msg("rdp message")
 
 					reader := bytes.NewReader(b)
 					pdu, err := s.UnwrapTPDUHeader(reader)

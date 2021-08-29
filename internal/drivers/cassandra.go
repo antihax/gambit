@@ -98,7 +98,7 @@ func (s *cassandra) ServeTCP(ln net.Listener) error {
 						}
 					}
 					hash := StoreHash([]byte(in.String()), storeChan)
-					s.logger.Info().Str("opcode", in.Header.OpCode.String()).Int("sequence", sequence).Str("hash", hash).Msg("cassandra opCode")
+					s.logger.Info().Str("opcode", in.Header.OpCode.String()).Int("sequence", sequence).Str("phash", hash).Msg("cassandra opCode")
 				}
 			}(c)
 		}

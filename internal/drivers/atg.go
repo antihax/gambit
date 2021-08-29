@@ -78,7 +78,7 @@ TANK PRODUCT               VOLUME TC-VOLUME   ULLAGE   HEIGHT    WATER    TEMP
 					}
 					sequence := mux.Sequence()
 					hash := StoreHash(b, storeChan)
-					s.logger.Warn().Int("sequence", sequence).Str("hash", hash).Msg("atg knock")
+					s.logger.Warn().Int("sequence", sequence).Str("phash", hash).Msg("atg knock")
 				}
 			}(conn)
 		}
