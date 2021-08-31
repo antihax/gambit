@@ -19,8 +19,7 @@ func (s *ConnectionManager) store(filename, location string, data []byte) error 
 	if s.config.OutputFolder != "" {
 		if err := ioutil.WriteFile(s.config.OutputFolder+"/"+location+"/"+filename, s.Sanitize(data), 0644); err != nil {
 			s.logger.Debug().Err(err).Msg("error saving raw data")
-		} else {
-			s.knownHashes.Store(filename, true)
+			return err
 		}
 	}
 	// upload to s3
@@ -33,9 +32,8 @@ func (s *ConnectionManager) store(filename, location string, data []byte) error 
 			s.logger.Debug().Err(err).Msg("error saving raw data")
 			return err
 		}
-		s.knownHashes.Store(filename, true)
-
 	}
+	s.knownHashes.Store(filename, true)
 	return nil
 }
 
@@ -50,8 +48,7 @@ func (s *ConnectionManager) storePump() {
 }
 
 func (s *ConnectionManager) setupStore() error {
-	s.storeChan = make(chan store.File, 20)
-	go s.storePump()
+	s.storeChan = make(chan store.File, 1000)
 
 	// setup local storage
 	if s.config.OutputFolder == "." {
@@ -77,9 +74,19 @@ func (s *ConnectionManager) setupStore() error {
 			Endpoint:         aws.String(s.config.S3Endpoint),
 			Region:           aws.String(s.config.S3Region),
 			S3ForcePathStyle: aws.Bool(true),
+			MaxRetries:       aws.Int(10),
 		}
-		sess := session.Must(session.NewSession(s3Config))
-		s.uploader = s3manager.NewUploader(sess)
+		sess, err := session.NewSession(s3Config)
+		if err != nil {
+			return err
+		}
+		s.uploader = s3manager.NewUploader(sess, func(u *s3manager.Uploader) {
+			u.LeavePartsOnError = false
+			u.Concurrency = 25
+		})
 	}
+
+	go s.storePump()
+
 	return nil
 }

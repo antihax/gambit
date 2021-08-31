@@ -202,7 +202,7 @@ func (s *ConnectionManager) CreateTCPListener(port uint16) (bool, error) {
 // NewProxy provides a fake net.Listener
 func (s *ConnectionManager) NewProxy() net.Listener {
 	ml := muxconn.MuxListener{
-		ConnCh: make(chan net.Conn, 1500),
+		ConnCh: make(chan net.Conn, 40000),
 	}
 	return ml
 }
