@@ -46,6 +46,13 @@
                     }
                 },
                 { data: "sequence", defaultContent: "-", title: "s#", width: "2em" },
+                {
+                    data: "phash", defaultContent: "-", title: "hash", width: "15em",
+                    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                        $(nTd).html("<a href='/hash/" + oData.phash + "'>" + oData.phash + "</a>");
+                    }
+                }
+                ,
                 { data: "attacker", title: "ip", width: "7em" },
                 { data: "dstport", title: "port", width: "5em" },
             ]

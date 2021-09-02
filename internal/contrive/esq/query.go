@@ -11,6 +11,7 @@ func (e *ESQ) Search(query map[string]interface{}, limit int) ([]*json.RawMessag
 	if err := json.NewEncoder(&buf).Encode(query); err != nil {
 		return nil, nil, err
 	}
+
 	return e.SearchStr(buf.String(), limit)
 }
 

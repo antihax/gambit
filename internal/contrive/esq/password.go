@@ -20,25 +20,39 @@ type RecentPasswords struct {
 }
 
 func (e *ESQ) PasswordList() ([]GambitFrame, error) {
-	hits, _, err := e.Search(
-		map[string]interface{}{
-			"fields": []interface{}{
-				map[string]interface{}{"field": "@timestamp"},
-				"gambit.attacker",
-				"gambit.driver",
-				"gambit.dstport",
-				"gambit.password",
-				"gambit.user",
-			},
-			"query": map[string]interface{}{
-				"bool": map[string]interface{}{
-					"filter": []interface{}{
-						map[string]interface{}{"range": map[string]interface{}{"@timestamp": map[string]interface{}{"gte": "now-30d", "format": "strict_date_optional_time"}}},
-						map[string]interface{}{"exists": map[string]interface{}{"field": "gambit.password"}},
-					},
-				},
-			},
-		}, 10000)
+	hits, _, err := e.SearchStr(`
+	{
+		"fields":[
+		   {
+			  "field":"@timestamp"
+		   },
+		   "gambit.attacker",
+		   "gambit.driver",
+		   "gambit.dstport",
+		   "gambit.password",
+		   "gambit.user"
+		],
+		"query":{
+		   "bool":{
+			  "filter":[
+				 {
+					"range":{
+					   "@timestamp":{
+						  "format":"strict_date_optional_time",
+						  "gte":"now-30d"
+					   }
+					}
+				 },
+				 {
+					"exists":{
+					   "field":"gambit.password"
+					}
+				 }
+			  ]
+		   }
+		}
+	 }
+	`, 10000)
 	if err != nil {
 		return nil, err
 	}

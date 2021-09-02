@@ -5,24 +5,45 @@ import (
 )
 
 func (e *ESQ) Recent() ([]GambitFrame, error) {
-	hits, _, err := e.Search(
-		map[string]interface{}{
-			"sort": []interface{}{
-				map[string]interface{}{"@timestamp": map[string]interface{}{"order": "desc", "unmapped_type": "boolean"}},
-			},
-			"fields": []interface{}{
-				map[string]interface{}{"field": "@timestamp", "format": "strict_date_optional_time"},
-				"gambit.*",
-			},
-			"query": map[string]interface{}{
-				"bool": map[string]interface{}{
-					"filter": []interface{}{
-						map[string]interface{}{"range": map[string]interface{}{"@timestamp": map[string]interface{}{"gte": "now-8h", "format": "strict_date_optional_time"}}},
-						map[string]interface{}{"exists": map[string]interface{}{"field": "gambit.hash"}},
-					},
-				},
-			},
-		}, 10000)
+	hits, _, err := e.SearchStr(`
+	{
+		"fields":[
+		   {
+			  "field":"@timestamp",
+			  "format":"strict_date_optional_time"
+		   },
+		   "gambit.*"
+		],
+		"query":{
+		   "bool":{
+			  "filter":[
+				 {
+					"range":{
+					   "@timestamp":{
+						  "format":"strict_date_optional_time",
+						  "gte":"now-8h"
+					   }
+					}
+				 },
+				 {
+					"exists":{
+					   "field":"gambit.hash"
+					}
+				 }
+			  ]
+		   }
+		},
+		"sort":[
+		   {
+			  "@timestamp":{
+				 "order":"desc",
+				 "unmapped_type":"boolean"
+			  }
+		   }
+		]
+	 }
+	`, 5000)
+
 	if err != nil {
 		return nil, err
 	}
@@ -40,21 +61,35 @@ func (e *ESQ) Recent() ([]GambitFrame, error) {
 }
 
 func (e *ESQ) RecentWS() ([]GambitFrame, error) {
-	hits, _, err := e.Search(
-		map[string]interface{}{
-			"fields": []interface{}{
-				map[string]interface{}{"field": "@timestamp", "format": "strict_date_optional_time"},
-				"gambit.*",
-			},
-			"query": map[string]interface{}{
-				"bool": map[string]interface{}{
-					"filter": []interface{}{
-						map[string]interface{}{"range": map[string]interface{}{"@timestamp": map[string]interface{}{"gte": "now-5s", "format": "strict_date_optional_time"}}},
-						map[string]interface{}{"exists": map[string]interface{}{"field": "gambit.hash"}},
-					},
-				},
-			},
-		}, 100)
+	hits, _, err := e.SearchStr(`
+		{
+			"fields":[
+			   {
+				  "field":"@timestamp",
+				  "format":"strict_date_optional_time"
+			   },
+			   "gambit.*"
+			],
+			"query":{
+			   "bool":{
+				  "filter":[
+					 {
+						"range":{
+						   "@timestamp":{
+							  "format":"strict_date_optional_time",
+							  "gte":"now-1s"
+						   }
+						}
+					 },
+					 {
+						"exists":{
+						   "field":"gambit.hash"
+						}
+					 }
+				  ]
+			   }
+			}
+		 }`, 100)
 	if err != nil {
 		return nil, err
 	}
