@@ -51,7 +51,7 @@ kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/downlo
 kubectl apply -f https://download.elastic.co/downloads/eck/1.7.1/all-in-one.yaml
 
 # hetzner volumes
-kubectl apply -f https://raw.githubusercontent.com/hetznercloud/csi-driver/v1.5.1/deploy/kubernetes/hcloud-csi.yml
+kubectl apply -f https://raw.githubusercontent.com/hetznercloud/csi-driver/v1.6.0/deploy/kubernetes/hcloud-csi.yml
 
 # create namespace
 kubectl apply -f gambit.yaml

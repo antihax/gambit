@@ -7,7 +7,7 @@ spec:
   version: 7.13.3
   nodeSets:
     - name: store
-      count: 1
+      count: 2
       config:
         node.store.allow_mmap: false
         stack.templates.enabled: false
