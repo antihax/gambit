@@ -1,0 +1,40 @@
+{{define "head"}}
+
+<script>
+    $.getJSON("/api/unknowns", function (data) {
+        if (data.length == 0) {
+            $('#unknowns_card').remove()
+            return;
+        } $('#unknowns').DataTable({
+            data: data,
+            scrollY: "400px",
+            scrollCollapse: true,
+            searching: false,
+            bSort: false,
+            bInfo: false,
+            ordering: false,
+            paging: false,
+            columns: [
+                {
+                    data: "key", title: "hash", width: "17em",
+                    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                        $(nTd).html("<a href='/hash/" + oData.key + "'>" + oData.key + "</a>");
+                    }
+                },
+                { data: "doc_count", title: "count", width: "7em" },
+            ]
+        })
+    })
+</script>
+{{end}}
+
+{{define "body"}}
+<div class="container">
+    <div class="row">
+        <div id="unknowns_card" class="col-md-2 fit-content card">
+            <h4>Unknown Packets</h1>
+                <table id="unknowns"></table>
+        </div>
+    </div>
+</div>
+{{end}}
