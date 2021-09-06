@@ -52,7 +52,8 @@ func (s *TCP) Patterns() [][]byte {
 func doBothInterface(t *testing.T, handle Driver) {
 	udp, ok := handle.(UDPDriver)
 	if assert.True(t, ok) {
-		assert.Nil(t, udp.ServeUDP(nil))
+		_, err := udp.ServeUDP(nil)
+		assert.Nil(t, err)
 	}
 	tcp, ok := handle.(TCPDriver)
 	if assert.True(t, ok) {
@@ -68,7 +69,8 @@ func doBothInterface(t *testing.T, handle Driver) {
 func doUDPInterface(t *testing.T, handle Driver) {
 	udp, ok := handle.(UDPDriver)
 	if assert.True(t, ok) {
-		assert.Nil(t, udp.ServeUDP(nil))
+		_, err := udp.ServeUDP(nil)
+		assert.Nil(t, err)
 	}
 	_, ok = handle.(TCPDriver)
 	assert.False(t, ok)

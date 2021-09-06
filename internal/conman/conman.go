@@ -2,6 +2,7 @@
 package conman
 
 import (
+	"bytes"
 	"context"
 	"crypto/rand"
 	"crypto/rsa"
@@ -28,6 +29,7 @@ import (
 	"github.com/antihax/gambit/pkg/searchtree"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	fake "github.com/brianvoe/gofakeit/v6"
+	"github.com/lunixbochs/struc"
 	"github.com/rs/zerolog"
 	"github.com/sethvargo/go-envconfig"
 )
@@ -36,7 +38,8 @@ import (
 type ConnectionManager struct {
 	tcpListeners map[uint16]net.Listener
 	doneCh       chan struct{}
-	rules        searchtree.Tree
+	tcpRules     searchtree.Tree
+	udpRules     searchtree.Tree
 	banners      map[uint16][]byte
 	addresses    []net.IP
 
@@ -79,12 +82,13 @@ func NewConMan() (*ConnectionManager, error) {
 	s := &ConnectionManager{
 		tcpListeners: make(map[uint16]net.Listener),
 		doneCh:       make(chan struct{}),
-		rules:        searchtree.NewTree(),
+		tcpRules:     searchtree.NewTree(),
+		udpRules:     searchtree.NewTree(),
 		banners:      make(map[uint16][]byte),
 		logger:       logger,
 		config:       cfg,
 		tlsConfig: tls.Config{
-			MinVersion:   0,
+			MinVersion:   tls.VersionSSL30,
 			CipherSuites: suites,
 		},
 	}
@@ -136,6 +140,10 @@ func NewConMan() (*ConnectionManager, error) {
 			conn := s.NewProxy()
 			go handler.ServeTCP(conn)
 			s.NewTCPDriver(d.Patterns(), conn.(muxconn.MuxListener))
+		}
+
+		if handler, ok := d.(drivers.UDPDriver); ok {
+			s.NewUDPDriver(d.Patterns(), handler.ServeUDP)
 		}
 
 		// copy the banners to a map
@@ -210,7 +218,13 @@ func (s *ConnectionManager) NewProxy() net.Listener {
 // NewTCPDriver adds a driver to ConMan
 func (s *ConnectionManager) NewTCPDriver(rules [][]byte, driver muxconn.MuxListener) {
 	for _, rule := range rules {
-		s.rules.Insert(rule, driver)
+		s.tcpRules.Insert(rule, driver)
+	}
+}
+
+func (s *ConnectionManager) NewUDPDriver(rules [][]byte, driver drivers.UDPFunc) {
+	for _, rule := range rules {
+		s.udpRules.Insert(rule, driver)
 	}
 }
 
@@ -240,18 +254,7 @@ func (s *ConnectionManager) timeoutConnection(ctx context.Context, muc *muxconn.
 	}
 }
 
-func (s *ConnectionManager) StartConning() {
-	conn, _ := net.ListenIP("ip4:tcp", nil)
-	// prelisten everything
-	if s.config.Preload > 0 {
-		for i := uint16(1); i < s.config.Preload; i++ {
-			_, err := s.CreateTCPListener(i)
-			if err != nil {
-				s.logger.Trace().Err(err).Msg("creating socket")
-			}
-		}
-	}
-
+func (s *ConnectionManager) banListManager() {
 	ticker := time.NewTicker(60 * time.Second)
 	go func() {
 		for {
@@ -261,30 +264,121 @@ func (s *ConnectionManager) StartConning() {
 			}
 		}
 	}()
+}
 
-	for {
-		// read max MTU if available
-		buf := make([]byte, 1500)
-		n, addr, err := conn.ReadFrom(buf)
-		if err != nil { // get out if we error
-			s.logger.Trace().Err(err).
-				Str("address", addr.String()).
-				Msg("reading socket")
-			continue
-		}
-
-		pkt := &probe.TCPPacket{}
-		pkt.Decode(buf[:n])
-		if pkt.Flags&probe.SYN != 0 {
-			known, err := s.CreateTCPListener(pkt.DestPort)
+func (s *ConnectionManager) preloadTCPListeners() {
+	// prelisten everything
+	if s.config.Preload > 0 {
+		for i := uint16(1); i < s.config.Preload; i++ {
+			_, err := s.CreateTCPListener(i)
 			if err != nil {
-				// Ignore the error because it just wont shut up
 				s.logger.Trace().Err(err).Msg("creating socket")
 			}
-			if !known {
-				s.logger.Trace().Msgf("started tcp server: %v", pkt.DestPort)
+		}
+	}
+}
+
+func (s *ConnectionManager) tcpManager() {
+	conn, _ := net.ListenIP("ip4:tcp", nil)
+	go func() {
+		for {
+			// read max MTU if available
+			buf := make([]byte, 1500)
+			n, addr, err := conn.ReadFrom(buf)
+			if err != nil { // get out if we error
+				s.logger.Trace().Err(err).
+					Str("network", "tcp").
+					Str("address", addr.String()).
+					Msg("reading socket")
+				continue
+			}
+
+			pkt := &probe.TCPPacket{}
+			pkt.Decode(buf[:n])
+			if pkt.Flags&probe.SYN != 0 {
+				known, err := s.CreateTCPListener(pkt.DestPort)
+				if err != nil {
+					// Ignore the error because it just wont shut up
+					s.logger.Trace().Err(err).Msg("creating socket")
+				}
+				if !known {
+					s.logger.Trace().Msgf("started tcp server: %v", pkt.DestPort)
+				}
 			}
 		}
+	}()
+}
+
+type UDPHeader struct {
+	Source      uint16
+	Destination uint16
+	Length      uint16
+	Checksum    uint16
+}
+
+func (s *ConnectionManager) udpManager() {
+	conn, err := net.ListenIP("ip4:udp", nil)
+	if err != nil {
+		panic(err)
+	}
+	go func() {
+		for {
+			// read max MTU if available
+			buf := make([]byte, 1500)
+			n, addr, err := conn.ReadFrom(buf)
+			if err != nil {
+				continue
+			}
+
+			var ip net.IP
+			switch v := addr.(type) {
+			case *net.IPNet:
+				ip = v.IP
+			case *net.IPAddr:
+				ip = v.IP
+			}
+			if privateIP(ip) {
+				continue
+			}
+
+			reader := bytes.NewReader(buf)
+			header := UDPHeader{}
+
+			struc.Unpack(reader, &header)
+			if s.config.PortIgnored(header.Destination) {
+				continue
+			}
+			// see if we match a rule and transfer the connection to the driver
+
+			hash := drivers.StoreHash(buf[8:n], s.storeChan)
+
+			attacklog := s.logger.With().
+				Bool("tlsunwrap", false).
+				Str("network", "udp").
+				Str("attacker", ip.String()).
+				Str("dstport", strconv.Itoa(int(header.Destination))).
+				Str("hash", hash).Logger()
+
+			entry := s.udpRules.Match(buf[8:n])
+			if d, ok := entry.(drivers.UDPFunc); ok {
+				_, err = d(buf[8:n])
+				if err != nil {
+					continue
+				}
+			}
+
+			attacklog.Info().Msg("udp knock")
+		}
+	}()
+}
+
+func (s *ConnectionManager) StartConning() {
+	s.preloadTCPListeners()
+	s.banListManager()
+	s.tcpManager()
+	s.udpManager()
+	for range s.doneCh {
+		return
 	}
 }
 
@@ -336,7 +430,8 @@ func (s *ConnectionManager) unwrapTLS(conn net.Conn) (*muxconn.MuxConn, []byte, 
 	n, err := r.Read(buf)
 	if err != nil {
 		if err != io.EOF {
-			s.logger.Debug().Err(err).Msg("error unwrapping tls")
+			s.logger.Debug().Str("network", "tcp").
+				Err(err).Msg("error unwrapping tls")
 			muc.DoneSniffing()
 			return nil, nil, 0, err
 		}
@@ -389,7 +484,9 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	n, err := r.Read(buf)
 	if err != nil {
 		if err != io.EOF {
-			s.logger.Debug().Err(err).Msg("error reading from sniffer")
+			s.logger.Debug().Err(err).
+				Str("network", "tcp").
+				Msg("error reading from sniffer")
 			muc.Close()
 		}
 	}
@@ -414,7 +511,7 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	muc.Context = context.WithValue(muc.Context, gctx.HashContextKey, hash)
 
 	// log the connection
-	attacklog := gctx.GetLoggerFromContext(muc.Context).With().Bool("tlsunwrap", tlsUnwrap).Str("attacker", ip).Str("uuid", muc.GetUUID()).Str("dstport", port).Str("hash", hash).Logger()
+	attacklog := gctx.GetLoggerFromContext(muc.Context).With().Bool("tlsunwrap", tlsUnwrap).Str("network", "tcp").Str("attacker", ip).Str("uuid", muc.GetUUID()).Str("dstport", port).Str("hash", hash).Logger()
 	muc.Context = context.WithValue(muc.Context, gctx.LoggerContextKey, attacklog)
 	attacklog.Trace().Msgf("tcp knock")
 
@@ -426,7 +523,7 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	}
 
 	// see if we match a rule and transfer the connection to the driver
-	entry := s.rules.Match(buf)
+	entry := s.tcpRules.Match(buf)
 
 	// stop sniffing and pass to the driver listener
 	muc.DoneSniffing()

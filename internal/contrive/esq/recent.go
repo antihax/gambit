@@ -77,7 +77,7 @@ func (e *ESQ) RecentWS() ([]GambitFrame, error) {
 						"range":{
 						   "@timestamp":{
 							  "format":"strict_date_optional_time",
-							  "gte":"now-1s"
+							  "gte":"now-5s"
 						   }
 						}
 					 },

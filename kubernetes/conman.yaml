@@ -20,6 +20,8 @@ spec:
         - name: conman
           image: antihax/gambit-conman:latest
           env:
+            - name: CONMAN_IGNORE_PORTS
+              value: "44,6784,6783"          
             - name: CONMAN_SYSLOG_NETWORK
               value: "udp"
             - name: CONMAN_SYSLOG_ADDRESS

@@ -9,6 +9,7 @@ type GambitFrame struct {
 	Error     []string    `json:"gambit.error,omitempty"`
 	Hash      []string    `json:"gambit.hash,omitempty"`
 	PHash     []string    `json:"gambit.phash,omitempty"`
+	Network   []string    `json:"gambit.network,omitempty"`
 	Level     []string    `json:"gambit.level,omitempty"`
 	Message   []string    `json:"gambit.message,omitempty"`
 	TLSUnwrap []bool      `json:"gambit.tlsunwrap,omitempty"`
