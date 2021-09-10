@@ -43,7 +43,11 @@ func (s *Tree) Match(data []byte) interface{} {
 	var lastSuccess interface{}
 
 	// Search the first 25 bytes for matches
-	for i := 0; i < 25; i++ {
+	l := len(data)
+	if l > 25 {
+		l = 25
+	}
+	for i := 0; i < l; i++ {
 		lastNode := s.Node
 
 		for _, b := range data[i:] {
