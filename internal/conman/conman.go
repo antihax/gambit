@@ -432,7 +432,7 @@ func (s *ConnectionManager) unwrapTLS(conn net.Conn) (*muxconn.MuxConn, []byte, 
 		if err != io.EOF {
 			s.logger.Debug().Str("network", "tcp").
 				Err(err).Msg("error unwrapping tls")
-			muc.DoneSniffing()
+			muc.Reset()
 			return nil, nil, 0, err
 		}
 	}
@@ -505,7 +505,7 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 			tlsUnwrap = true
 		}
 	}
-
+	muc.Reset()
 	// get the hash of the first n bytes and tag the context
 	hash := drivers.GetHash(buf[:n])
 	muc.Context = context.WithValue(muc.Context, gctx.HashContextKey, hash)
@@ -526,7 +526,7 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	entry := s.tcpRules.Match(buf)
 
 	// stop sniffing and pass to the driver listener
-	muc.DoneSniffing()
+	muc.Reset()
 	ln, ok := entry.(muxconn.MuxListener)
 	if ok {
 		// hack in the source listener

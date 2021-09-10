@@ -65,22 +65,22 @@ TANK PRODUCT               VOLUME TC-VOLUME   ULLAGE   HEIGHT    WATER    TEMP
 				fake.Phone(),
 			)))
 
-			go func(conn net.Conn) {
+			go func(conn *muxconn.MuxConn) {
 				defer conn.Close()
 				reader := bufio.NewReader(conn)
 				tp := textproto.NewReader(reader)
 				for {
 					conn.SetDeadline(time.Now().Add(time.Second * 5))
-					b, err := tp.ReadLineBytes()
+					_, err := tp.ReadLineBytes()
 					if err != nil {
 						s.logger.Trace().Err(err).Msg("failed")
 						return
 					}
 					sequence := mux.Sequence()
-					hash := StoreHash(b, storeChan)
+					hash := StoreHash(conn.Snapshot(), storeChan)
 					s.logger.Warn().Int("sequence", sequence).Str("phash", hash).Msg("atg knock")
 				}
-			}(conn)
+			}(mux)
 		}
 	}
 }

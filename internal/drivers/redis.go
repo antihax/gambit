@@ -39,9 +39,9 @@ func (s *redis) ServeTCP(ln net.Listener) error {
 		}
 		if mux, ok := c.(*muxconn.MuxConn); ok {
 			s.logger = gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "redis").Logger()
-			//storeChan := gctx.GetStoreFromContext(mux.Context)
+			storeChan := gctx.GetStoreFromContext(mux.Context)
 
-			go func(conn net.Conn) {
+			go func(conn *muxconn.MuxConn) {
 				parser := redisproto.NewParser(conn)
 				writer := redisproto.NewWriter(bufio.NewWriter(conn))
 				for {
@@ -69,8 +69,11 @@ func (s *redis) ServeTCP(ln net.Listener) error {
 					if command.IsLast() {
 						writer.Flush()
 					}
+
+					hash := StoreHash(conn.Snapshot(), storeChan)
+					s.logger.Warn().Int("sequence", sequence).Str("phash", hash).Msg("redis knock")
 				}
-			}(c)
+			}(mux)
 		}
 	}
 }

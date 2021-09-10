@@ -156,7 +156,7 @@ func (s *rdp) ServeTCP(ln net.Listener) error {
 			s.logger = gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "rdp").Logger()
 			storeChan := gctx.GetStoreFromContext(mux.Context)
 
-			go func(conn net.Conn) {
+			go func(conn *muxconn.MuxConn) {
 				defer conn.Close()
 				for {
 					conn.SetDeadline(time.Now().Add(time.Second * 5))
@@ -168,12 +168,9 @@ func (s *rdp) ServeTCP(ln net.Listener) error {
 						return
 					}
 
-					// repack the header... [TODO] this better
-					var buf bytes.Buffer
-					struc.Pack(&buf, hdr)
-
 					// save session data
-					hash := StoreHash(append(buf.Bytes(), b...), storeChan)
+					hash := StoreHash(conn.Snapshot(), storeChan)
+
 					s.logger.Debug().Int("sequence", sequence).Str("phash", hash).Msg("rdp message")
 
 					reader := bytes.NewReader(b)
@@ -211,7 +208,7 @@ func (s *rdp) ServeTCP(ln net.Listener) error {
 						fmt.Printf("\n%+v\n%+v\n\n", hdr, b)
 					}
 				}
-			}(conn)
+			}(mux)
 		}
 	}
 }

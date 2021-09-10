@@ -25,12 +25,13 @@ import (
 // ```
 // without allocating.
 type BufferedReader struct {
-	source     io.Reader
-	buffer     bytes.Buffer
-	bufferRead int
-	bufferSize int
-	sniffing   bool
-	lastErr    error
+	source        io.Reader
+	buffer        bytes.Buffer
+	bufferRead    int
+	bufferWritten int
+	bufferSize    int
+	sniffing      bool
+	lastErr       error
 }
 
 func (s *BufferedReader) Read(p []byte) (int, error) {
@@ -52,6 +53,7 @@ func (s *BufferedReader) Read(p []byte) (int, error) {
 	// source.
 	sn, sErr := s.source.Read(p)
 	if sn > 0 && s.sniffing {
+		s.bufferWritten += sn
 		s.lastErr = sErr
 		if wn, wErr := s.buffer.Write(p[:sn]); wErr != nil {
 			return wn, wErr
@@ -60,8 +62,20 @@ func (s *BufferedReader) Read(p []byte) (int, error) {
 	return sn, sErr
 }
 
-func (s *BufferedReader) reset(sniff bool) {
+// Reset the counters
+func (s *BufferedReader) Reset(sniff bool) {
 	s.sniffing = sniff
 	s.bufferRead = 0
 	s.bufferSize = s.buffer.Len()
+}
+
+// Snapshot, return and clear the sniffed bufffer
+func (s *BufferedReader) Snapshot() []byte {
+	p := make([]byte, s.bufferWritten)
+	copy(p, s.buffer.Bytes()[:s.bufferWritten])
+	s.bufferRead = 0
+	s.bufferSize = 0
+	s.bufferWritten = 0
+	s.buffer = bytes.Buffer{}
+	return p
 }

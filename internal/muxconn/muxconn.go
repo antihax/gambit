@@ -68,8 +68,6 @@ func NewMuxConn(ctx context.Context, c net.Conn) *MuxConn {
 	}
 }
 
-// From the io.Reader documentation:
-//
 // When Read encounters an error or end-of-file condition after
 // successfully reading n > 0 bytes, it returns the number of
 // bytes read.  It may return the (non-nil) error from the same call
@@ -94,10 +92,18 @@ func (m *MuxConn) Sequence() int {
 }
 
 func (m *MuxConn) StartSniffing() io.Reader {
-	m.buf.reset(true)
+	m.buf.Reset(true)
 	return &m.buf
 }
 
+func (m *MuxConn) Reset() {
+	m.buf.Reset(true)
+}
+
 func (m *MuxConn) DoneSniffing() {
-	m.buf.reset(false)
+	m.buf.Reset(false)
+}
+
+func (m *MuxConn) Snapshot() []byte {
+	return m.buf.Snapshot()
 }

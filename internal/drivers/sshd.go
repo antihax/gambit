@@ -52,7 +52,6 @@ func (s *sshd) ServeTCP(ln net.Listener) error {
 	for {
 		c, err := ln.Accept()
 		if err != nil {
-			log.Println("failed accept")
 			return err
 		}
 		if mux, ok := c.(*muxconn.MuxConn); ok {

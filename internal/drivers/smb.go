@@ -58,51 +58,56 @@ func (s *smb) ServeTCP(ln net.Listener) error {
 		}
 		if mux, ok := conn.(*muxconn.MuxConn); ok {
 			s.logger = gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "smb").Logger()
-		}
-		go func(conn net.Conn) {
-			defer conn.Close()
-			for {
-				conn.SetDeadline(time.Now().Add(time.Second * 5))
-				var size uint32
-				hdr := &smb_HeaderV1{}
+			storeChan := gctx.GetStoreFromContext(mux.Context)
 
-				// Get the whole message
-				struc.Unpack(conn, &size)
-				b := make([]byte, size)
-				struc.Unpack(conn, &b)
+			go func(conn *muxconn.MuxConn) {
+				defer conn.Close()
+				for {
+					conn.SetDeadline(time.Now().Add(time.Second * 5))
+					var size uint32
+					hdr := &smb_HeaderV1{}
 
-				buf := bytes.NewReader(b)
+					// Get the whole message
+					struc.Unpack(conn, &size)
+					b := make([]byte, size)
+					struc.Unpack(conn, &b)
 
-				// Get the header
-				struc.Unpack(buf, hdr)
+					buf := bytes.NewReader(b)
 
-				switch hdr.Command {
-				case CommandNegotiate:
-					r := &smb_NegotiateRespV1{
-						SecurityMode:    0x2,
-						DialectRevision: 0x0202,
+					// Get the header
+					struc.Unpack(buf, hdr)
+
+					switch hdr.Command {
+					case CommandNegotiate:
+						r := &smb_NegotiateRespV1{
+							SecurityMode:    0x2,
+							DialectRevision: 0x0202,
+						}
+						r.Command = CommandNegotiate
+
+						struc.Pack(conn, uint32(unsafe.Sizeof(r)))
+						struc.Pack(conn, r)
+
+					case CommandSessionSetup:
+						r := &smb_NegotiateRespV1{}
+						r.Command = CommandSessionSetup
+						struc.Pack(conn, uint32(unsafe.Sizeof(r)))
+						struc.Pack(conn, r)
+
+					case CommandTreeConnect:
+						r := &smb_NegotiateRespV1{}
+						r.Command = CommandTreeConnect
+						struc.Pack(conn, uint32(unsafe.Sizeof(r)))
+						struc.Pack(conn, r)
+					default: // Byeeeeeeeeeeeee
+						return
 					}
-					r.Command = CommandNegotiate
-
-					struc.Pack(conn, uint32(unsafe.Sizeof(r)))
-					struc.Pack(conn, r)
-
-				case CommandSessionSetup:
-					r := &smb_NegotiateRespV1{}
-					r.Command = CommandSessionSetup
-					struc.Pack(conn, uint32(unsafe.Sizeof(r)))
-					struc.Pack(conn, r)
-
-				case CommandTreeConnect:
-					r := &smb_NegotiateRespV1{}
-					r.Command = CommandTreeConnect
-					struc.Pack(conn, uint32(unsafe.Sizeof(r)))
-					struc.Pack(conn, r)
-				default: // Byeeeeeeeeeeeee
-					return
+					sequence := conn.Sequence()
+					hash := StoreHash(conn.Snapshot(), storeChan)
+					s.logger.Debug().Int("sequence", sequence).Str("phash", hash).Msg("smb knock")
 				}
-			}
-		}(conn)
+			}(mux)
+		}
 	}
 }
 

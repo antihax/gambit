@@ -1,7 +1,6 @@
 package drivers
 
 import (
-	"bytes"
 	"fmt"
 	"log"
 	"net"
@@ -40,7 +39,7 @@ func (s *mikrotikRouterOS) ServeTCP(ln net.Listener) error {
 			s.logger = gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "mikrotik").Logger()
 			storeChan := gctx.GetStoreFromContext(mux.Context)
 
-			go func(conn net.Conn) {
+			go func(conn *muxconn.MuxConn) {
 				defer conn.Close()
 				conn.SetDeadline(time.Now().Add(time.Second * 5))
 				sequence := mux.Sequence()
@@ -51,15 +50,12 @@ func (s *mikrotikRouterOS) ServeTCP(ln net.Listener) error {
 						fmt.Printf("err %+v\n", err)
 						return
 					}
-					// repack the header... [TODO] this better
-					var buf bytes.Buffer
-					struc.Pack(&buf, hdr)
 
 					// save session data
-					hash := StoreHash(buf.Bytes(), storeChan)
+					hash := StoreHash(conn.Snapshot(), storeChan)
 					s.logger.Debug().Int("sequence", sequence).Str("phash", hash).Msg("Mikrotik RouterOS")
 				}
-			}(conn)
+			}(mux)
 		}
 	}
 }
