@@ -1,4 +1,7 @@
 FROM scratch
+
+USER contrive:contrive
+
 ADD bin/contrive /
 
 ADD internal/contrive/templates /templates
