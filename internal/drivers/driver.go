@@ -4,9 +4,6 @@ import "net"
 
 var drivers []Driver
 
-// [TODO] this will need to change for sequencing..
-type UDPFunc func(data []byte) ([]byte, error)
-
 // AddDriver adds a driver to the internal list
 func AddDriver(handler Driver) {
 	drivers = append(drivers, handler)
@@ -29,7 +26,7 @@ type TCPDriver interface {
 
 // UDPDriver handles UDP based aggressors after matching a sniff test
 type UDPDriver interface {
-	ServeUDP([]byte) ([]byte, error)
+	ServeUDP(ln net.Listener) error
 }
 
 // TCPBannerDriver provide optional information to send if an aggressor does not

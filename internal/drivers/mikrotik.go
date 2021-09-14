@@ -1,7 +1,6 @@
 package drivers
 
 import (
-	"fmt"
 	"log"
 	"net"
 	"time"
@@ -47,7 +46,6 @@ func (s *mikrotikRouterOS) ServeTCP(ln net.Listener) error {
 					hdr := &mikrotikRouterOS_Frame{}
 					err := struc.Unpack(conn, hdr)
 					if err != nil {
-						fmt.Printf("err %+v\n", err)
 						return
 					}
 

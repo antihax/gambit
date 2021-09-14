@@ -1,7 +1,6 @@
 package drivers
 
 import (
-	"fmt"
 	"log"
 	"net"
 	"time"
@@ -45,10 +44,8 @@ func (s *modbus) ServeTCP(ln net.Listener) error {
 					hdr := &modbus_HeaderV1{}
 					err := struc.Unpack(conn, hdr)
 					if err != nil || hdr.Length == 0 || hdr.Length > 260 {
-						fmt.Printf("err %+v\n", err)
 						return
 					}
-					fmt.Printf("%+v\n", hdr)
 				}
 			}(mux)
 		}

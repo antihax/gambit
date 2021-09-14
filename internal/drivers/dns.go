@@ -1,24 +1,19 @@
 package drivers
 
 import (
+	"fmt"
 	"net"
 
 	"github.com/miekg/dns"
 )
 
 func init() {
-	udpConn, err := net.ListenUDP("udp", nil)
-	if err != nil {
-		panic(err)
-	}
-	AddDriver(&evildns{
-		backHaul: udpConn,
-	})
+	s := &evildns{}
+	AddDriver(s)
+	dns.DefaultMsgAcceptFunc = s.MsgAcceptFunc
 }
 
 type evildns struct {
-	server   *dns.Server
-	backHaul *net.UDPConn
 }
 
 func (s *evildns) Patterns() [][]byte {
@@ -27,16 +22,25 @@ func (s *evildns) Patterns() [][]byte {
 	}
 }
 
-func (s *evildns) ServeUDP(data []byte) ([]byte, error) {
-	/*s.backHaul.Write(data)
-	b := make([]byte, 1500)
-	i, err := s.backHaul.Read(b)
-
-	return b[:i], err*/
-	return nil, nil
+func (s *evildns) ServeUDP(ln net.Listener) error {
+	if err := dns.ActivateAndServe(ln, nil, dns.HandlerFunc(s.Handler)); err != nil {
+		panic(err)
+	}
+	return nil
 }
 
 func (s *evildns) ServeTCP(ln net.Listener) error {
-	dns.ActivateAndServe(ln, s.backHaul, nil)
+	if err := dns.ActivateAndServe(ln, nil, dns.HandlerFunc(s.Handler)); err != nil {
+		panic(err)
+	}
 	return nil
+}
+
+func (s *evildns) Handler(w dns.ResponseWriter, r *dns.Msg) {
+	fmt.Printf("HANDLE %+v\n", r.String())
+}
+
+func (s *evildns) MsgAcceptFunc(dh dns.Header) dns.MsgAcceptAction {
+	fmt.Printf("ACCEPT %+v\n", dh)
+	return dns.MsgAccept
 }

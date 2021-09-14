@@ -3,7 +3,6 @@ package drivers
 import (
 	"bytes"
 	"errors"
-	"fmt"
 	"log"
 	"net"
 	"time"
@@ -82,7 +81,6 @@ func (s *rdp) UnwrapTPKT(conn net.Conn) (*rdp_TPKTHeader, []byte, error) {
 		return nil, nil, err
 	}
 	if hdr.Size < 4 || hdr.Size > 500 {
-		fmt.Printf("%+v\n", hdr)
 		return nil, nil, errors.New("wrong payload size")
 	}
 	if hdr.Version != 3 {
@@ -205,7 +203,7 @@ func (s *rdp) ServeTCP(ln net.Listener) error {
 						}
 						conn.Write(buf.Bytes())
 					default:
-						fmt.Printf("\n%+v\n%+v\n\n", hdr, b)
+						//fmt.Printf("\n%+v\n%+v\n\n", hdr, b)
 					}
 				}
 			}(mux)

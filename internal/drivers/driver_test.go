@@ -14,7 +14,7 @@ func (s *Both) ServeTCP(ln net.Listener) error {
 	return nil
 }
 
-func (s *Both) ServeUDP(conn net.Conn) error {
+func (s *Both) ServeUDP(ln net.Listener) error {
 	return nil
 }
 
@@ -33,7 +33,7 @@ func (s *UDP) Patterns() [][]byte {
 	return nil
 }
 
-func (s *UDP) ServeUDP(conn net.Conn) error {
+func (s *UDP) ServeUDP(ln net.Listener) error {
 	return nil
 }
 
@@ -52,7 +52,7 @@ func (s *TCP) Patterns() [][]byte {
 func doBothInterface(t *testing.T, handle Driver) {
 	udp, ok := handle.(UDPDriver)
 	if assert.True(t, ok) {
-		_, err := udp.ServeUDP(nil)
+		err := udp.ServeUDP(nil)
 		assert.Nil(t, err)
 	}
 	tcp, ok := handle.(TCPDriver)
@@ -69,7 +69,7 @@ func doBothInterface(t *testing.T, handle Driver) {
 func doUDPInterface(t *testing.T, handle Driver) {
 	udp, ok := handle.(UDPDriver)
 	if assert.True(t, ok) {
-		_, err := udp.ServeUDP(nil)
+		err := udp.ServeUDP(nil)
 		assert.Nil(t, err)
 	}
 	_, ok = handle.(TCPDriver)
