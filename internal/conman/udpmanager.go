@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"errors"
-	"fmt"
 	"io"
 	"net"
 	"strconv"
@@ -184,7 +183,6 @@ func (s *ConnectionManager) handleDatagram(conn net.Conn, root net.Listener, wg 
 	muc.Reset()
 	ln, ok := entry.(muxconn.MuxListener)
 	if ok {
-		fmt.Printf("We Matched \n")
 		// hack in the source listener
 		ln.Listener = root
 		// pipe the connection into Accept()

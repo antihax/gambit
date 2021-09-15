@@ -22,18 +22,16 @@ func (s *evildns) Patterns() [][]byte {
 	}
 }
 
-func (s *evildns) ServeUDP(ln net.Listener) error {
+func (s *evildns) ServeUDP(ln net.Listener) {
 	if err := dns.ActivateAndServe(ln, nil, dns.HandlerFunc(s.Handler)); err != nil {
 		panic(err)
 	}
-	return nil
 }
 
-func (s *evildns) ServeTCP(ln net.Listener) error {
+func (s *evildns) ServeTCP(ln net.Listener) {
 	if err := dns.ActivateAndServe(ln, nil, dns.HandlerFunc(s.Handler)); err != nil {
 		panic(err)
 	}
-	return nil
 }
 
 func (s *evildns) Handler(w dns.ResponseWriter, r *dns.Msg) {

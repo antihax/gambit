@@ -21,12 +21,12 @@ type Driver interface {
 
 // TCPDriver handles TCP based aggressors after matching a sniff test
 type TCPDriver interface {
-	ServeTCP(ln net.Listener) error
+	ServeTCP(ln net.Listener)
 }
 
 // UDPDriver handles UDP based aggressors after matching a sniff test
 type UDPDriver interface {
-	ServeUDP(ln net.Listener) error
+	ServeUDP(ln net.Listener)
 }
 
 // TCPBannerDriver provide optional information to send if an aggressor does not

@@ -27,12 +27,12 @@ func (s *mikrotikRouterOS) Patterns() [][]byte {
 	}
 }
 
-func (s *mikrotikRouterOS) ServeTCP(ln net.Listener) error {
+func (s *mikrotikRouterOS) ServeTCP(ln net.Listener) {
 	for {
 		conn, err := ln.Accept()
 		if err != nil {
 			log.Printf("failed to accept %s\n", err)
-			return err
+			return
 		}
 		if mux, ok := conn.(*muxconn.MuxConn); ok {
 			s.logger = gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "mikrotik").Logger()

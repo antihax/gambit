@@ -142,12 +142,12 @@ const (
 	TPDU_DT = 0b1111 // Data
 )
 
-func (s *rdp) ServeTCP(ln net.Listener) error {
+func (s *rdp) ServeTCP(ln net.Listener) {
 	for {
 		conn, err := ln.Accept()
 		if err != nil {
 			log.Printf("failed to accept %s\n", err)
-			return err
+			return
 		}
 		if mux, ok := conn.(*muxconn.MuxConn); ok {
 

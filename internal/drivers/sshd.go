@@ -48,11 +48,11 @@ func (s *sshd) Patterns() [][]byte {
 	}
 }
 
-func (s *sshd) ServeTCP(ln net.Listener) error {
+func (s *sshd) ServeTCP(ln net.Listener) {
 	for {
 		c, err := ln.Accept()
 		if err != nil {
-			return err
+			return
 		}
 		if mux, ok := c.(*muxconn.MuxConn); ok {
 			s.logger = gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "sshd").Logger()

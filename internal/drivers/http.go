@@ -15,8 +15,8 @@ var server http.Server
 
 type httpd struct{}
 
-func (s *httpd) ServeTCP(ln net.Listener) error {
-	return server.Serve(ln)
+func (s *httpd) ServeTCP(ln net.Listener) {
+	server.Serve(ln)
 }
 func (s *httpd) Patterns() [][]byte {
 	return [][]byte{

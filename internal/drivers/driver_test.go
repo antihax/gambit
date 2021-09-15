@@ -10,12 +10,10 @@ import (
 // Both UDP and TCP Struct
 type Both struct{}
 
-func (s *Both) ServeTCP(ln net.Listener) error {
-	return nil
+func (s *Both) ServeTCP(ln net.Listener) {
 }
 
-func (s *Both) ServeUDP(ln net.Listener) error {
-	return nil
+func (s *Both) ServeUDP(ln net.Listener) {
 }
 
 func (s *Both) Banner() ([]uint16, []byte) {
@@ -33,15 +31,13 @@ func (s *UDP) Patterns() [][]byte {
 	return nil
 }
 
-func (s *UDP) ServeUDP(ln net.Listener) error {
-	return nil
+func (s *UDP) ServeUDP(ln net.Listener) {
 }
 
 // TCP Struct
 type TCP struct{}
 
-func (s *TCP) ServeTCP(ln net.Listener) error {
-	return nil
+func (s *TCP) ServeTCP(ln net.Listener) {
 }
 
 func (s *TCP) Patterns() [][]byte {
@@ -52,12 +48,11 @@ func (s *TCP) Patterns() [][]byte {
 func doBothInterface(t *testing.T, handle Driver) {
 	udp, ok := handle.(UDPDriver)
 	if assert.True(t, ok) {
-		err := udp.ServeUDP(nil)
-		assert.Nil(t, err)
+		udp.ServeUDP(nil)
 	}
 	tcp, ok := handle.(TCPDriver)
 	if assert.True(t, ok) {
-		assert.Nil(t, tcp.ServeTCP(nil))
+		tcp.ServeTCP(nil)
 	}
 	tcpB, ok := handle.(TCPBannerDriver)
 	if assert.True(t, ok) {
@@ -69,8 +64,7 @@ func doBothInterface(t *testing.T, handle Driver) {
 func doUDPInterface(t *testing.T, handle Driver) {
 	udp, ok := handle.(UDPDriver)
 	if assert.True(t, ok) {
-		err := udp.ServeUDP(nil)
-		assert.Nil(t, err)
+		udp.ServeUDP(nil)
 	}
 	_, ok = handle.(TCPDriver)
 	assert.False(t, ok)
@@ -85,8 +79,7 @@ func doTCPInterface(t *testing.T, handle Driver) {
 	// Only TCP
 	tcp, ok := handle.(TCPDriver)
 	if assert.True(t, ok) {
-
-		assert.Nil(t, tcp.ServeTCP(nil))
+		tcp.ServeTCP(nil)
 	}
 }
 

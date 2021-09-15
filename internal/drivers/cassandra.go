@@ -30,14 +30,14 @@ func (s *cassandra) Patterns() [][]byte {
 	}
 }
 
-func (s *cassandra) ServeTCP(ln net.Listener) error {
+func (s *cassandra) ServeTCP(ln net.Listener) {
 	codec := frame.NewCodec()
 
 	for {
 		c, err := ln.Accept()
 		if err != nil {
 			log.Println("failed accept")
-			return err
+			return
 		}
 		if mux, ok := c.(*muxconn.MuxConn); ok {
 			s.logger = gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "cassandra").Logger()

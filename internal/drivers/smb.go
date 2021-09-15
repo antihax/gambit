@@ -28,7 +28,7 @@ func (s *smb) Patterns() [][]byte {
 	}
 }
 
-func (s *smb) ServeTCP(ln net.Listener) error {
+func (s *smb) ServeTCP(ln net.Listener) {
 	const (
 		CommandNegotiate uint8 = iota + 114
 		CommandSessionSetup
@@ -54,7 +54,7 @@ func (s *smb) ServeTCP(ln net.Listener) error {
 		conn, err := ln.Accept()
 		if err != nil {
 			log.Printf("failed to accept %s\n", err)
-			return err
+			return
 		}
 		if mux, ok := conn.(*muxconn.MuxConn); ok {
 			s.logger = gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "smb").Logger()

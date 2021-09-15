@@ -30,7 +30,7 @@ func (s *redis) Patterns() [][]byte {
 }
 
 // [TODO] add fake command responses
-func (s *redis) ServeTCP(ln net.Listener) error {
+func (s *redis) ServeTCP(ln net.Listener) {
 
 	for {
 		c, err := ln.Accept()
