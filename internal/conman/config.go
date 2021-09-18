@@ -32,3 +32,21 @@ func (s *ConnectionManagerConfig) PortIgnored(port uint16) bool {
 	}
 	return false
 }
+
+func (s *ConnectionManager) listenAddress() string {
+	address := "0.0.0.0"
+	if s.config.BindAddress != "" {
+		if s.config.BindAddress == "public" {
+			for _, addr := range s.addresses {
+				if !privateIP(addr) && addr.To4() != nil {
+					address = addr.String()
+				}
+			}
+		} else {
+			address = s.config.BindAddress
+		}
+	}
+	// short circuit next scan
+	s.config.BindAddress = address
+	return address
+}

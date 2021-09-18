@@ -24,6 +24,8 @@ import (
 	"github.com/antihax/gambit/pkg/searchtree"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	fake "github.com/brianvoe/gofakeit/v6"
+	"github.com/pion/dtls/v2"
+	"github.com/pion/dtls/v2/pkg/crypto/selfsign"
 	"github.com/rs/zerolog"
 	"github.com/sethvargo/go-envconfig"
 )
@@ -44,6 +46,7 @@ type ConnectionManager struct {
 	logger      zerolog.Logger
 	config      ConnectionManagerConfig
 	tlsConfig   tls.Config
+	dtlsConfig  dtls.Config
 	uploader    *s3manager.Uploader
 	storeChan   chan store.File
 	RootContext context.Context
@@ -84,15 +87,31 @@ func NewConMan() (*ConnectionManager, error) {
 		logger:       logger,
 		config:       cfg,
 		tlsConfig: tls.Config{
+			//lint:ignore SA1019 we know; that's the point.
 			MinVersion:   tls.VersionSSL30,
 			CipherSuites: suites,
 		},
+		dtlsConfig: dtls.Config{
+			InsecureHashes: true,
+			ServerName:     fake.DomainName(),
+			ConnectContextMaker: func() (context.Context, func()) {
+				return context.WithTimeout(context.Background(), 5*time.Second)
+			},
+		},
 	}
-	fakeCert, err := s.fakeTLSCertificate()
+
+	// setup fake TLS
+	fakeTLSCert, err := s.fakeTLSCertificate()
 	if err != nil {
 		return nil, err
 	}
-	s.tlsConfig.Certificates = []tls.Certificate{*fakeCert}
+	s.tlsConfig.Certificates = []tls.Certificate{*fakeTLSCert}
+
+	fakeDTLSCert, err := selfsign.GenerateSelfSigned()
+	if err != nil {
+		return nil, err
+	}
+	s.dtlsConfig.Certificates = []tls.Certificate{fakeDTLSCert}
 
 	// setup any storage from config
 	if err := s.setupStore(); err != nil {
@@ -127,6 +146,9 @@ func NewConMan() (*ConnectionManager, error) {
 			}
 		}
 	}
+
+	// Get our bind address
+	gctx.IPAddress = s.listenAddress()
 
 	// find all the TCP drivers and setup multiplexers
 	driverList := drivers.GetDrivers()
@@ -207,10 +229,8 @@ func (s *ConnectionManager) banListManager() {
 	ticker := time.NewTicker(60 * time.Second)
 	go func() {
 		for {
-			select {
-			case <-ticker.C:
-				s.clearBanlist()
-			}
+			<-ticker.C
+			s.clearBanlist()
 		}
 	}()
 }
@@ -287,6 +307,32 @@ func (s *ConnectionManager) unwrapTLS(conn net.Conn) (*muxconn.MuxConn, []byte, 
 		if err != io.EOF {
 			s.logger.Debug().Str("network", "tcp").
 				Err(err).Msg("error unwrapping tls")
+			muc.Reset()
+			return nil, nil, 0, err
+		}
+	}
+
+	return muc, buf, n, err
+}
+
+func (s *ConnectionManager) unwrapDTLS(conn net.Conn) (*muxconn.MuxConn, []byte, int, error) {
+	n := 1500
+	buf := make([]byte, n)
+	tlsConn, err := dtls.Server(conn, &s.dtlsConfig)
+	if err != nil {
+		if err != io.EOF {
+			s.logger.Debug().Str("network", "udp").
+				Err(err).Msg("error unwrapping dtls")
+			return nil, nil, 0, err
+		}
+	}
+	muc := muxconn.NewMuxConn(s.RootContext, tlsConn)
+	r := muc.StartSniffing()
+	n, err = r.Read(buf)
+	if err != nil {
+		if err != io.EOF {
+			s.logger.Debug().Str("network", "udp").
+				Err(err).Msg("error unwrapping dtls")
 			muc.Reset()
 			return nil, nil, 0, err
 		}

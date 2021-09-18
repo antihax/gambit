@@ -24,6 +24,8 @@ type UDPHeader struct {
 	Checksum    uint16
 }
 
+// udpManager listens for unknown packets and fires up listeners to handle
+// in the future
 func (s *ConnectionManager) udpManager() {
 	conn, err := net.ListenIP("ip4:udp", nil)
 	if err != nil {
@@ -53,7 +55,7 @@ func (s *ConnectionManager) udpManager() {
 			// fire up listener, kernel will take over future requests.
 			known, err := s.CreateUDPListener(header.Destination)
 			if err != nil {
-				s.logger.Trace().Err(err).Msg("creating socket")
+				s.logger.Debug().Err(err).Msg("creating socket")
 			}
 			if !known {
 				s.logger.Trace().Msgf("started udp server: %v", header.Destination)
@@ -73,22 +75,9 @@ func (s *ConnectionManager) CreateUDPListener(port uint16) (bool, error) {
 
 	wg.Wait()
 
-	address := "0.0.0.0"
-	if s.config.BindAddress != "" {
-		if s.config.BindAddress == "public" {
-			for _, addr := range s.addresses {
-				if !privateIP(addr) && addr.To4() != nil {
-					address = addr.String()
-				}
-			}
-		} else {
-			address = s.config.BindAddress
-		}
-	}
-
 	// create a new listener if one does not already exist
 	if _, ok := s.udpListeners[port]; !ok {
-		addr := &net.UDPAddr{IP: net.ParseIP(address), Port: int(port)}
+		addr := &net.UDPAddr{IP: net.ParseIP(gctx.IPAddress), Port: int(port)}
 		ln, err := udp.Listen("udp", addr)
 		if err != nil {
 			return true, err
@@ -146,18 +135,17 @@ func (s *ConnectionManager) handleDatagram(conn net.Conn, root net.Listener, wg 
 	timeoutCancel() // Cancel the timeout
 
 	tlsUnwrap := false
-	// Try unwrapping TLS/SSL
-	// [TODO] DTLS Unwrap
-	/*	if buf[0] == 0x16 {
+	// try unwrapping DTLS
+	if buf[0] == 0x16 {
 		muc.DoneSniffing()
-		newMuxConn, newBuf, newN, err := s.unwrapTLS(muc)
+		newMuxConn, newBuf, newN, err := s.unwrapDTLS(muc)
 		if err == nil {
 			muc = newMuxConn
 			buf = newBuf
 			n = newN
 			tlsUnwrap = true
 		}
-	}*/
+	}
 
 	muc.Reset()
 	// get the hash of the first n bytes and tag the context

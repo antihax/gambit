@@ -22,32 +22,7 @@ import (
 	"net"
 
 	"github.com/google/uuid"
-	"github.com/rs/zerolog"
 )
-
-type errListenerClosed string
-
-func (e errListenerClosed) Error() string   { return string(e) }
-func (e errListenerClosed) Temporary() bool { return false }
-func (e errListenerClosed) Timeout() bool   { return false }
-
-// ErrListenerClosed is returned from muxListener.Accept when the underlying
-// listener is closed.
-var ErrListenerClosed = errListenerClosed("mux: listener closed")
-
-type MuxListener struct {
-	net.Listener
-	ConnCh chan net.Conn
-	Logger zerolog.Logger
-}
-
-func (l MuxListener) Accept() (net.Conn, error) {
-	c, ok := <-l.ConnCh
-	if !ok {
-		return nil, ErrListenerClosed
-	}
-	return c, nil
-}
 
 // MuxConn wraps a net.Conn and provides transparent sniffing of connection data.
 type MuxConn struct {
@@ -80,6 +55,17 @@ func (m *MuxConn) Read(p []byte) (int, error) {
 	return m.buf.Read(p)
 }
 
+// ReadFrom PacketConn interface
+func (m *MuxConn) ReadFrom(p []byte) (int, net.Addr, error) {
+	n, e := m.buf.Read(p)
+	return n, m.RemoteAddr(), e
+}
+
+// WriteTo PacketConn interface, ignores address
+func (m *MuxConn) WriteTo(p []byte, a net.Addr) (int, error) {
+	return m.Write(p)
+}
+
 // GetUUID for the connection
 func (m *MuxConn) GetUUID() string {
 	return m.uuid
@@ -106,4 +92,12 @@ func (m *MuxConn) DoneSniffing() {
 
 func (m *MuxConn) Snapshot() []byte {
 	return m.buf.Snapshot()
+}
+
+func (m *MuxConn) NumWritten() int {
+	return m.buf.bufferWritten
+}
+
+func (m *MuxConn) BufferSize() int {
+	return m.buf.bufferSize
 }

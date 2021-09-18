@@ -8,6 +8,10 @@ import (
 	"github.com/rs/zerolog"
 )
 
+var (
+	IPAddress string
+)
+
 type contextKey struct {
 	key string
 }

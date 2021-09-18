@@ -27,7 +27,6 @@ func (s *modbus) Patterns() [][]byte {
 }
 
 func (s *modbus) ServeTCP(ln net.Listener) {
-
 	for {
 		conn, err := ln.Accept()
 		if err != nil {

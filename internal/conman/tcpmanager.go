@@ -16,8 +16,10 @@ import (
 	"github.com/antihax/gambit/pkg/probe"
 )
 
+// tcpManager listens for unknown packets and fires up listeners to handle
+// in the future
 func (s *ConnectionManager) tcpManager() {
-	conn, err := net.ListenIP("ip4:tcp", nil)
+	conn, err := net.ListenIP("ip:tcp", nil)
 	if err != nil {
 		panic(err)
 	}
@@ -61,22 +63,9 @@ func (s *ConnectionManager) CreateTCPListener(port uint16) (bool, error) {
 
 	wg.Wait()
 
-	address := "0.0.0.0"
-	if s.config.BindAddress != "" {
-		if s.config.BindAddress == "public" {
-			for _, addr := range s.addresses {
-				if !privateIP(addr) && addr.To4() != nil {
-					address = addr.String()
-				}
-			}
-		} else {
-			address = s.config.BindAddress
-		}
-	}
-
 	// create a new listener if one does not already exist
 	if _, ok := s.tcpListeners[port]; !ok {
-		addr := fmt.Sprintf("%s:%d", address, port)
+		addr := fmt.Sprintf("%s:%d", gctx.IPAddress, port)
 		ln, err := net.Listen("tcp", addr)
 		if err != nil {
 			return true, err
@@ -139,7 +128,7 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	timeoutCancel() // Cancel the timeout
 
 	tlsUnwrap := false
-	// Try unwrapping TLS/SSL
+	// try unwrapping TLS/SSL
 	if buf[0] == 0x16 {
 		muc.DoneSniffing()
 		newMuxConn, newBuf, newN, err := s.unwrapTLS(muc)
