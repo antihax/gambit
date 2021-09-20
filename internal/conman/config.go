@@ -1,6 +1,6 @@
 package conman
 
-// ConnectionManagerConfig
+// ConnectionManagerConfig reads configuration from environment variables
 type ConnectionManagerConfig struct {
 	SyslogAddress string   `env:"CONMAN_SYSLOG_ADDRESS"`
 	SyslogNetwork string   `env:"CONMAN_SYSLOG_NETWORK"`
@@ -8,7 +8,7 @@ type ConnectionManagerConfig struct {
 	Preload       uint16   `env:"CONMAN_PRELOAD,default=10000"`
 	MaxPort       uint16   `env:"CONMAN_MAXPORT,default=45000"`
 	IgnorePorts   []uint16 `env:"CONMAN_IGNORE_PORTS"`
-	BanCount      int      `env:"CONMAN_BAN_COUNT,default=600"`
+	BanCount      int      `env:"CONMAN_BAN_COUNT,default=50"`
 	BannerDelay   int      `env:"CONMAN_BANNER_DELAY,default=3"`
 	KillDelay     int      `env:"CONMAN_KILL_DELAY,default=10"`
 	OutputFolder  string   `env:"CONMAN_OUT_FOLDER"`
@@ -21,7 +21,8 @@ type ConnectionManagerConfig struct {
 	BindAddress   string   `env:"CONMAN_BIND,default=public"`
 }
 
-func (s *ConnectionManagerConfig) PortIgnored(port uint16) bool {
+// portIgnored returns true if the port is configured to be ignored, such as for ephemeral ports
+func (s *ConnectionManagerConfig) portIgnored(port uint16) bool {
 	if port > s.MaxPort {
 		return true
 	}
@@ -33,6 +34,7 @@ func (s *ConnectionManagerConfig) PortIgnored(port uint16) bool {
 	return false
 }
 
+// listenAddress determines the configured bind address for attackers
 func (s *ConnectionManager) listenAddress() string {
 	address := "0.0.0.0"
 	if s.config.BindAddress != "" {

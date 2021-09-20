@@ -47,7 +47,7 @@ func (s *ConnectionManager) udpManager() {
 			header := UDPHeader{}
 
 			struc.Unpack(reader, &header)
-			if s.config.PortIgnored(header.Destination) {
+			if s.config.portIgnored(header.Destination) {
 				continue
 			}
 			// see if we match a rule and transfer the connection to the driver

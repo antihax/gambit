@@ -3,15 +3,8 @@ package conman
 
 import (
 	"context"
-	"crypto/rand"
-	"crypto/rsa"
 	"crypto/tls"
-	"crypto/x509"
-	"crypto/x509/pkix"
-	"encoding/pem"
-	"io"
 	"log/syslog"
-	"math/big"
 	"net"
 	"os"
 	"sync"
@@ -30,7 +23,7 @@ import (
 	"github.com/sethvargo/go-envconfig"
 )
 
-// ConnectionManager managers listeners
+// ConnectionManager manages listeners
 type ConnectionManager struct {
 	tcpListeners map[uint16]net.Listener
 	udpListeners map[uint16]net.Listener
@@ -40,13 +33,18 @@ type ConnectionManager struct {
 	banners      map[uint16][]byte
 	addresses    []net.IP
 
-	// If we are saving raw entries, keep a list to save hitting fs
+	// if we are saving raw entries, keep a list to save hitting fs
 	knownHashes sync.Map
 	lastAddress sync.Map
-	logger      zerolog.Logger
-	config      ConnectionManagerConfig
-	tlsConfig   tls.Config
-	dtlsConfig  dtls.Config
+
+	// root logger
+	logger zerolog.Logger
+
+	// configurations
+	config     ConnectionManagerConfig
+	tlsConfig  tls.Config
+	dtlsConfig dtls.Config
+
 	uploader    *s3manager.Uploader
 	storeChan   chan store.File
 	RootContext context.Context
@@ -186,19 +184,21 @@ func (s *ConnectionManager) NewProxy() net.Listener {
 	return ml
 }
 
-// NewTCPDriver adds a driver to ConMan
+// NewTCPDriver adds a TCP driver to ConMan
 func (s *ConnectionManager) NewTCPDriver(rules [][]byte, driver muxconn.MuxListener) {
 	for _, rule := range rules {
 		s.tcpRules.Insert(rule, driver)
 	}
 }
 
+// NewUDPDriver adds a UDP driver to ConMan
 func (s *ConnectionManager) NewUDPDriver(rules [][]byte, driver muxconn.MuxListener) {
 	for _, rule := range rules {
 		s.udpRules.Insert(rule, driver)
 	}
 }
 
+// sendBanner tries to hint to an attacker what the port hosts if nothing was sent
 func (s *ConnectionManager) sendBanner(ctx context.Context, muc *muxconn.MuxConn, port uint16) {
 	time.Sleep(time.Second * time.Duration(s.config.BannerDelay))
 	select {
@@ -214,6 +214,7 @@ func (s *ConnectionManager) sendBanner(ctx context.Context, muc *muxconn.MuxConn
 	}
 }
 
+// timeoutConnection prevents connectings lingering
 func (s *ConnectionManager) timeoutConnection(ctx context.Context, muc *muxconn.MuxConn) {
 	time.Sleep(time.Second * time.Duration(s.config.KillDelay))
 	select {
@@ -225,16 +226,7 @@ func (s *ConnectionManager) timeoutConnection(ctx context.Context, muc *muxconn.
 	}
 }
 
-func (s *ConnectionManager) banListManager() {
-	ticker := time.NewTicker(60 * time.Second)
-	go func() {
-		for {
-			<-ticker.C
-			s.clearBanlist()
-		}
-	}()
-}
-
+// preloadTCPListeners gets an early start on a list of ports
 func (s *ConnectionManager) preloadTCPListeners() {
 	// prelisten everything
 	if s.config.Preload > 0 {
@@ -247,6 +239,7 @@ func (s *ConnectionManager) preloadTCPListeners() {
 	}
 }
 
+// StartConning starts conman after configuration is completed
 func (s *ConnectionManager) StartConning() {
 	s.preloadTCPListeners()
 	s.banListManager()
@@ -255,88 +248,4 @@ func (s *ConnectionManager) StartConning() {
 	for range s.doneCh {
 		return
 	}
-}
-
-func (s *ConnectionManager) fakeTLSCertificate() (*tls.Certificate, error) {
-	key, err := rsa.GenerateKey(rand.Reader, 2048)
-	if err != nil {
-		return nil, err
-	}
-
-	keyPem := pem.EncodeToMemory(&pem.Block{
-		Type:  "RSA PRIVATE KEY",
-		Bytes: x509.MarshalPKCS1PrivateKey(key),
-	})
-
-	tml := x509.Certificate{
-		NotBefore:    time.Now(),
-		NotAfter:     time.Now().AddDate(25, 0, 0),
-		SerialNumber: big.NewInt(fake.Int64()),
-		Subject: pkix.Name{
-			CommonName:   fake.DomainName(),
-			Organization: []string{fake.Company()},
-		},
-		BasicConstraintsValid: true,
-	}
-
-	cert, err := x509.CreateCertificate(rand.Reader, &tml, &tml, &key.PublicKey, key)
-	if err != nil {
-		return nil, err
-	}
-
-	certPem := pem.EncodeToMemory(&pem.Block{
-		Type:  "CERTIFICATE",
-		Bytes: cert,
-	})
-
-	tlsCert, err := tls.X509KeyPair(certPem, keyPem)
-	if err != nil {
-		return nil, err
-	}
-	return &tlsCert, nil
-}
-
-func (s *ConnectionManager) unwrapTLS(conn net.Conn) (*muxconn.MuxConn, []byte, int, error) {
-	n := 1500
-	buf := make([]byte, n)
-	tlsConn := tls.Server(conn, &s.tlsConfig)
-	muc := muxconn.NewMuxConn(s.RootContext, tlsConn)
-	r := muc.StartSniffing()
-	n, err := r.Read(buf)
-	if err != nil {
-		if err != io.EOF {
-			s.logger.Debug().Str("network", "tcp").
-				Err(err).Msg("error unwrapping tls")
-			muc.Reset()
-			return nil, nil, 0, err
-		}
-	}
-
-	return muc, buf, n, err
-}
-
-func (s *ConnectionManager) unwrapDTLS(conn net.Conn) (*muxconn.MuxConn, []byte, int, error) {
-	n := 1500
-	buf := make([]byte, n)
-	tlsConn, err := dtls.Server(conn, &s.dtlsConfig)
-	if err != nil {
-		if err != io.EOF {
-			s.logger.Debug().Str("network", "udp").
-				Err(err).Msg("error unwrapping dtls")
-			return nil, nil, 0, err
-		}
-	}
-	muc := muxconn.NewMuxConn(s.RootContext, tlsConn)
-	r := muc.StartSniffing()
-	n, err = r.Read(buf)
-	if err != nil {
-		if err != io.EOF {
-			s.logger.Debug().Str("network", "udp").
-				Err(err).Msg("error unwrapping dtls")
-			muc.Reset()
-			return nil, nil, 0, err
-		}
-	}
-
-	return muc, buf, n, err
 }
