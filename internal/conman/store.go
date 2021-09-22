@@ -82,7 +82,7 @@ func (s *ConnectionManager) setupStore() error {
 		}
 		s.uploader = s3manager.NewUploader(sess, func(u *s3manager.Uploader) {
 			u.LeavePartsOnError = false
-			u.Concurrency = 25
+			u.Concurrency = 1
 		})
 	}
 

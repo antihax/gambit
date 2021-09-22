@@ -57,45 +57,30 @@ func (s *ConnectionManager) fakeTLSCertificate() (*tls.Certificate, error) {
 	return &tlsCert, nil
 }
 
-// unwrapTLS attempts to return a TLS decrypting TCP MuxConn
-func (s *ConnectionManager) unwrapTLS(conn net.Conn) (*muxconn.MuxConn, []byte, int, error) {
+// decryptConn attempts to return a decrypting connection
+func (s *ConnectionManager) decryptConn(conn net.Conn, network string) (*muxconn.MuxConn, []byte, int, error) {
+	var (
+		decryptConn net.Conn
+		err         error
+	)
 	n := 1500
 	buf := make([]byte, n)
-	tlsConn := tls.Server(conn, &s.tlsConfig)
-	muc := muxconn.NewMuxConn(s.RootContext, tlsConn)
-	r := muc.StartSniffing()
-	n, err := r.Read(buf)
-	if err != nil {
-		if err != io.EOF {
-			s.logger.Debug().Str("network", "tcp").
-				Err(err).Msg("error unwrapping tls")
-			muc.Reset()
+
+	if network == "udp" {
+		decryptConn = tls.Server(conn, &s.tlsConfig)
+	} else {
+		decryptConn, err = dtls.Server(conn, &s.dtlsConfig)
+		if err != nil {
+			s.logger.Debug().Str("network", network).Err(err).Msg("error decryption session")
 			return nil, nil, 0, err
 		}
 	}
-
-	return muc, buf, n, err
-}
-
-// unwrapTLS attempts to return a DTLS decrypting UDP MuxConn
-func (s *ConnectionManager) unwrapDTLS(conn net.Conn) (*muxconn.MuxConn, []byte, int, error) {
-	n := 1500
-	buf := make([]byte, n)
-	tlsConn, err := dtls.Server(conn, &s.dtlsConfig)
-	if err != nil {
-		if err != io.EOF {
-			s.logger.Debug().Str("network", "udp").
-				Err(err).Msg("error unwrapping dtls")
-			return nil, nil, 0, err
-		}
-	}
-	muc := muxconn.NewMuxConn(s.RootContext, tlsConn)
+	muc := muxconn.NewMuxConn(s.RootContext, decryptConn)
 	r := muc.StartSniffing()
 	n, err = r.Read(buf)
 	if err != nil {
 		if err != io.EOF {
-			s.logger.Debug().Str("network", "udp").
-				Err(err).Msg("error unwrapping dtls")
+			s.logger.Debug().Str("network", network).Err(err).Msg("error unwrapping tls")
 			muc.Reset()
 			return nil, nil, 0, err
 		}

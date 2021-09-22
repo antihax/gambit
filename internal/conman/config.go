@@ -19,6 +19,7 @@ type ConnectionManagerConfig struct {
 	S3KeyID       string   `env:"CONMAN_S3_KEYID"`
 	Sanitize      bool     `env:"CONMAN_SANITIZE,default=1"`
 	BindAddress   string   `env:"CONMAN_BIND,default=public"`
+	Profile       bool     `env:"CONMAN_PPROF"`
 }
 
 // portIgnored returns true if the port is configured to be ignored, such as for ephemeral ports

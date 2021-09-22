@@ -52,10 +52,15 @@ type ConnectionManager struct {
 
 // NewConMan creates a new ConnectionManager
 func NewConMan() (*ConnectionManager, error) {
+
 	// load config
 	cfg := ConnectionManagerConfig{}
 	if err := envconfig.Process(context.Background(), &cfg); err != nil {
 		return nil, err
+	}
+
+	if cfg.Profile {
+		go runPProf()
 	}
 
 	// setup the logger

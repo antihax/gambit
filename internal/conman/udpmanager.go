@@ -8,6 +8,7 @@ import (
 	"net"
 	"strconv"
 	"sync"
+	"time"
 
 	"github.com/antihax/gambit/internal/conman/gctx"
 	"github.com/antihax/gambit/internal/drivers"
@@ -138,7 +139,7 @@ func (s *ConnectionManager) handleDatagram(conn net.Conn, root net.Listener, wg 
 	// try unwrapping DTLS
 	if buf[0] == 0x16 {
 		muc.DoneSniffing()
-		newMuxConn, newBuf, newN, err := s.unwrapDTLS(muc)
+		newMuxConn, newBuf, newN, err := s.decryptConn(muc, "udp")
 		if err == nil {
 			muc = newMuxConn
 			buf = newBuf
@@ -147,6 +148,7 @@ func (s *ConnectionManager) handleDatagram(conn net.Conn, root net.Listener, wg 
 		}
 	}
 
+	muc.SetDeadline(time.Now().Add(time.Second * 5))
 	muc.Reset()
 	// get the hash of the first n bytes and tag the context
 	hash := drivers.GetHash(buf[:n])

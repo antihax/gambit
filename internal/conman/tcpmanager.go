@@ -8,6 +8,7 @@ import (
 	"net"
 	"strconv"
 	"sync"
+	"time"
 
 	"github.com/antihax/gambit/internal/conman/gctx"
 	"github.com/antihax/gambit/internal/drivers"
@@ -131,15 +132,17 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	// try unwrapping TLS/SSL
 	if buf[0] == 0x16 {
 		muc.DoneSniffing()
-		newMuxConn, newBuf, newN, err := s.unwrapTLS(muc)
+		newMuxConn, newBuf, newN, err := s.decryptConn(muc, "tcp")
 		if err == nil {
 			muc = newMuxConn
 			buf = newBuf
 			n = newN
 			tlsUnwrap = true
 		}
+
 	}
 	muc.Reset()
+	muc.SetDeadline(time.Now().Add(time.Second * 5))
 	// get the hash of the first n bytes and tag the context
 	hash := drivers.GetHash(buf[:n])
 	muc.Context = context.WithValue(muc.Context, gctx.HashContextKey, hash)
