@@ -35,8 +35,8 @@ func (s *mikrotikRouterOS) ServeTCP(ln net.Listener) {
 			return
 		}
 		if mux, ok := conn.(*muxconn.MuxConn); ok {
-			s.logger = gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "mikrotik").Logger()
-			storeChan := gctx.GetStoreFromContext(mux.Context)
+			s.logger = gctx.GetGlobalFromContext(mux.Context).Logger.With().Str("driver", "mikrotik").Logger()
+			storeChan := gctx.GetGlobalFromContext(mux.Context).Store
 
 			go func(conn *muxconn.MuxConn) {
 				defer conn.Close()

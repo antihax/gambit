@@ -38,8 +38,8 @@ func (s *redis) ServeTCP(ln net.Listener) {
 			log.Println("failed accept")
 		}
 		if mux, ok := c.(*muxconn.MuxConn); ok {
-			s.logger = gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "redis").Logger()
-			storeChan := gctx.GetStoreFromContext(mux.Context)
+			s.logger = gctx.GetGlobalFromContext(mux.Context).Logger.With().Str("driver", "redis").Logger()
+			storeChan := gctx.GetGlobalFromContext(mux.Context).Store
 
 			go func(conn *muxconn.MuxConn) {
 				parser := redisproto.NewParser(conn)

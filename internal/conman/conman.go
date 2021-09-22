@@ -45,9 +45,8 @@ type ConnectionManager struct {
 	tlsConfig  tls.Config
 	dtlsConfig dtls.Config
 
-	uploader    *s3manager.Uploader
-	storeChan   chan store.File
-	RootContext context.Context
+	uploader  *s3manager.Uploader
+	storeChan chan store.File
 }
 
 // NewConMan creates a new ConnectionManager
@@ -120,10 +119,6 @@ func NewConMan() (*ConnectionManager, error) {
 	if err := s.setupStore(); err != nil {
 		return nil, err
 	}
-
-	// add logger and store to the global context
-	s.RootContext = context.WithValue(context.Background(), gctx.LoggerContextKey, logger)
-	s.RootContext = context.WithValue(s.RootContext, gctx.StoreContextKey, s.storeChan)
 
 	// get a list of addresses
 	ifaces, err := net.Interfaces()
@@ -212,8 +207,7 @@ func (s *ConnectionManager) sendBanner(ctx context.Context, muc *muxconn.MuxConn
 	default: // send the banner if one exists
 		if banner, ok := s.banners[port]; ok {
 			if _, err := muc.Write(banner); err != nil {
-				log := gctx.GetLoggerFromContext(muc.Context)
-				log.Debug().Err(err).Msg("Sent Banner")
+				gctx.GetGlobalFromContext(muc.Context).Logger.Debug().Err(err).Msg("Sent Banner")
 			}
 		}
 	}

@@ -55,7 +55,7 @@ func (s *sshd) ServeTCP(ln net.Listener) {
 			return
 		}
 		if mux, ok := c.(*muxconn.MuxConn); ok {
-			s.logger = gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "sshd").Logger()
+			s.logger = gctx.GetGlobalFromContext(mux.Context).Logger.With().Str("driver", "sshd").Logger()
 		}
 
 		_, _, _, err = ssh.NewServerConn(c, &s.config)

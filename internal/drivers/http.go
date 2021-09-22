@@ -92,10 +92,7 @@ func init() {
 // copy context values to the http context
 func (s *httpd) SaveMuxInContext(ctx context.Context, c net.Conn) context.Context {
 	if mux, ok := c.(*muxconn.MuxConn); ok {
-		ctx = context.WithValue(ctx, gctx.StoreContextKey, gctx.GetStoreFromContext(mux.Context))
-		ctx = context.WithValue(ctx, gctx.LoggerContextKey, gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "http").Logger())
-		ctx = context.WithValue(ctx, gctx.ConnContextKey, mux)
-		return ctx
+		return context.WithValue(ctx, gctx.GlobalContextKey, gctx.GetGlobalFromContext(mux.Context))
 	}
 	return ctx
 }
@@ -103,17 +100,15 @@ func (s *httpd) SaveMuxInContext(ctx context.Context, c net.Conn) context.Contex
 // [TODO] pass config up context
 func (s *httpd) logger(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		attacklog := gctx.GetLoggerFromContext(r.Context())
-		conn := gctx.GetConnFromContext(r.Context())
-		storeChan := gctx.GetStoreFromContext(r.Context())
-		sequence := conn.Sequence()
+		glob := gctx.GetGlobalFromContext(r.Context())
+		sequence := glob.MuxConn.Sequence()
 		b, err := httputil.DumpRequest(r, true)
 		if err != nil {
-			attacklog.Debug().Err(err).Msg("")
+			glob.Logger.Trace().Err(err).Msg("failed dumping request")
 		}
 
-		hash := StoreHash(b, storeChan)
-		attacklog.Info().Str("url", r.URL.Path).Int("sequence", sequence).Str("phash", hash).Msg("URL")
+		hash := StoreHash(b, glob.Store)
+		glob.Logger.Info().Str("url", r.URL.Path).Int("sequence", sequence).Str("phash", hash).Msg("URL")
 		next.ServeHTTP(w, r)
 	})
 }
@@ -133,8 +128,8 @@ func (s *httpd) http_handleAll(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *httpd) http_handleTrap(w http.ResponseWriter, r *http.Request) {
-	attacklog := gctx.GetLoggerFromContext(r.Context())
-	attacklog.Warn().Msg("tripwire")
+	glob := gctx.GetGlobalFromContext(r.Context())
+	glob.Logger.Warn().Msg("tripwire")
 	w.Write(nil)
 }
 
@@ -153,8 +148,8 @@ func (s *httpd) http_dockerContainerCreated(w http.ResponseWriter, r *http.Reque
 	w.WriteHeader(http.StatusCreated)
 	w.Header().Set("Content-Type", "application/json")
 	fmt.Fprintf(w, `{"Id":"e90e34656806","Warnings":[]}`)
-	attacklog := gctx.GetLoggerFromContext(r.Context())
-	attacklog.Warn().Str("system", "docker").Msg("tripwire")
+	glob := gctx.GetGlobalFromContext(r.Context())
+	glob.Logger.Warn().Str("system", "docker").Msg("tripwire")
 }
 
 // [TODO] build framework for reading and writing these streams
@@ -163,8 +158,8 @@ func (s *httpd) http_dockere90e34656806attach(w http.ResponseWriter, r *http.Req
 	w.Header().Set("Content-Type", "application/vnd.docker.raw-stream")
 	w.Header().Set("Connection", "Upgrade")
 	w.Header().Set("Upgrade", "tcp")
-	attacklog := gctx.GetLoggerFromContext(r.Context())
-	attacklog.Warn().Str("system", "docker").Msg("tripwire")
+	glob := gctx.GetGlobalFromContext(r.Context())
+	glob.Logger.Warn().Str("system", "docker").Msg("tripwire")
 	fmt.Fprintf(w, ``)
 }
 
@@ -174,6 +169,6 @@ func (s *httpd) http_dockere90e34656806attach(w http.ResponseWriter, r *http.Req
 func (s *httpd) http_phpunit(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain")
 	fmt.Fprintf(w, `85af727fd022d3a13e7972fd6a418582`)
-	attacklog := gctx.GetLoggerFromContext(r.Context())
-	attacklog.Warn().Str("system", "wordpress").Msg("tripwire")
+	glob := gctx.GetGlobalFromContext(r.Context())
+	glob.Logger.Warn().Str("system", "wordpress").Msg("tripwire")
 }

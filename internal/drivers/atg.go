@@ -11,7 +11,6 @@ import (
 	"github.com/antihax/gambit/internal/conman/gctx"
 	"github.com/antihax/gambit/internal/muxconn"
 	fake "github.com/brianvoe/gofakeit/v6"
-	"github.com/rs/zerolog"
 )
 
 func init() {
@@ -20,7 +19,6 @@ func init() {
 }
 
 type atg struct {
-	logger zerolog.Logger
 }
 
 func (s *atg) Patterns() [][]byte {
@@ -38,8 +36,8 @@ func (s *atg) ServeTCP(ln net.Listener) {
 			return
 		}
 		if mux, ok := conn.(*muxconn.MuxConn); ok {
-			s.logger = gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "atg").Logger()
-			storeChan := gctx.GetStoreFromContext(mux.Context)
+			glob := gctx.GetGlobalFromContext(mux.Context)
+			glob.Logger = glob.Logger.With().Str("driver", "atg").Logger()
 
 			address := fake.Address()
 
@@ -73,12 +71,12 @@ TANK PRODUCT               VOLUME TC-VOLUME   ULLAGE   HEIGHT    WATER    TEMP
 					conn.SetDeadline(time.Now().Add(time.Second * 5))
 					_, err := tp.ReadLineBytes()
 					if err != nil {
-						s.logger.Trace().Err(err).Msg("failed")
+						glob.Logger.Trace().Err(err).Msg("failed")
 						return
 					}
 					sequence := mux.Sequence()
-					hash := StoreHash(conn.Snapshot(), storeChan)
-					s.logger.Warn().Int("sequence", sequence).Str("phash", hash).Msg("atg knock")
+					hash := StoreHash(conn.Snapshot(), glob.Store)
+					glob.Logger.Warn().Int("sequence", sequence).Str("phash", hash).Msg("atg knock")
 				}
 			}(mux)
 		}

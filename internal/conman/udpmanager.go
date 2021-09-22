@@ -113,7 +113,8 @@ func (s *ConnectionManager) handleDatagram(conn net.Conn, root net.Listener, wg 
 	}
 
 	// create our sniffer
-	muc := muxconn.NewMuxConn(s.RootContext, conn)
+	ctx, globalutils := s.getGlobalContext()
+	muc := muxconn.NewMuxConn(ctx, conn)
 	r := muc.StartSniffing()
 	port := strconv.Itoa(root.Addr().(*net.UDPAddr).Port)
 	ip := conn.RemoteAddr().(*net.UDPAddr).IP.String()
@@ -139,7 +140,7 @@ func (s *ConnectionManager) handleDatagram(conn net.Conn, root net.Listener, wg 
 	// try unwrapping DTLS
 	if buf[0] == 0x16 {
 		muc.DoneSniffing()
-		newMuxConn, newBuf, newN, err := s.decryptConn(muc, "udp")
+		newMuxConn, newBuf, newN, err := s.decryptConn(ctx, muc, "udp")
 		if err == nil {
 			muc = newMuxConn
 			buf = newBuf
@@ -152,12 +153,12 @@ func (s *ConnectionManager) handleDatagram(conn net.Conn, root net.Listener, wg 
 	muc.Reset()
 	// get the hash of the first n bytes and tag the context
 	hash := drivers.GetHash(buf[:n])
-	muc.Context = context.WithValue(muc.Context, gctx.HashContextKey, hash)
+	globalutils.MuxConn = muc
+	globalutils.BaseHash = hash
 
 	// log the connection
-	attacklog := gctx.GetLoggerFromContext(muc.Context).With().Bool("tlsunwrap", tlsUnwrap).Str("network", "udp").Str("attacker", ip).Str("uuid", muc.GetUUID()).Str("dstport", port).Str("hash", hash).Logger()
-	muc.Context = context.WithValue(muc.Context, gctx.LoggerContextKey, attacklog)
-	attacklog.Trace().Msgf("udp knock")
+	globalutils.Logger = globalutils.Logger.With().Bool("tlsunwrap", tlsUnwrap).Str("network", "udp").Str("attacker", ip).Str("uuid", muc.GetUUID()).Str("dstport", port).Str("hash", hash).Logger()
+	globalutils.Logger.Trace().Msgf("udp knock")
 
 	// save the raw data
 	if n > 0 {
@@ -180,7 +181,7 @@ func (s *ConnectionManager) handleDatagram(conn net.Conn, root net.Listener, wg 
 	} else {
 		// no driver
 		if n > 0 {
-			attacklog.Debug().Err(err).Msg("no driver")
+			globalutils.Logger.Debug().Err(err).Msg("no driver")
 		}
 
 		// close the connection

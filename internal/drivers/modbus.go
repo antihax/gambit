@@ -34,7 +34,7 @@ func (s *modbus) ServeTCP(ln net.Listener) {
 			return
 		}
 		if mux, ok := conn.(*muxconn.MuxConn); ok {
-			s.logger = gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "modbus").Logger()
+			s.logger = gctx.GetGlobalFromContext(mux.Context).Logger.With().Str("driver", "modbus").Logger()
 
 			go func(conn *muxconn.MuxConn) {
 				defer conn.Close()

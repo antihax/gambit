@@ -31,11 +31,11 @@ func (dr *decoratedReader) ReadTCP(conn net.Conn, timeout time.Duration) ([]byte
 	b, e := dr.Reader.ReadTCP(conn, timeout)
 	if len(b) > 0 {
 		if mux, ok := conn.(*muxconn.ModConn).GetConn().(*muxconn.MuxConn); ok {
+			glob := gctx.GetGlobalFromContext(mux.Context)
 
-			storeChan := gctx.GetStoreFromContext(mux.Context)
 			// save session data
-			hash := StoreHash(mux.Snapshot(), storeChan)
-			dr.E.Logger = gctx.GetLoggerFromContext(mux.Context).With().Str("phash", hash).Int("sequence", mux.Sequence()).Str("driver", "dns").Logger()
+			hash := StoreHash(mux.Snapshot(), glob.Store)
+			dr.E.Logger = glob.Logger.With().Str("phash", hash).Int("sequence", mux.Sequence()).Str("driver", "dns").Logger()
 			dr.E.Logger.Debug().Msg("dns")
 		}
 	}
@@ -82,7 +82,7 @@ type evildns struct {
 
 func (s *evildns) Patterns() [][]byte {
 	return [][]byte{
-		{0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00},
+		{0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00},
 		{0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00},
 		{0x01, 0x20, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00},
 	}

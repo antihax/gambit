@@ -40,8 +40,8 @@ func (s *cassandra) ServeTCP(ln net.Listener) {
 			return
 		}
 		if mux, ok := c.(*muxconn.MuxConn); ok {
-			s.logger = gctx.GetLoggerFromContext(mux.Context).With().Str("driver", "cassandra").Logger()
-			storeChan := gctx.GetStoreFromContext(mux.Context)
+			glob := gctx.GetGlobalFromContext(mux.Context)
+			glob.Logger = glob.Logger.With().Str("driver", "cassandra").Logger()
 
 			go func(conn net.Conn) {
 				for {
@@ -97,8 +97,8 @@ func (s *cassandra) ServeTCP(ln net.Listener) {
 							return
 						}
 					}
-					hash := StoreHash([]byte(in.String()), storeChan)
-					s.logger.Info().Str("opcode", in.Header.OpCode.String()).Int("sequence", sequence).Str("phash", hash).Msg("cassandra opCode")
+					hash := StoreHash([]byte(in.String()), glob.Store)
+					glob.Logger.Info().Str("opcode", in.Header.OpCode.String()).Int("sequence", sequence).Str("phash", hash).Msg("cassandra opCode")
 				}
 			}(c)
 		}

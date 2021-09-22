@@ -1,6 +1,7 @@
 package conman
 
 import (
+	"context"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/tls"
@@ -12,6 +13,7 @@ import (
 	"net"
 	"time"
 
+	"github.com/antihax/gambit/internal/conman/gctx"
 	"github.com/antihax/gambit/internal/muxconn"
 	fake "github.com/brianvoe/gofakeit/v6"
 	"github.com/pion/dtls/v2"
@@ -57,8 +59,16 @@ func (s *ConnectionManager) fakeTLSCertificate() (*tls.Certificate, error) {
 	return &tlsCert, nil
 }
 
+func (s *ConnectionManager) getGlobalContext() (context.Context, *gctx.GlobalUtils) {
+	g := &gctx.GlobalUtils{
+		Store:  s.storeChan,
+		Logger: s.logger,
+	}
+	return gctx.GlobalUtilsContext(context.Background(), g), g
+}
+
 // decryptConn attempts to return a decrypting connection
-func (s *ConnectionManager) decryptConn(conn net.Conn, network string) (*muxconn.MuxConn, []byte, int, error) {
+func (s *ConnectionManager) decryptConn(ctx context.Context, conn net.Conn, network string) (*muxconn.MuxConn, []byte, int, error) {
 	var (
 		decryptConn net.Conn
 		err         error
@@ -75,7 +85,10 @@ func (s *ConnectionManager) decryptConn(conn net.Conn, network string) (*muxconn
 			return nil, nil, 0, err
 		}
 	}
-	muc := muxconn.NewMuxConn(s.RootContext, decryptConn)
+
+	// Setup context
+	muc := muxconn.NewMuxConn(ctx, decryptConn)
+
 	r := muc.StartSniffing()
 	n, err = r.Read(buf)
 	if err != nil {
