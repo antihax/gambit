@@ -66,12 +66,12 @@ func (s *ConnectionManager) decryptConn(conn net.Conn, network string) (*muxconn
 	n := 1500
 	buf := make([]byte, n)
 
-	if network == "udp" {
+	if network == "tcp" {
 		decryptConn = tls.Server(conn, &s.tlsConfig)
 	} else {
 		decryptConn, err = dtls.Server(conn, &s.dtlsConfig)
 		if err != nil {
-			s.logger.Debug().Str("network", network).Err(err).Msg("error decryption session")
+			s.logger.Trace().Str("network", network).Err(err).Msg("error decryption session")
 			return nil, nil, 0, err
 		}
 	}
