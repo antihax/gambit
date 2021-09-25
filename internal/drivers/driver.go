@@ -19,6 +19,11 @@ type Driver interface {
 	Patterns() [][]byte
 }
 
+// Driver driver with an exact match pattern
+type ExactDriver interface {
+	ExactPattern() [][]byte
+}
+
 // TCPDriver handles TCP based aggressors after matching a sniff test
 type TCPDriver interface {
 	ServeTCP(ln net.Listener)

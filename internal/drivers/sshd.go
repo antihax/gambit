@@ -57,13 +57,14 @@ func (s *sshd) ServeTCP(ln net.Listener) {
 		if mux, ok := c.(*muxconn.MuxConn); ok {
 			s.logger = gctx.GetGlobalFromContext(mux.Context).Logger.With().Str("driver", "sshd").Logger()
 		}
-
-		_, _, _, err = ssh.NewServerConn(c, &s.config)
-		if err != nil {
-			s.logger.Debug().Err(err).Msg("failed handshake")
-			continue
-		}
+		go func(c net.Conn) {
+			_, _, _, err = ssh.NewServerConn(c, &s.config)
+			if err != nil {
+				s.logger.Debug().Err(err).Msg("failed handshake")
+			}
+		}(c)
 	}
+
 }
 
 func (s *sshd) keyCallback(c ssh.ConnMetadata, pubKey ssh.PublicKey) (*ssh.Permissions, error) {

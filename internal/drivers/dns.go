@@ -50,7 +50,7 @@ func (dr *decoratedReader) ReadUDP(conn *net.UDPConn, timeout time.Duration) ([]
 func init() {
 	s := &evildns{
 		Server: &dns.Server{},
-		Proxy: muxconn.MuxListener{
+		Proxy: muxconn.MuxProxy{
 			ConnCh: make(chan net.Conn, 40000),
 		},
 	}
@@ -74,7 +74,7 @@ func init() {
 
 type evildns struct {
 	Server *dns.Server
-	Proxy  muxconn.MuxListener
+	Proxy  muxconn.MuxProxy
 	Hash   string
 	PHash  string
 	Logger zerolog.Logger
@@ -122,7 +122,6 @@ func (s *evildns) ServeUDP(ln net.Listener) {
 			s.tcpToUDP,
 		)
 
-		s.Proxy.Listener = ln
 		s.Proxy.ConnCh <- modcon
 	}
 }
@@ -140,7 +139,6 @@ func (s *evildns) ServeTCP(ln net.Listener) {
 			nil,
 			nil,
 		)
-		s.Proxy.Listener = ln
 		s.Proxy.ConnCh <- modcon
 	}
 }

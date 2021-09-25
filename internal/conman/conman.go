@@ -155,13 +155,13 @@ func NewConMan() (*ConnectionManager, error) {
 		if handler, ok := d.(drivers.TCPDriver); ok {
 			conn := s.NewProxy()
 			go handler.ServeTCP(conn)
-			s.NewTCPDriver(d.Patterns(), conn.(muxconn.MuxListener))
+			s.NewTCPDriver(d.Patterns(), conn.(muxconn.MuxProxy))
 		}
 
 		if handler, ok := d.(drivers.UDPDriver); ok {
 			conn := s.NewProxy()
 			go handler.ServeUDP(conn)
-			s.NewUDPDriver(d.Patterns(), conn.(muxconn.MuxListener))
+			s.NewUDPDriver(d.Patterns(), conn.(muxconn.MuxProxy))
 		}
 
 		// copy the banners to a map
@@ -178,21 +178,21 @@ func NewConMan() (*ConnectionManager, error) {
 
 // NewProxy provides a fake net.Listener
 func (s *ConnectionManager) NewProxy() net.Listener {
-	ml := muxconn.MuxListener{
+	ml := muxconn.MuxProxy{
 		ConnCh: make(chan net.Conn, 40000),
 	}
 	return ml
 }
 
 // NewTCPDriver adds a TCP driver to ConMan
-func (s *ConnectionManager) NewTCPDriver(rules [][]byte, driver muxconn.MuxListener) {
+func (s *ConnectionManager) NewTCPDriver(rules [][]byte, driver muxconn.MuxProxy) {
 	for _, rule := range rules {
 		s.tcpRules.Insert(rule, driver)
 	}
 }
 
 // NewUDPDriver adds a UDP driver to ConMan
-func (s *ConnectionManager) NewUDPDriver(rules [][]byte, driver muxconn.MuxListener) {
+func (s *ConnectionManager) NewUDPDriver(rules [][]byte, driver muxconn.MuxProxy) {
 	for _, rule := range rules {
 		s.udpRules.Insert(rule, driver)
 	}

@@ -166,10 +166,8 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 
 	// stop sniffing and pass to the driver listener
 	muc.Reset()
-	ln, ok := entry.(muxconn.MuxListener)
+	ln, ok := entry.(muxconn.MuxProxy)
 	if ok {
-		// hack in the source listener
-		ln.Listener = root
 		// pipe the connection into Accept()
 		ln.ConnCh <- muc
 	} else {

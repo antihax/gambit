@@ -41,7 +41,7 @@ func (s *mikrotikRouterOS) ServeTCP(ln net.Listener) {
 			go func(conn *muxconn.MuxConn) {
 				defer conn.Close()
 				conn.SetDeadline(time.Now().Add(time.Second * 5))
-				sequence := mux.Sequence()
+				sequence := conn.Sequence()
 				for {
 					hdr := &mikrotikRouterOS_Frame{}
 					err := struc.Unpack(conn, hdr)

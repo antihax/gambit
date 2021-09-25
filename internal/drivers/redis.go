@@ -42,11 +42,12 @@ func (s *redis) ServeTCP(ln net.Listener) {
 			storeChan := gctx.GetGlobalFromContext(mux.Context).Store
 
 			go func(conn *muxconn.MuxConn) {
+				defer conn.Close()
 				parser := redisproto.NewParser(conn)
 				writer := redisproto.NewWriter(bufio.NewWriter(conn))
 				for {
 					conn.SetDeadline(time.Now().Add(time.Second * 5))
-					sequence := mux.Sequence()
+					sequence := conn.Sequence()
 					command, err := parser.ReadCommand()
 					if err != nil {
 						_, ok := err.(*redisproto.ProtocolError)

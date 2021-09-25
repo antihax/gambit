@@ -158,7 +158,7 @@ func (s *rdp) ServeTCP(ln net.Listener) {
 				defer conn.Close()
 				for {
 					conn.SetDeadline(time.Now().Add(time.Second * 5))
-					sequence := mux.Sequence()
+					sequence := conn.Sequence()
 
 					hdr, b, err := s.UnwrapTPKT(conn)
 					if err != nil {
