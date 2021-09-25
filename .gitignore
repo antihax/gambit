@@ -32,3 +32,4 @@ teamspeakToken.txt
 mock-local.sh
 /json/*
 __*
+.pem
