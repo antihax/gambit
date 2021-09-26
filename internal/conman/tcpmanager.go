@@ -149,9 +149,16 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	hash := drivers.GetHash(buf[:n])
 	globalutils.MuxConn = muc
 	globalutils.BaseHash = hash
+	globalutils.Logger = globalutils.Logger.With().
+		Bool("tlsunwrap", tlsUnwrap).
+		Str("network", "tcp").
+		Str("attacker", ip).
+		Str("uuid", muc.GetUUID()).
+		Str("dstport", port).
+		Str("hash", hash).
+		Logger()
 
 	// log the connection
-	globalutils.Logger = globalutils.Logger.With().Bool("tlsunwrap", tlsUnwrap).Str("network", "tcp").Str("attacker", ip).Str("uuid", muc.GetUUID()).Str("dstport", port).Str("hash", hash).Logger()
 	globalutils.Logger.Trace().Msgf("tcp knock")
 
 	// save the raw data
@@ -166,10 +173,10 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 
 	// stop sniffing and pass to the driver listener
 	muc.Reset()
-	ln, ok := entry.(muxconn.MuxProxy)
+	ln, ok := entry.(muxconn.Proxy)
 	if ok {
 		// pipe the connection into Accept()
-		ln.ConnCh <- muc
+		ln.InjectConn(muc)
 	} else {
 		// no driver
 		if n > 0 {
