@@ -62,7 +62,7 @@ func (s *redis) ServeTCP(ln net.Listener) {
 						s.logger.Info().Str("cmd", cmd).Int("sequence", sequence).Msg("redis command")
 						switch cmd {
 						case "AUTH":
-							s.logger.Warn().Str("password", string(command.Get(1))).Int("sequence", sequence).Msg("tried password")
+							s.logger.Warn().Str("password", string(command.Get(1))).Str("technique", "T1110").Int("sequence", sequence).Msg("tried password")
 						default:
 							writer.WriteBulkString("OK")
 						}

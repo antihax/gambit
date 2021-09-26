@@ -58,13 +58,16 @@ func (s *sshd) ServeTCP(ln net.Listener) {
 			s.logger = gctx.GetGlobalFromContext(mux.Context).Logger.With().Str("driver", "sshd").Logger()
 		}
 		go func(c net.Conn) {
-			_, _, _, err = ssh.NewServerConn(c, &s.config)
+			sc, _, _, err := ssh.NewServerConn(c, &s.config)
+
 			if err != nil {
 				s.logger.Debug().Err(err).Msg("failed handshake")
+				return
 			}
+
+			sc.Close()
 		}(c)
 	}
-
 }
 
 func (s *sshd) keyCallback(c ssh.ConnMetadata, pubKey ssh.PublicKey) (*ssh.Permissions, error) {
@@ -73,6 +76,6 @@ func (s *sshd) keyCallback(c ssh.ConnMetadata, pubKey ssh.PublicKey) (*ssh.Permi
 }
 
 func (s *sshd) passwordCallback(c ssh.ConnMetadata, pass []byte) (*ssh.Permissions, error) {
-	s.logger.Warn().Str("user", c.User()).Str("password", string(pass)).Msg("tried password")
+	s.logger.Warn().Str("user", c.User()).Str("technique", "T1110").Str("password", string(pass)).Msg("tried password")
 	return nil, fmt.Errorf("password rejected for %q", c.User())
 }

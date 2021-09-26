@@ -87,7 +87,7 @@ func (s *cassandra) ServeTCP(ln net.Listener) {
 						} else {
 							cred := &client.AuthCredentials{}
 							if err = cred.Unmarshal(authResponse.Token); err == nil {
-								s.logger.Warn().Str("opcode", in.Header.OpCode.String()).Str("user", cred.Username).Str("password", cred.Password).Int("sequence", sequence).Msg("tried password")
+								s.logger.Warn().Str("opcode", in.Header.OpCode.String()).Str("technique", "T1110").Str("user", cred.Username).Str("password", cred.Password).Int("sequence", sequence).Msg("tried password")
 							}
 						}
 

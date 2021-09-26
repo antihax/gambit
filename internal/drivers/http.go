@@ -37,39 +37,6 @@ func init() {
 	AddDriver(h)
 	httpmux := http.NewServeMux()
 
-	/* [TODO] Unknowns
-
-		/api
-		/console/login/LoginForm.jsp
-		/manager/html
-		/.well-known/security.txt ** Research why this is probed?
-		/GponForm/diag_Form?images/
-		/boaform/admin/formLogin
-		POST / CNT: {"id":0,"jsonrpc":"2.0","method":"eth_blockNumber"}
-		POST /service/extdirect
-		POST /api/jsonws/invoke
-		/zc?action=getInfo
-	    /index.php?s=/Index/\think\app/invokefunction&function=call_user_func_array&vars[0]=md5&vars[1][]=HelloThinkPHP21
-		/nice%20ports%2C/Tri%6Eity.txt%2ebak
-		/jars
-		/wp-content/plugins/wp-file-manager/readme.txt
-		/?XDEBUG_SESSION_START=phpstorm
-		/solr/admin/info/system?wt=json
-		/?a=fetch&content=<php>die(@md5(HelloThinkCMF))</php>
-		/_ignition/execute-solution
-		/phpmyadmin/
-		/admin/config.php
-		/config/getuser?index=0
-		/Autodiscover/Autodiscover.xml
-		/console/
-		/stat
-		/status
-
-		# docker
-		/v1.24/containers/create
-
-	*/
-
 	// Catch all
 	httpmux.Handle("/", h.logger(http.HandlerFunc(h.http_handleAll)))
 	httpmux.Handle("/loginto.cgi", h.logger(http.HandlerFunc(h.http_handleTrap)))
@@ -97,7 +64,6 @@ func (s *httpd) SaveMuxInContext(ctx context.Context, c net.Conn) context.Contex
 	return ctx
 }
 
-// [TODO] pass config up context
 func (s *httpd) logger(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		glob := gctx.GetGlobalFromContext(r.Context())
@@ -129,7 +95,14 @@ func (s *httpd) http_handleAll(w http.ResponseWriter, r *http.Request) {
 
 func (s *httpd) http_handleTrap(w http.ResponseWriter, r *http.Request) {
 	glob := gctx.GetGlobalFromContext(r.Context())
-	glob.Logger.Warn().Msg("tripwire")
+	l := glob.Logger
+	if r.Form.Get("user") != "" {
+		l = l.With().Str("user", r.Form.Get("user")).Logger()
+	}
+	if r.Form.Get("pass") != "" {
+		l = l.With().Str("pass", r.Form.Get("pass")).Logger()
+	}
+	l.Warn().Str("technique", "T1110").Msg("tried password")
 	w.Write(nil)
 }
 
@@ -149,7 +122,7 @@ func (s *httpd) http_dockerContainerCreated(w http.ResponseWriter, r *http.Reque
 	w.Header().Set("Content-Type", "application/json")
 	fmt.Fprintf(w, `{"Id":"e90e34656806","Warnings":[]}`)
 	glob := gctx.GetGlobalFromContext(r.Context())
-	glob.Logger.Warn().Str("system", "docker").Msg("tripwire")
+	glob.Logger.Warn().Str("system", "docker").Str("technique", "T1610").Msg("tripwire")
 }
 
 // [TODO] build framework for reading and writing these streams
@@ -159,7 +132,7 @@ func (s *httpd) http_dockere90e34656806attach(w http.ResponseWriter, r *http.Req
 	w.Header().Set("Connection", "Upgrade")
 	w.Header().Set("Upgrade", "tcp")
 	glob := gctx.GetGlobalFromContext(r.Context())
-	glob.Logger.Warn().Str("system", "docker").Msg("tripwire")
+	glob.Logger.Warn().Str("system", "docker").Str("technique", "T1609").Msg("tripwire")
 	fmt.Fprintf(w, ``)
 }
 
