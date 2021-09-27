@@ -10,7 +10,6 @@ import (
 	"github.com/antihax/gambit/internal/conman/gctx"
 	"github.com/antihax/gambit/internal/muxconn"
 	"github.com/lunixbochs/struc"
-	"github.com/rs/zerolog"
 )
 
 func init() {
@@ -26,7 +25,6 @@ func (s *rdp) Patterns() [][]byte {
 }
 
 type rdp struct {
-	logger zerolog.Logger
 }
 
 // [TODO] Refactor this cluster or find an actual library to do it
@@ -151,37 +149,32 @@ func (s *rdp) ServeTCP(ln net.Listener) {
 		}
 		if mux, ok := conn.(*muxconn.MuxConn); ok {
 
-			s.logger = gctx.GetGlobalFromContext(mux.Context).Logger.With().Str("driver", "rdp").Logger()
-			storeChan := gctx.GetGlobalFromContext(mux.Context).Store
+			glob := gctx.GetGlobalFromContext(mux.Context, "rdp")
 
 			go func(conn *muxconn.MuxConn) {
 				defer conn.Close()
 				for {
 					conn.SetDeadline(time.Now().Add(time.Second * 5))
-					sequence := conn.Sequence()
-
 					hdr, b, err := s.UnwrapTPKT(conn)
 					if err != nil {
-						s.logger.Trace().Err(err).Msg("rdp knock")
+						glob.LogError(err)
 						return
 					}
 
 					// save session data
-					hash := StoreHash(conn.Snapshot(), storeChan)
-
-					s.logger.Debug().Int("sequence", sequence).Str("phash", hash).Msg("rdp message")
+					l := glob.NewSession(conn.Sequence(), StoreHash(conn.Snapshot(), glob.Store))
 
 					reader := bytes.NewReader(b)
 					pdu, err := s.UnwrapTPDUHeader(reader)
 					if err != nil {
-						s.logger.Trace().Err(err).Int("sequence", sequence).Msg("rdp knock")
+						l.LogError(err)
 						return
 					}
 					switch pdu.Code >> 4 {
 					case TPDU_CR:
 						neg, req, err := s.ReadNegotiationRequest(reader, pdu.Length)
 						if err != nil {
-							s.logger.Trace().Err(err).Int("sequence", sequence).Msg("rdp knock")
+							l.LogError(err)
 							return
 						}
 
@@ -198,13 +191,15 @@ func (s *rdp) ServeTCP(ln net.Listener) {
 							Length2:   0x08,
 							Protocols: 0x00000000,
 						}); err != nil {
-							s.logger.Trace().Err(err).Int("sequence", sequence).Msg("rdp knock")
+							l.LogError(err)
 							return
 						}
 						conn.Write(buf.Bytes())
 					default:
 						//fmt.Printf("\n%+v\n%+v\n\n", hdr, b)
 					}
+
+					l.Logger.Info().Msg("rdp knock")
 				}
 			}(mux)
 		}

@@ -11,11 +11,9 @@ import (
 	"github.com/datastax/go-cassandra-native-protocol/frame"
 	"github.com/datastax/go-cassandra-native-protocol/message"
 	"github.com/datastax/go-cassandra-native-protocol/primitive"
-	"github.com/rs/zerolog"
 )
 
 type cassandra struct {
-	logger zerolog.Logger
 }
 
 func init() {
@@ -40,19 +38,22 @@ func (s *cassandra) ServeTCP(ln net.Listener) {
 			return
 		}
 		if mux, ok := c.(*muxconn.MuxConn); ok {
-			glob := gctx.GetGlobalFromContext(mux.Context)
-			glob.Logger = glob.Logger.With().Str("driver", "cassandra").Logger()
+			glob := gctx.GetGlobalFromContext(mux.Context, "cassandra")
 
 			go func(conn *muxconn.MuxConn) {
 				defer conn.Close()
 				for {
 					conn.SetDeadline(time.Now().Add(time.Second * 5))
-					sequence := conn.Sequence()
+
 					in, err := codec.DecodeFrame(conn)
 					if err != nil {
-						s.logger.Trace().Err(err).Msg("failed")
+						glob.Logger.Trace().Err(err).Msg("failed")
 						return
 					}
+
+					l := glob.NewSession(conn.Sequence(), StoreHash([]byte(in.String()), glob.Store))
+					l.AppendLogger(gctx.Value{Key: "opCode", Value: in.Header.OpCode.String()})
+					l.Logger.Info().Msg("cassandra opCode")
 
 					switch in.Header.OpCode {
 					case primitive.OpCodeOptions:
@@ -67,7 +68,7 @@ func (s *cassandra) ServeTCP(ln net.Listener) {
 
 						err := codec.EncodeFrame(frame, conn)
 						if err != nil {
-							s.logger.Trace().Err(err).Msg("failed")
+							l.LogError(err)
 							return
 						}
 
@@ -77,29 +78,27 @@ func (s *cassandra) ServeTCP(ln net.Listener) {
 							&message.Authenticate{Authenticator: "org.apache.cassandra.auth.PasswordAuthenticator"})
 						err := codec.EncodeFrame(frame, conn)
 						if err != nil {
-							s.logger.Trace().Err(err).Msg("failed")
+							l.LogError(err)
 							return
 						}
 					case primitive.OpCodeAuthResponse:
 						if authResponse, ok := in.Body.Message.(*message.AuthResponse); !ok {
-							s.logger.Trace().Err(err).Msg("failed decoding auth")
+							l.LogError(err)
 							return
 						} else {
 							cred := &client.AuthCredentials{}
 							if err = cred.Unmarshal(authResponse.Token); err == nil {
-								s.logger.Warn().Str("opcode", in.Header.OpCode.String()).Str("technique", "T1110").Str("user", cred.Username).Str("password", cred.Password).Int("sequence", sequence).Msg("tried password")
+								l.TriedPassword(cred.Username, cred.Password)
 							}
 						}
 
 						authError := frame.NewFrame(in.Header.Version, in.Header.StreamId, &message.AuthenticationError{ErrorMessage: "invalid credentials"})
 						err := codec.EncodeFrame(authError, conn)
 						if err != nil {
-							s.logger.Trace().Err(err).Msg("failed")
+							l.LogError(err)
 							return
 						}
 					}
-					hash := StoreHash([]byte(in.String()), glob.Store)
-					glob.Logger.Info().Str("opcode", in.Header.OpCode.String()).Int("sequence", sequence).Str("phash", hash).Msg("cassandra opCode")
 				}
 			}(mux)
 		}

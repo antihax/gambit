@@ -9,15 +9,14 @@ import (
 
 	"github.com/antihax/gambit/internal/conman/gctx"
 	"github.com/antihax/gambit/internal/muxconn"
-	"github.com/rs/zerolog"
 	"golang.org/x/crypto/ssh"
 )
 
 var ()
 
 type sshd struct {
-	logger zerolog.Logger
-	config ssh.ServerConfig
+	globutil *gctx.GlobalUtils
+	config   ssh.ServerConfig
 }
 
 func init() {
@@ -55,13 +54,12 @@ func (s *sshd) ServeTCP(ln net.Listener) {
 			return
 		}
 		if mux, ok := c.(*muxconn.MuxConn); ok {
-			s.logger = gctx.GetGlobalFromContext(mux.Context).Logger.With().Str("driver", "sshd").Logger()
+			s.globutil = gctx.GetGlobalFromContext(mux.Context, "sshd")
 		}
 		go func(c net.Conn) {
 			sc, _, _, err := ssh.NewServerConn(c, &s.config)
-
 			if err != nil {
-				s.logger.Debug().Err(err).Msg("failed handshake")
+				s.globutil.Logger.Debug().Err(err).Msg("failed handshake")
 				return
 			}
 
@@ -71,11 +69,11 @@ func (s *sshd) ServeTCP(ln net.Listener) {
 }
 
 func (s *sshd) keyCallback(c ssh.ConnMetadata, pubKey ssh.PublicKey) (*ssh.Permissions, error) {
-	s.logger.Warn().Str("user", c.User()).Str("pubkey", string(pubKey.Marshal())).Str("pubkeytype", pubKey.Type()).Msg("tried public key")
+	s.globutil.NewSession(1, "").TriedKey(c.User(), string(pubKey.Marshal()), pubKey.Type())
 	return nil, fmt.Errorf("unknown public key for %q", c.User())
 }
 
 func (s *sshd) passwordCallback(c ssh.ConnMetadata, pass []byte) (*ssh.Permissions, error) {
-	s.logger.Warn().Str("user", c.User()).Str("technique", "T1110").Str("password", string(pass)).Msg("tried password")
+	s.globutil.NewSession(1, "").TriedPassword(c.User(), string(pass))
 	return nil, fmt.Errorf("password rejected for %q", c.User())
 }

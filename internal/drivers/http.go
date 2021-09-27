@@ -15,6 +15,15 @@ var server http.Server
 
 type httpd struct{}
 
+// contextKey for conman contexts
+type contextKey struct {
+	key string
+}
+
+var (
+	sessionContextKey = &contextKey{"sessionlogger"}
+)
+
 func (s *httpd) ServeTCP(ln net.Listener) {
 	server.Serve(ln)
 }
@@ -59,27 +68,38 @@ func init() {
 // copy context values to the http context
 func (s *httpd) SaveMuxInContext(ctx context.Context, c net.Conn) context.Context {
 	if mux, ok := c.(*muxconn.MuxConn); ok {
-		return context.WithValue(ctx, gctx.GlobalContextKey, gctx.GetGlobalFromContext(mux.Context))
+		return context.WithValue(ctx, gctx.GlobalContextKey, gctx.GetGlobalFromContext(mux.Context, ""))
 	}
 	return ctx
 }
 
+func newContextWithLogger(ctx context.Context, req *http.Request, logger *gctx.Session) context.Context {
+	return context.WithValue(ctx, sessionContextKey, logger)
+}
+
+func loggerFromContext(ctx context.Context) *gctx.Session {
+	return ctx.Value(sessionContextKey).(*gctx.Session)
+}
+
 func (s *httpd) logger(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		glob := gctx.GetGlobalFromContext(r.Context())
-		sequence := glob.MuxConn.Sequence()
+		glob := gctx.GetGlobalFromContext(r.Context(), "http")
 		b, err := httputil.DumpRequest(r, true)
 		if err != nil {
-			glob.Logger.Trace().Err(err).Msg("failed dumping request")
+			glob.LogError(err)
 		}
 
-		hash := StoreHash(b, glob.Store)
-		glob.Logger.Info().Str("url", r.URL.Path).Int("sequence", sequence).Str("phash", hash).Msg("URL")
+		l := glob.NewSession(glob.MuxConn.Sequence(), StoreHash(b, glob.Store))
+		l.AppendLogger(gctx.Value{Key: "url", Value: r.URL.Path})
+		l.Logger.Info().Msg("url")
+		r = r.WithContext(newContextWithLogger(r.Context(), r, l))
+
 		next.ServeHTTP(w, r)
 	})
 }
 
 func (s *httpd) http_handleAll(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html")
 	fmt.Fprintf(w, `
 	<html>
 	<body>
@@ -94,15 +114,10 @@ func (s *httpd) http_handleAll(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *httpd) http_handleTrap(w http.ResponseWriter, r *http.Request) {
-	glob := gctx.GetGlobalFromContext(r.Context())
-	l := glob.Logger
-	if r.Form.Get("user") != "" {
-		l = l.With().Str("user", r.Form.Get("user")).Logger()
-	}
-	if r.Form.Get("pass") != "" {
-		l = l.With().Str("pass", r.Form.Get("pass")).Logger()
-	}
-	l.Warn().Str("technique", "T1110").Msg("tried password")
+	loggerFromContext(r.Context()).
+		TriedPassword(r.Form.Get("user"), r.Form.Get("pass"))
+
+	w.Header().Set("Content-Type", "text/html")
 	w.Write(nil)
 }
 
@@ -121,8 +136,9 @@ func (s *httpd) http_dockerContainerCreated(w http.ResponseWriter, r *http.Reque
 	w.WriteHeader(http.StatusCreated)
 	w.Header().Set("Content-Type", "application/json")
 	fmt.Fprintf(w, `{"Id":"e90e34656806","Warnings":[]}`)
-	glob := gctx.GetGlobalFromContext(r.Context())
-	glob.Logger.Warn().Str("system", "docker").Str("technique", "T1610").Msg("tripwire")
+	glob := loggerFromContext(r.Context())
+	glob.AppendLogger(gctx.Value{Key: "system", Value: "docker"})
+	glob.TriedDeployContainer()
 }
 
 // [TODO] build framework for reading and writing these streams
@@ -131,8 +147,9 @@ func (s *httpd) http_dockere90e34656806attach(w http.ResponseWriter, r *http.Req
 	w.Header().Set("Content-Type", "application/vnd.docker.raw-stream")
 	w.Header().Set("Connection", "Upgrade")
 	w.Header().Set("Upgrade", "tcp")
-	glob := gctx.GetGlobalFromContext(r.Context())
-	glob.Logger.Warn().Str("system", "docker").Str("technique", "T1609").Msg("tripwire")
+	glob := loggerFromContext(r.Context())
+	glob.AppendLogger(gctx.Value{Key: "system", Value: "docker"})
+	glob.TriedExecContainer()
 	fmt.Fprintf(w, ``)
 }
 
@@ -142,6 +159,10 @@ func (s *httpd) http_dockere90e34656806attach(w http.ResponseWriter, r *http.Req
 func (s *httpd) http_phpunit(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain")
 	fmt.Fprintf(w, `85af727fd022d3a13e7972fd6a418582`)
-	glob := gctx.GetGlobalFromContext(r.Context())
-	glob.Logger.Warn().Str("system", "wordpress").Msg("tripwire")
+	glob := loggerFromContext(r.Context())
+	glob.AppendLogger(
+		gctx.Value{Key: "system", Value: "wordpress"},
+		gctx.Value{Key: "cve", Value: "CVE-2017-9841"},
+	)
+	glob.TriedExploitingPublicApplication()
 }

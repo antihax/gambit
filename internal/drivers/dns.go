@@ -9,12 +9,11 @@ import (
 	"github.com/antihax/gambit/internal/conman/gctx"
 	"github.com/antihax/gambit/internal/muxconn"
 	"github.com/miekg/dns"
-	"github.com/rs/zerolog"
 )
 
 type decoratedWriter struct {
 	dns.Writer
-	E *evildns
+	EvilDNS *evildns
 }
 
 func (dr *decoratedWriter) Write(p []byte) (int, error) {
@@ -24,19 +23,18 @@ func (dr *decoratedWriter) Write(p []byte) (int, error) {
 
 type decoratedReader struct {
 	dns.Reader
-	E *evildns
+	EvilDNS *evildns
 }
 
 func (dr *decoratedReader) ReadTCP(conn net.Conn, timeout time.Duration) ([]byte, error) {
 	b, e := dr.Reader.ReadTCP(conn, timeout)
 	if len(b) > 0 {
 		if mux, ok := conn.(*muxconn.ModConn).GetConn().(*muxconn.MuxConn); ok {
-			glob := gctx.GetGlobalFromContext(mux.Context)
+			dr.EvilDNS.Glob = gctx.GetGlobalFromContext(mux.Context, "dns")
 
 			// save session data
-			hash := StoreHash(mux.Snapshot(), glob.Store)
-			dr.E.Logger = glob.Logger.With().Str("phash", hash).Int("sequence", mux.Sequence()).Str("driver", "dns").Logger()
-			dr.E.Logger.Debug().Msg("dns")
+			dr.EvilDNS.Glob.NewSession(mux.Sequence(), StoreHash(mux.Snapshot(), dr.EvilDNS.Glob.Store)).
+				Logger.Info().Msg("dns")
 		}
 	}
 	return b, e
@@ -58,10 +56,10 @@ func init() {
 	s.Server.Listener = s.Proxy
 	s.Server.Handler = dns.HandlerFunc(s.Handler)
 	s.Server.DecorateReader = func(r dns.Reader) dns.Reader {
-		return &decoratedReader{Reader: r, E: s}
+		return &decoratedReader{Reader: r, EvilDNS: s}
 	}
 	s.Server.DecorateWriter = func(w dns.Writer) dns.Writer {
-		return &decoratedWriter{Writer: w, E: s}
+		return &decoratedWriter{Writer: w, EvilDNS: s}
 	}
 	go func() {
 		if err := s.Server.ActivateAndServe(); err != nil {
@@ -75,7 +73,7 @@ type evildns struct {
 	Proxy  muxconn.Proxy
 	Hash   string
 	PHash  string
-	Logger zerolog.Logger
+	Glob   *gctx.GlobalUtils
 }
 
 func (s *evildns) Patterns() [][]byte {
@@ -152,7 +150,7 @@ func (s *evildns) Handler(w dns.ResponseWriter, r *dns.Msg) {
 
 	m.Answer = append(m.Answer, rr)
 
-	s.Logger.Debug().Str("dig", r.String()).Msg("dns dig")
+	s.Glob.Logger.Debug().Str("dig", r.String()).Msg("dns dig")
 
 	if m.Question[0].Name == "." {
 		m.Truncated = true

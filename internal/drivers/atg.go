@@ -14,7 +14,6 @@ import (
 )
 
 func init() {
-
 	AddDriver(&atg{})
 }
 
@@ -38,8 +37,7 @@ func (s *atg) ServeTCP(ln net.Listener) {
 		if mux, ok := conn.(*muxconn.MuxConn); ok {
 			go func(conn *muxconn.MuxConn) {
 				defer conn.Close()
-				glob := gctx.GetGlobalFromContext(conn.Context)
-				glob.Logger = glob.Logger.With().Str("driver", "atg").Logger()
+				glob := gctx.GetGlobalFromContext(conn.Context, "atg")
 
 				address := fake.Address()
 
@@ -60,9 +58,9 @@ func (s *atg) ServeTCP(ln net.Listener) {
 						glob.Logger.Trace().Err(err).Msg("failed")
 						return
 					}
-					sequence := conn.Sequence()
-					hash := StoreHash(conn.Snapshot(), glob.Store)
-					glob.Logger.Warn().Int("sequence", sequence).Str("phash", hash).Msg("atg knock")
+
+					glob.NewSession(conn.Sequence(), StoreHash(conn.Snapshot(), glob.Store)).
+						TriedICSPointAndTag("I20100")
 				}
 			}(mux)
 		}

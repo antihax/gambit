@@ -199,7 +199,7 @@ func (s *ConnectionManager) sendBanner(ctx context.Context, muc *muxconn.MuxConn
 	default: // send the banner if one exists
 		if banner, ok := s.banners[port]; ok {
 			if _, err := muc.Write(banner); err != nil {
-				gctx.GetGlobalFromContext(muc.Context).Logger.Debug().Err(err).Msg("Sent Banner")
+				gctx.GetGlobalFromContext(muc.Context, "").Logger.Debug().Err(err).Msg("Sent Banner")
 			}
 		}
 	}

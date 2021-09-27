@@ -10,11 +10,9 @@ import (
 	"github.com/antihax/gambit/internal/conman/gctx"
 	"github.com/antihax/gambit/internal/muxconn"
 	"github.com/lunixbochs/struc"
-	"github.com/rs/zerolog"
 )
 
 type smb struct {
-	logger zerolog.Logger
 }
 
 func init() {
@@ -57,8 +55,7 @@ func (s *smb) ServeTCP(ln net.Listener) {
 			return
 		}
 		if mux, ok := conn.(*muxconn.MuxConn); ok {
-			s.logger = gctx.GetGlobalFromContext(mux.Context).Logger.With().Str("driver", "smb").Logger()
-			storeChan := gctx.GetGlobalFromContext(mux.Context).Store
+			glob := gctx.GetGlobalFromContext(mux.Context, "smb")
 
 			go func(conn *muxconn.MuxConn) {
 				defer conn.Close()
@@ -102,9 +99,9 @@ func (s *smb) ServeTCP(ln net.Listener) {
 					default: // Byeeeeeeeeeeeee
 						return
 					}
-					sequence := conn.Sequence()
-					hash := StoreHash(conn.Snapshot(), storeChan)
-					s.logger.Debug().Int("sequence", sequence).Str("phash", hash).Msg("smb knock")
+
+					glob.NewSession(conn.Sequence(), StoreHash(conn.Snapshot(), glob.Store)).
+						Logger.Info().Msg("smb knock")
 				}
 			}(mux)
 		}

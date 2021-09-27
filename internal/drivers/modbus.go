@@ -8,11 +8,9 @@ import (
 	"github.com/antihax/gambit/internal/conman/gctx"
 	"github.com/antihax/gambit/internal/muxconn"
 	"github.com/lunixbochs/struc"
-	"github.com/rs/zerolog"
 )
 
 type modbus struct {
-	logger zerolog.Logger
 }
 
 func init() {
@@ -22,7 +20,6 @@ func init() {
 
 // [TODO] Find good pattern
 func (s *modbus) Patterns() [][]byte {
-
 	return [][]byte{}
 }
 
@@ -34,8 +31,7 @@ func (s *modbus) ServeTCP(ln net.Listener) {
 			return
 		}
 		if mux, ok := conn.(*muxconn.MuxConn); ok {
-			s.logger = gctx.GetGlobalFromContext(mux.Context).Logger.With().Str("driver", "modbus").Logger()
-
+			glob := gctx.GetGlobalFromContext(mux.Context, "modbus")
 			go func(conn *muxconn.MuxConn) {
 				defer conn.Close()
 				conn.SetDeadline(time.Now().Add(time.Second * 5))
@@ -43,6 +39,7 @@ func (s *modbus) ServeTCP(ln net.Listener) {
 					hdr := &modbus_HeaderV1{}
 					err := struc.Unpack(conn, hdr)
 					if err != nil || hdr.Length == 0 || hdr.Length > 260 {
+						glob.LogError(err)
 						return
 					}
 				}

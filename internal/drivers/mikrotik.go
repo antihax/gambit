@@ -8,11 +8,9 @@ import (
 	"github.com/antihax/gambit/internal/conman/gctx"
 	"github.com/antihax/gambit/internal/muxconn"
 	"github.com/lunixbochs/struc"
-	"github.com/rs/zerolog"
 )
 
 type mikrotikRouterOS struct {
-	logger zerolog.Logger
 }
 
 func init() {
@@ -35,23 +33,23 @@ func (s *mikrotikRouterOS) ServeTCP(ln net.Listener) {
 			return
 		}
 		if mux, ok := conn.(*muxconn.MuxConn); ok {
-			s.logger = gctx.GetGlobalFromContext(mux.Context).Logger.With().Str("driver", "mikrotik").Logger()
-			storeChan := gctx.GetGlobalFromContext(mux.Context).Store
+			glob := gctx.GetGlobalFromContext(mux.Context, "mikrotik")
 
 			go func(conn *muxconn.MuxConn) {
 				defer conn.Close()
 				conn.SetDeadline(time.Now().Add(time.Second * 5))
-				sequence := conn.Sequence()
 				for {
+
 					hdr := &mikrotikRouterOS_Frame{}
 					err := struc.Unpack(conn, hdr)
 					if err != nil {
+						glob.LogError(err)
 						return
 					}
 
 					// save session data
-					hash := StoreHash(conn.Snapshot(), storeChan)
-					s.logger.Debug().Int("sequence", sequence).Str("phash", hash).Msg("Mikrotik RouterOS")
+					glob.NewSession(conn.Sequence(), StoreHash(conn.Snapshot(), glob.Store)).
+						Logger.Info().Msg("Mikrotik RouterOS")
 				}
 			}(mux)
 		}
