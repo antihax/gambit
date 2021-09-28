@@ -57,10 +57,10 @@ func (g *GlobalUtils) LogError(e error) {
 		Msg("error")
 }
 
-func (g *GlobalUtils) NewSession(sessionID int, phash string) *Session {
+func (g *GlobalUtils) NewSession(seqNum int, phash string) *Session {
 	return &Session{
 		Logger: g.Logger.With().
-			Int("session", sessionID).
+			Int("sequence", seqNum).
 			Str("phash", phash).
 			Logger(),
 	}
