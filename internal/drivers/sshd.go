@@ -69,11 +69,21 @@ func (s *sshd) ServeTCP(ln net.Listener) {
 }
 
 func (s *sshd) keyCallback(c ssh.ConnMetadata, pubKey ssh.PublicKey) (*ssh.Permissions, error) {
-	s.globutil.NewSession(1, "").TriedKey(c.User(), string(pubKey.Marshal()), pubKey.Type())
+	s.globutil.NewSession(1, "").
+		ATTACKEntBruteForce(
+			gctx.Value{Key: "user", Value: c.User()},
+			gctx.Value{Key: "pubkey", Value: string(pubKey.Marshal())},
+			gctx.Value{Key: "pubkeytype", Value: pubKey.Type()},
+		)
 	return nil, fmt.Errorf("unknown public key for %q", c.User())
 }
 
 func (s *sshd) passwordCallback(c ssh.ConnMetadata, pass []byte) (*ssh.Permissions, error) {
-	s.globutil.NewSession(1, "").TriedPassword(c.User(), string(pass))
+	s.globutil.NewSession(1, "").
+		ATTACKEntPasswordGuessing(
+			gctx.Value{Key: "user", Value: c.User()},
+			gctx.Value{Key: "pass", Value: string(pass)},
+		)
+
 	return nil, fmt.Errorf("password rejected for %q", c.User())
 }

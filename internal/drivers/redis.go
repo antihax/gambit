@@ -63,10 +63,13 @@ func (s *redis) ServeTCP(ln net.Listener) {
 						return
 					} else {
 						cmd := strings.ToUpper(string(command.Get(0)))
-						l.TriedActiveProbe(gctx.Value{Key: "opCode", Value: cmd})
+						l.ATTACKEntActiveScanning(gctx.Value{Key: "opCode", Value: cmd})
 						switch cmd {
 						case "AUTH":
-							l.TriedPassword("redis", string(command.Get(1)))
+							l.ATTACKEntPasswordGuessing(
+								gctx.Value{Key: "user", Value: "redis"},
+								gctx.Value{Key: "pass", Value: string(command.Get(1))},
+							)
 							writer.WriteBulkString("OK")
 						case "CLIENT":
 							switch strings.ToUpper(string(command.Get(1))) {

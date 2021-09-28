@@ -18,11 +18,14 @@ for item in response['objects']:
                 continue
             for e in item['external_references']:
                 ext = e.get("external_id", "")
-                if ext and e['source_name'] == "mitre-attack" and not item['x_mitre_platforms'][0] == "PRE":
+                if ext and e['source_name'] == "mitre-attack" :
                     name = "ATTACKEnt" + re.sub('[ -/()]', "", item['name'])
-                    if knownNames.get(name, False):
-                        name = name + "Next"
-                    knownNames[name] = True
+                    if knownNames.get(name, 0):
+                        knownNames[name] = knownNames[name] + 1
+                        name = name + str(knownNames[name])
+                    else:
+                        knownNames[name] = 1
+                    
                     id = ext
                     phases = ""
                     for p in item['kill_chain_phases']:
@@ -53,11 +56,13 @@ for item in response['objects']:
                 continue
             for e in item['external_references']:
                 ext = e.get("external_id", "")
-                if ext and e['source_name'] == "mitre-ics-attack" and not item['x_mitre_platforms'][0] == "PRE":
+                if ext and e['source_name'] == "mitre-ics-attack":
                     name = "ATTACKICS" + re.sub('[ -/()]', "", item['name'])
-                    if knownNames.get(name, False):
-                        name = name + "Next"
-                    knownNames[name] = True
+                    if knownNames.get(name, 0):
+                        knownNames[name] = knownNames[name] + 1
+                        name = name + str(knownNames[name])
+                    else:
+                        knownNames[name] = 1
                     id = ext
                     phases = ""
                     for p in item['kill_chain_phases']:

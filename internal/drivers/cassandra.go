@@ -88,7 +88,10 @@ func (s *cassandra) ServeTCP(ln net.Listener) {
 						} else {
 							cred := &client.AuthCredentials{}
 							if err = cred.Unmarshal(authResponse.Token); err == nil {
-								l.TriedPassword(cred.Username, cred.Password)
+								l.ATTACKEntPasswordGuessing(
+									gctx.Value{Key: "user", Value: cred.Username},
+									gctx.Value{Key: "pass", Value: cred.Password},
+								)
 							}
 						}
 

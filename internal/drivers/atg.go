@@ -60,7 +60,7 @@ func (s *atg) ServeTCP(ln net.Listener) {
 					}
 
 					glob.NewSession(conn.Sequence(), StoreHash(conn.Snapshot(), glob.Store)).
-						TriedICSPointAndTag("I20100")
+						ATTACKICSPointTagIdentification(gctx.Value{Key: "tag", Value: "I20100"})
 				}
 			}(mux)
 		}

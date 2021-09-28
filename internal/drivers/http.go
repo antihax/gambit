@@ -115,7 +115,10 @@ func (s *httpd) http_handleAll(w http.ResponseWriter, r *http.Request) {
 
 func (s *httpd) http_handleTrap(w http.ResponseWriter, r *http.Request) {
 	loggerFromContext(r.Context()).
-		TriedPassword(r.Form.Get("user"), r.Form.Get("pass"))
+		ATTACKEntPasswordGuessing(
+			gctx.Value{Key: "user", Value: r.Form.Get("user")},
+			gctx.Value{Key: "pass", Value: r.Form.Get("pass")},
+		)
 
 	w.Header().Set("Content-Type", "text/html")
 	w.Write(nil)
@@ -137,8 +140,7 @@ func (s *httpd) http_dockerContainerCreated(w http.ResponseWriter, r *http.Reque
 	w.Header().Set("Content-Type", "application/json")
 	fmt.Fprintf(w, `{"Id":"e90e34656806","Warnings":[]}`)
 	glob := loggerFromContext(r.Context())
-	glob.AppendLogger(gctx.Value{Key: "system", Value: "docker"})
-	glob.TriedDeployContainer()
+	glob.ATTACKEntDeployContainer(gctx.Value{Key: "system", Value: "docker"})
 }
 
 // [TODO] build framework for reading and writing these streams
@@ -148,8 +150,7 @@ func (s *httpd) http_dockere90e34656806attach(w http.ResponseWriter, r *http.Req
 	w.Header().Set("Connection", "Upgrade")
 	w.Header().Set("Upgrade", "tcp")
 	glob := loggerFromContext(r.Context())
-	glob.AppendLogger(gctx.Value{Key: "system", Value: "docker"})
-	glob.TriedExecContainer()
+	glob.ATTACKEntContainerAdministrationCommand(gctx.Value{Key: "system", Value: "docker"})
 	fmt.Fprintf(w, ``)
 }
 
@@ -160,9 +161,8 @@ func (s *httpd) http_phpunit(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain")
 	fmt.Fprintf(w, `85af727fd022d3a13e7972fd6a418582`)
 	glob := loggerFromContext(r.Context())
-	glob.AppendLogger(
+	glob.ATTACKEntExploitPublicFacingApplication(
 		gctx.Value{Key: "system", Value: "wordpress"},
 		gctx.Value{Key: "cve", Value: "CVE-2017-9841"},
 	)
-	glob.TriedExploitingPublicApplication()
 }

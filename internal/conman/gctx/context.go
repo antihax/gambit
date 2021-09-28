@@ -98,7 +98,7 @@ func (g *Session) addValues(values ...Value) zerolog.Logger {
 
 // MITRE ATT&CK outputs
 // TriedPassword logs a password attempt
-
+/*
 func (g *Session) TriedPassword(user, pass string, values ...Value) {
 	l := g.addValues(values...)
 	l.Warn().
@@ -161,3 +161,4 @@ func (g *Session) TriedActiveProbe(values ...Value) {
 		Str("technique", "T1595").
 		Msg("probing service")
 }
+*/
