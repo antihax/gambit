@@ -1,7 +1,5 @@
 package gctx
 
-
-
 /* ATTACKEntetcpasswdandetcshadow Phases: credential-access
 
 Adversaries may attempt to dump the contents of /etc/passwd and /etc/shadow to
@@ -15,10 +13,10 @@ John the Ripper) # /usr/bin/unshadow /etc/passwd /etc/shadow >
 /tmp/crack.password.db
 */
 func (g *Session) ATTACKEntetcpasswdandetcshadow(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1003.008").
-        Msg("/etc/passwd and /etc/shadow")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1003.008").
+		Msg("/etc/passwd and /etc/shadow")
 }
 
 /* ATTACKEntARPCachePoisoning Phases: credential-access collection
@@ -50,10 +48,10 @@ collect and/or relay data such as credentials, especially those sent over an
 insecure, unencrypted protocol.(Citation: Sans ARP Spoofing Aug 2003)
 */
 func (g *Session) ATTACKEntARPCachePoisoning(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1557.002").
-        Msg("arp cache poisoning")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1557.002").
+		Msg("arp cache poisoning")
 }
 
 /* ATTACKEntASREPRoasting Phases: credential-access
@@ -86,10 +84,10 @@ may enable Persistence, Privilege Escalation, and Lateral Movement via access to
 Valid Accounts.(Citation: SANS Attacking Kerberos Nov 2014)
 */
 func (g *Session) ATTACKEntASREPRoasting(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1558.004").
-        Msg("as-rep roasting")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1558.004").
+		Msg("as-rep roasting")
 }
 
 /* ATTACKEntAbuseElevationControlMechanism Phases: privilege-escalation defense-evasion
@@ -103,10 +101,10 @@ several methods to take advantage of built-in control mechanisms in order to
 escalate privileges on a system.
 */
 func (g *Session) ATTACKEntAbuseElevationControlMechanism(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1548").
-        Msg("abuse elevation control mechanism")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1548").
+		Msg("abuse elevation control mechanism")
 }
 
 /* ATTACKEntAccessTokenManipulation Phases: defense-evasion privilege-escalation
@@ -133,10 +131,10 @@ There are also other mechanisms, such as Active Directory fields, that can be
 used to modify access tokens.
 */
 func (g *Session) ATTACKEntAccessTokenManipulation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1134").
-        Msg("access token manipulation")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1134").
+		Msg("access token manipulation")
 }
 
 /* ATTACKEntAccessibilityFeatures Phases: privilege-escalation persistence
@@ -176,10 +174,10 @@ C:\Windows\System32\DisplaySwitch.exe App Switcher:
 C:\Windows\System32\AtBroker.exe
 */
 func (g *Session) ATTACKEntAccessibilityFeatures(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1546.008").
-        Msg("accessibility features")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1546.008").
+		Msg("accessibility features")
 }
 
 /* ATTACKEntAccountAccessRemoval Phases: impact
@@ -192,10 +190,10 @@ malicious changes into place.(Citation: CarbonBlack LockerGoga 2019)(Citation:
 Unit42 LockerGoga 2019)
 */
 func (g *Session) ATTACKEntAccountAccessRemoval(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1531").
-        Msg("account access removal")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1531").
+		Msg("account access removal")
 }
 
 /* ATTACKEntAccountDiscovery Phases: discovery
@@ -205,10 +203,10 @@ environment. This information can help adversaries determine which accounts
 exist to aid in follow-on behavior.
 */
 func (g *Session) ATTACKEntAccountDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1087").
-        Msg("account discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1087").
+		Msg("account discovery")
 }
 
 /* ATTACKEntAccountManipulation Phases: persistence
@@ -223,10 +221,10 @@ create or manipulate accounts, the adversary must already have sufficient
 permissions on systems or the domain.
 */
 func (g *Session) ATTACKEntAccountManipulation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1098").
-        Msg("account manipulation")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1098").
+		Msg("account manipulation")
 }
 
 /* ATTACKEntAcquireInfrastructure Phases: resource-development
@@ -244,10 +242,10 @@ that makes it difficult to physically tie back to them as well as utilize
 infrastructure that can be rapidly provisioned, modified, and shut down.
 */
 func (g *Session) ATTACKEntAcquireInfrastructure(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1583").
-        Msg("acquire infrastructure")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1583").
+		Msg("acquire infrastructure")
 }
 
 /* ATTACKEntActiveScanning Phases: reconnaissance
@@ -266,10 +264,10 @@ resources (ex: Develop Capabilities or Obtain Capabilities), and/or initial
 access (ex: External Remote Services or Exploit Public-Facing Application).
 */
 func (g *Session) ATTACKEntActiveScanning(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1595").
-        Msg("active scanning")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1595").
+		Msg("active scanning")
 }
 
 /* ATTACKEntActiveSetup Phases: persistence privilege-escalation
@@ -291,10 +289,10 @@ reboots. Adversaries may also use Masquerading to make the Registry entries look
 as if they are associated with legitimate programs.
 */
 func (g *Session) ATTACKEntActiveSetup(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1547.014").
-        Msg("active setup")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1547.014").
+		Msg("active setup")
 }
 
 /* ATTACKEntAddOffice365GlobalAdministratorRole Phases: persistence
@@ -309,10 +307,10 @@ Admin Roles)  This account modification may immediately follow Create Account or
 other malicious account activity.
 */
 func (g *Session) ATTACKEntAddOffice365GlobalAdministratorRole(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1098.003").
-        Msg("add office 365 global administrator role")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1098.003").
+		Msg("add office 365 global administrator role")
 }
 
 /* ATTACKEntAddins Phases: persistence
@@ -328,10 +326,10 @@ ins)(Citation: FireEye Mail CDS 2018) Add-ins can be used to obtain persistence
 because they can be set to execute code when an Office application starts.
 */
 func (g *Session) ATTACKEntAddins(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1137.006").
-        Msg("add-ins")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1137.006").
+		Msg("add-ins")
 }
 
 /* ATTACKEntAdditionalCloudCredentials Phases: persistence
@@ -355,10 +353,10 @@ compromised cloud accounts.(Citation: Expel IO Evil in AWS)(Citation: Expel
 Behind the Scenes)
 */
 func (g *Session) ATTACKEntAdditionalCloudCredentials(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1098.001").
-        Msg("additional cloud credentials")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1098.001").
+		Msg("additional cloud credentials")
 }
 
 /* ATTACKEntAppCertDLLs Phases: privilege-escalation persistence
@@ -376,10 +374,10 @@ run in the context of separate processes on the computer. Malicious AppCert DLLs
 may also provide persistence by continuously being triggered by API activity.
 */
 func (g *Session) ATTACKEntAppCertDLLs(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1546.009").
-        Msg("appcert dlls")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1546.009").
+		Msg("appcert dlls")
 }
 
 /* ATTACKEntAppInitDLLs Phases: privilege-escalation persistence
@@ -400,10 +398,10 @@ The AppInit DLL functionality is disabled in Windows 8 and later versions when
 secure boot is enabled. (Citation: AppInit Secure Boot)
 */
 func (g *Session) ATTACKEntAppInitDLLs(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1546.010").
-        Msg("appinit dlls")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1546.010").
+		Msg("appinit dlls")
 }
 
 /* ATTACKEntAppleScript Phases: execution
@@ -434,10 +432,10 @@ to launch more common techniques as well such as a reverse shell via
 Python.(Citation: Macro Malware Targets Macs)
 */
 func (g *Session) ATTACKEntAppleScript(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1059.002").
-        Msg("applescript")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1059.002").
+		Msg("applescript")
 }
 
 /* ATTACKEntApplicationAccessToken Phases: defense-evasion lateral-movement
@@ -472,10 +470,10 @@ channel can be difficult to detect even from the service provider end, as the
 access can still align well with a legitimate workflow.
 */
 func (g *Session) ATTACKEntApplicationAccessToken(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1550.001").
-        Msg("application access token")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1550.001").
+		Msg("application access token")
 }
 
 /* ATTACKEntApplicationExhaustionFlood Phases: impact
@@ -487,10 +485,10 @@ system resources and deny access to the application or the server itself.
 (Citation: Arbor AnnualDoSreport Jan 2018)
 */
 func (g *Session) ATTACKEntApplicationExhaustionFlood(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1499.003").
-        Msg("application exhaustion flood")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1499.003").
+		Msg("application exhaustion flood")
 }
 
 /* ATTACKEntApplicationLayerProtocol Phases: command-and-control
@@ -505,10 +503,10 @@ internally within an enclave (such as those between a proxy or pivot node and
 other nodes), commonly used protocols are SMB, SSH, or RDP.
 */
 func (g *Session) ATTACKEntApplicationLayerProtocol(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1071").
-        Msg("application layer protocol")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1071").
+		Msg("application layer protocol")
 }
 
 /* ATTACKEntApplicationShimming Phases: privilege-escalation persistence
@@ -543,10 +541,10 @@ Shims can also be abused to establish persistence by continuously being invoked
 by affected programs.
 */
 func (g *Session) ATTACKEntApplicationShimming(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1546.011").
-        Msg("application shimming")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1546.011").
+		Msg("application shimming")
 }
 
 /* ATTACKEntApplicationWindowDiscovery Phases: discovery
@@ -556,10 +554,10 @@ listings could convey information about how the system is used or give context
 to information collected by a keylogger.
 */
 func (g *Session) ATTACKEntApplicationWindowDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1010").
-        Msg("application window discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1010").
+		Msg("application window discovery")
 }
 
 /* ATTACKEntApplicationorSystemExploitation Phases: impact
@@ -571,10 +569,10 @@ services when crashes occur, but they can likely be re-exploited to cause a
 persistent DoS condition.
 */
 func (g *Session) ATTACKEntApplicationorSystemExploitation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1499.004").
-        Msg("application or system exploitation")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1499.004").
+		Msg("application or system exploitation")
 }
 
 /* ATTACKEntArchiveCollectedData Phases: collection
@@ -588,10 +586,10 @@ are done prior to exfiltration, and can be performed using a utility, 3rd party
 library, or custom method.
 */
 func (g *Session) ATTACKEntArchiveCollectedData(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1560").
-        Msg("archive collected data")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1560").
+		Msg("archive collected data")
 }
 
 /* ATTACKEntArchiveviaCustomMethod Phases: collection
@@ -603,10 +601,10 @@ no external library or utility references. Custom implementations of well-known
 compression algorithms have also been used.(Citation: ESET Sednit Part 2)
 */
 func (g *Session) ATTACKEntArchiveviaCustomMethod(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1560.003").
-        Msg("archive via custom method")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1560.003").
+		Msg("archive via custom method")
 }
 
 /* ATTACKEntArchiveviaLibrary Phases: collection
@@ -622,10 +620,10 @@ when compiling, while the utilities require spawning a subshell, or a similar
 execution mechanism.
 */
 func (g *Session) ATTACKEntArchiveviaLibrary(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1560.002").
-        Msg("archive via library")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1560.002").
+		Msg("archive via library")
 }
 
 /* ATTACKEntArchiveviaUtility Phases: collection
@@ -638,10 +636,10 @@ functionality to encrypt and/or compress data. Some 3rd party utilities may be
 preinstalled, such as tar on Linux and macOS or zip on Windows systems.
 */
 func (g *Session) ATTACKEntArchiveviaUtility(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1560.001").
-        Msg("archive via utility")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1560.001").
+		Msg("archive via utility")
 }
 
 /* ATTACKEntAsymmetricCryptography Phases: command-and-control
@@ -660,10 +658,10 @@ to establish or transmit a key. As such, these protocols are classified as
 Asymmetric Cryptography.
 */
 func (g *Session) ATTACKEntAsymmetricCryptography(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1573.002").
-        Msg("asymmetric cryptography")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1573.002").
+		Msg("asymmetric cryptography")
 }
 
 /* ATTACKEntAsynchronousProcedureCall Phases: defense-evasion privilege-escalation
@@ -690,10 +688,10 @@ detection from security products since the execution is masked under a
 legitimate process.
 */
 func (g *Session) ATTACKEntAsynchronousProcedureCall(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1055.004").
-        Msg("asynchronous procedure call")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1055.004").
+		Msg("asynchronous procedure call")
 }
 
 /* ATTACKEntAtLinux Phases: execution persistence privilege-escalation
@@ -707,10 +705,10 @@ be abused to conduct remote Execution as part of Lateral Movement and or to run
 a process under the context of a specified account.
 */
 func (g *Session) ATTACKEntAtLinux(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1053.001").
-        Msg("at (linux)")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1053.001").
+		Msg("at (linux)")
 }
 
 /* ATTACKEntAtWindows Phases: execution persistence privilege-escalation
@@ -727,10 +725,10 @@ account (such as SYSTEM). Note: The at.exe command line utility has been
 deprecated in current versions of Windows in favor of schtasks.
 */
 func (g *Session) ATTACKEntAtWindows(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1053.002").
-        Msg("at (windows)")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1053.002").
+		Msg("at (windows)")
 }
 
 /* ATTACKEntAudioCapture Phases: collection
@@ -743,10 +741,10 @@ an available API provided by the operating system or an application to capture
 audio. Audio files may be written to disk and exfiltrated later.
 */
 func (g *Session) ATTACKEntAudioCapture(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1123").
-        Msg("audio capture")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1123").
+		Msg("audio capture")
 }
 
 /* ATTACKEntAuthenticationPackage Phases: persistence privilege-escalation
@@ -763,10 +761,10 @@ Packages"=<target binary>. The binary will then be executed by the system when
 the authentication packages are loaded.
 */
 func (g *Session) ATTACKEntAuthenticationPackage(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1547.002").
-        Msg("authentication package")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1547.002").
+		Msg("authentication package")
 }
 
 /* ATTACKEntAutomatedCollection Phases: collection
@@ -781,10 +779,10 @@ File and Directory Discovery and Lateral Tool Transfer to identify and move
 files.
 */
 func (g *Session) ATTACKEntAutomatedCollection(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1119").
-        Msg("automated collection")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1119").
+		Msg("automated collection")
 }
 
 /* ATTACKEntAutomatedExfiltration Phases: exfiltration
@@ -796,10 +794,10 @@ transfer the information out of the network, such as Exfiltration Over C2
 Channel and Exfiltration Over Alternative Protocol.
 */
 func (g *Session) ATTACKEntAutomatedExfiltration(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1020").
-        Msg("automated exfiltration")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1020").
+		Msg("automated exfiltration")
 }
 
 /* ATTACKEntBITSJobs Phases: defense-evasion persistence
@@ -827,10 +825,10 @@ be used to perform Exfiltration Over Alternative Protocol.(Citation: CTU BITS
 Malware June 2016)
 */
 func (g *Session) ATTACKEntBITSJobs(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1197").
-        Msg("bits jobs")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1197").
+		Msg("bits jobs")
 }
 
 /* ATTACKEntBashHistory Phases: credential-access
@@ -846,10 +844,10 @@ they log out. Attackers can abuse this by looking through the file for potential
 credentials. (Citation: External to DA, the OS X Way)
 */
 func (g *Session) ATTACKEntBashHistory(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1552.003").
-        Msg("bash history")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1552.003").
+		Msg("bash history")
 }
 
 /* ATTACKEntBidirectionalCommunication Phases: command-and-control
@@ -871,10 +869,10 @@ adversaries to hide in expected noise. Web service providers commonly use
 SSL/TLS encryption, giving adversaries an added level of protection.
 */
 func (g *Session) ATTACKEntBidirectionalCommunication(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1102.002").
-        Msg("bidirectional communication")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1102.002").
+		Msg("bidirectional communication")
 }
 
 /* ATTACKEntBinaryPadding Phases: defense-evasion
@@ -895,10 +893,10 @@ limits the maximum size of an uploaded file to be analyzed.(Citation: VirusTotal
 FAQ)
 */
 func (g *Session) ATTACKEntBinaryPadding(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1027.001").
-        Msg("binary padding")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1027.001").
+		Msg("binary padding")
 }
 
 /* ATTACKEntBootorLogonAutostartExecution Phases: persistence privilege-escalation
@@ -917,10 +915,10 @@ features of the kernel. Since some boot or logon autostart programs run with
 higher privileges, an adversary may leverage these to elevate privileges.
 */
 func (g *Session) ATTACKEntBootorLogonAutostartExecution(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1547").
-        Msg("boot or logon autostart execution")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1547").
+		Msg("boot or logon autostart execution")
 }
 
 /* ATTACKEntBootorLogonInitializationScripts Phases: persistence privilege-escalation
@@ -937,10 +935,10 @@ escalate their privileges since some boot or logon initialization scripts run
 with higher privileges.
 */
 func (g *Session) ATTACKEntBootorLogonInitializationScripts(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1037").
-        Msg("boot or logon initialization scripts")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1037").
+		Msg("boot or logon initialization scripts")
 }
 
 /* ATTACKEntBootkit Phases: persistence defense-evasion
@@ -960,10 +958,10 @@ boot drive may overwrite the VBR to divert execution during startup to adversary
 code.
 */
 func (g *Session) ATTACKEntBootkit(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1542.003").
-        Msg("bootkit")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1542.003").
+		Msg("bootkit")
 }
 
 /* ATTACKEntBotnet Phases: resource-development
@@ -978,10 +976,10 @@ activity such as large-scale Phishing or Distributed Denial of Service
 Bazaar)(Citation: Krebs-Booter)
 */
 func (g *Session) ATTACKEntBotnet(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1583.005").
-        Msg("botnet")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1583.005").
+		Msg("botnet")
 }
 
 /* ATTACKEntBotnet2 Phases: resource-development
@@ -998,10 +996,10 @@ follow-on activity such as large-scale Phishing or Distributed Denial of Service
 (DDoS).
 */
 func (g *Session) ATTACKEntBotnet2(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1584.005").
-        Msg("botnet")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1584.005").
+		Msg("botnet")
 }
 
 /* ATTACKEntBrowserBookmarkDiscovery Phases: discovery
@@ -1017,10 +1015,10 @@ based on platform and/or application, but browser bookmarks are typically stored
 in local files/databases.
 */
 func (g *Session) ATTACKEntBrowserBookmarkDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1217").
-        Msg("browser bookmark discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1217").
+		Msg("browser bookmark discovery")
 }
 
 /* ATTACKEntBrowserExtensions Phases: persistence
@@ -1055,10 +1053,10 @@ examples of extensions being used for command & control.(Citation: Chrome
 Extension C2 Malware)
 */
 func (g *Session) ATTACKEntBrowserExtensions(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1176").
-        Msg("browser extensions")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1176").
+		Msg("browser extensions")
 }
 
 /* ATTACKEntBruteForce Phases: credential-access
@@ -1072,10 +1070,10 @@ validity of those credentials or offline against previously acquired credential
 data, such as password hashes.
 */
 func (g *Session) ATTACKEntBruteForce(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1110").
-        Msg("brute force")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1110").
+		Msg("brute force")
 }
 
 /* ATTACKEntBuildImageonHost Phases: defense-evasion
@@ -1094,10 +1092,10 @@ base image already resides in a local registry, the pull may be considered even
 less suspicious since the image is already in the environment.
 */
 func (g *Session) ATTACKEntBuildImageonHost(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1612").
-        Msg("build image on host")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1612").
+		Msg("build image on host")
 }
 
 /* ATTACKEntBusinessRelationships Phases: reconnaissance
@@ -1119,10 +1117,10 @@ Information or Search Open Websites/Domains), establishing operational resources
 Supply Chain Compromise, Drive-by Compromise, or Trusted Relationship).
 */
 func (g *Session) ATTACKEntBusinessRelationships(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1591.002").
-        Msg("business relationships")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1591.002").
+		Msg("business relationships")
 }
 
 /* ATTACKEntBypassUserAccountControl Phases: privilege-escalation defense-evasion
@@ -1157,10 +1155,10 @@ running on one system will be unknown on remote systems and default to high
 integrity.(Citation: SANS UAC Bypass)
 */
 func (g *Session) ATTACKEntBypassUserAccountControl(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1548.002").
-        Msg("bypass user account control")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1548.002").
+		Msg("bypass user account control")
 }
 
 /* ATTACKEntCDNs Phases: reconnaissance
@@ -1181,10 +1179,10 @@ Scanning or Search Open Websites/Domains), establishing operational resources
 (ex: Drive-by Compromise).
 */
 func (g *Session) ATTACKEntCDNs(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1596.004").
-        Msg("cdns")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1596.004").
+		Msg("cdns")
 }
 
 /* ATTACKEntCMSTP Phases: defense-evasion
@@ -1207,10 +1205,10 @@ an auto-elevated COM interface. (Citation: MSitPros CMSTP Aug 2017) (Citation:
 GitHub Ultimate AppLocker Bypass List) (Citation: Endurant CMSTP July 2018)
 */
 func (g *Session) ATTACKEntCMSTP(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1218.003").
-        Msg("cmstp")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1218.003").
+		Msg("cmstp")
 }
 
 /* ATTACKEntCOR_PROFILER Phases: persistence privilege-escalation defense-evasion
@@ -1240,10 +1238,10 @@ COR_PROFILER Apr 2019)(Citation: GitHub OmerYa Invisi-Shell)(Citation: subTee
 .NET Profilers May 2017)
 */
 func (g *Session) ATTACKEntCOR_PROFILER(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1574.012").
-        Msg("cor_profiler")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1574.012").
+		Msg("cor_profiler")
 }
 
 /* ATTACKEntCachedDomainCredentials Phases: credential-access
@@ -1261,10 +1259,10 @@ the cached credentials. Note: Cached credentials for Windows Vista are derived
 using PBKDF2.(Citation: PassLib mscache)
 */
 func (g *Session) ATTACKEntCachedDomainCredentials(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1003.005").
-        Msg("cached domain credentials")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1003.005").
+		Msg("cached domain credentials")
 }
 
 /* ATTACKEntChangeDefaultFileAssociation Phases: privilege-escalation persistence
@@ -1290,10 +1288,10 @@ Adversaries can modify these values to continually execute arbitrary commands.
 (Citation: TrendMicro TROJ-FAKEAV OCT 2012)
 */
 func (g *Session) ATTACKEntChangeDefaultFileAssociation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1546.001").
-        Msg("change default file association")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1546.001").
+		Msg("change default file association")
 }
 
 /* ATTACKEntClearCommandHistory Phases: defense-evasion
@@ -1326,10 +1324,10 @@ contents to hide PowerShell commands they have run.(Citation: Sophos PowerShell
 command audit)(Citation: Sophos PowerShell Command History Forensics)
 */
 func (g *Session) ATTACKEntClearCommandHistory(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1070.003").
-        Msg("clear command history")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1070.003").
+		Msg("clear command history")
 }
 
 /* ATTACKEntClearLinuxorMacSystemLogs Phases: defense-evasion
@@ -1345,10 +1343,10 @@ or /var/log/wtmp: Login records /var/log/kern.log: Kernel logs
 /var/log/httpd/: Web server access and error logs
 */
 func (g *Session) ATTACKEntClearLinuxorMacSystemLogs(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1070.002").
-        Msg("clear linux or mac system logs")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1070.002").
+		Msg("clear linux or mac system logs")
 }
 
 /* ATTACKEntClearWindowsEventLogs Phases: defense-evasion
@@ -1363,10 +1361,10 @@ also be cleared through other mechanisms, such as the event viewer GUI or
 PowerShell.
 */
 func (g *Session) ATTACKEntClearWindowsEventLogs(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1070.001").
-        Msg("clear windows event logs")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1070.001").
+		Msg("clear windows event logs")
 }
 
 /* ATTACKEntClientConfigurations Phases: reconnaissance
@@ -1389,10 +1387,10 @@ Obtain Capabilities), and/or initial access (ex: Supply Chain Compromise or
 External Remote Services).
 */
 func (g *Session) ATTACKEntClientConfigurations(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1592.004").
-        Msg("client configurations")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1592.004").
+		Msg("client configurations")
 }
 
 /* ATTACKEntClipboardData Phases: collection
@@ -1404,10 +1402,10 @@ a native command, pbpaste, to grab clipboard contents.(Citation: Operating with
 EmPyre)
 */
 func (g *Session) ATTACKEntClipboardData(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1115").
-        Msg("clipboard data")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1115").
+		Msg("clipboard data")
 }
 
 /* ATTACKEntCloudAccount Phases: persistence
@@ -1423,10 +1421,10 @@ only have access to specific cloud services, which can reduce the chance of
 detection.
 */
 func (g *Session) ATTACKEntCloudAccount(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1136.003").
-        Msg("cloud account")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1136.003").
+		Msg("cloud account")
 }
 
 /* ATTACKEntCloudAccount2 Phases: discovery
@@ -1450,10 +1448,10 @@ accounts and users in a project.(Citation: Google Cloud - IAM Servie Accounts
 List API)
 */
 func (g *Session) ATTACKEntCloudAccount2(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1087.004").
-        Msg("cloud account")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1087.004").
+		Msg("cloud account")
 }
 
 /* ATTACKEntCloudAccounts Phases: defense-evasion persistence privilege-escalation initial-access
@@ -1473,10 +1471,10 @@ Accounts, compromise of federated cloud accounts may allow adversaries to more
 easily move laterally within an environment.
 */
 func (g *Session) ATTACKEntCloudAccounts(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1078.004").
-        Msg("cloud accounts")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1078.004").
+		Msg("cloud accounts")
 }
 
 /* ATTACKEntCloudGroups Phases: discovery
@@ -1497,10 +1495,10 @@ Black Hills Red Teaming MS AD Azure, 2018)(Citation: Google Cloud Identity API
 Documentation)
 */
 func (g *Session) ATTACKEntCloudGroups(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1069.003").
-        Msg("cloud groups")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1069.003").
+		Msg("cloud groups")
 }
 
 /* ATTACKEntCloudInfrastructureDiscovery Phases: discovery
@@ -1527,10 +1525,10 @@ Service Discovery, this technique focuses on the discovery of components of the
 provided services rather than the services themselves.
 */
 func (g *Session) ATTACKEntCloudInfrastructureDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1580").
-        Msg("cloud infrastructure discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1580").
+		Msg("cloud infrastructure discovery")
 }
 
 /* ATTACKEntCloudInstanceMetadataAPI Phases: credential-access
@@ -1556,10 +1554,10 @@ cloud service providers is to host the Instance Metadata API at
 http[:]//169.254.169.254.
 */
 func (g *Session) ATTACKEntCloudInstanceMetadataAPI(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1552.005").
-        Msg("cloud instance metadata api")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1552.005").
+		Msg("cloud instance metadata api")
 }
 
 /* ATTACKEntCloudServiceDashboard Phases: discovery
@@ -1575,10 +1573,10 @@ the graphical dashboard than an API. This allows the adversary to gain
 information without making any API requests.
 */
 func (g *Session) ATTACKEntCloudServiceDashboard(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1538").
-        Msg("cloud service dashboard")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1538").
+		Msg("cloud service dashboard")
 }
 
 /* ATTACKEntCloudServiceDiscovery Phases: discovery
@@ -1600,10 +1598,10 @@ several methods for discovering cloud services.(Citation: Azure -
 Stormspotter)(Citation: GitHub Pacu)
 */
 func (g *Session) ATTACKEntCloudServiceDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1526").
-        Msg("cloud service discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1526").
+		Msg("cloud service discovery")
 }
 
 /* ATTACKEntCodeSigning Phases: defense-evasion
@@ -1622,10 +1620,10 @@ used to bypass security policies that require signed code to execute on a
 system.
 */
 func (g *Session) ATTACKEntCodeSigning(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1553.002").
-        Msg("code signing")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1553.002").
+		Msg("code signing")
 }
 
 /* ATTACKEntCodeSigningCertificates Phases: resource-development
@@ -1642,10 +1640,10 @@ Signing, adversaries may develop self-signed code signing certificates for use
 in operations.
 */
 func (g *Session) ATTACKEntCodeSigningCertificates(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1587.002").
-        Msg("code signing certificates")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1587.002").
+		Msg("code signing certificates")
 }
 
 /* ATTACKEntCodeSigningCertificates2 Phases: resource-development
@@ -1666,10 +1664,10 @@ Adversaries may also steal code signing materials directly from a compromised
 third-party.
 */
 func (g *Session) ATTACKEntCodeSigningCertificates2(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1588.003").
-        Msg("code signing certificates")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1588.003").
+		Msg("code signing certificates")
 }
 
 /* ATTACKEntCodeSigningPolicyModification Phases: defense-evasion
@@ -1707,10 +1705,10 @@ a signed, but vulnerable driver.(Citation: Unit42 AcidBox June 2020)(Citation:
 GitHub Turla Driver Loader)
 */
 func (g *Session) ATTACKEntCodeSigningPolicyModification(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1553.006").
-        Msg("code signing policy modification")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1553.006").
+		Msg("code signing policy modification")
 }
 
 /* ATTACKEntCommandandScriptingInterpreter Phases: execution
@@ -1730,10 +1728,10 @@ payloads downloaded from an existing C2. Adversaries may also execute commands
 through interactive terminals/shells.
 */
 func (g *Session) ATTACKEntCommandandScriptingInterpreter(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1059").
-        Msg("command and scripting interpreter")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1059").
+		Msg("command and scripting interpreter")
 }
 
 /* ATTACKEntCommonlyUsedPort Phases: command-and-control
@@ -1749,10 +1747,10 @@ proxy or pivot node and other nodes), examples of common ports are   TCP/UDP:135
 (RPC) TCP/UDP:22 (SSH) TCP/UDP:3389 (RDP)
 */
 func (g *Session) ATTACKEntCommonlyUsedPort(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1043").
-        Msg("commonly used port")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1043").
+		Msg("commonly used port")
 }
 
 /* ATTACKEntCommunicationThroughRemovableMedia Phases: command-and-control
@@ -1766,10 +1764,10 @@ and files would be relayed from the disconnected system to the Internet-
 connected system to which the adversary has direct access.
 */
 func (g *Session) ATTACKEntCommunicationThroughRemovableMedia(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1092").
-        Msg("communication through removable media")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1092").
+		Msg("communication through removable media")
 }
 
 /* ATTACKEntCompileAfterDelivery Phases: defense-evasion
@@ -1787,10 +1785,10 @@ binary with a bundled compiler and execution framework.(Citation: TrendMicro
 WindowsAppMac)
 */
 func (g *Session) ATTACKEntCompileAfterDelivery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1027.004").
-        Msg("compile after delivery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1027.004").
+		Msg("compile after delivery")
 }
 
 /* ATTACKEntCompiledHTMLFile Phases: defense-evasion
@@ -1810,10 +1808,10 @@ through hh.exe. (Citation: MsitPros CHM Aug 2017) (Citation: Microsoft
 CVE-2017-8625 Aug 2017)
 */
 func (g *Session) ATTACKEntCompiledHTMLFile(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1218.001").
-        Msg("compiled html file")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1218.001").
+		Msg("compiled html file")
 }
 
 /* ATTACKEntComponentFirmware Phases: persistence defense-evasion
@@ -1829,10 +1827,10 @@ potential typical failures to maintain access and hard disk re-images, as well
 as a way to evade host software-based defenses and integrity checks.
 */
 func (g *Session) ATTACKEntComponentFirmware(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1542.002").
-        Msg("component firmware")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1542.002").
+		Msg("component firmware")
 }
 
 /* ATTACKEntComponentObjectModel Phases: execution
@@ -1853,10 +1851,10 @@ escalation and persistence.(Citation: Fireeye Hunting COM June 2019)(Citation:
 ProjectZero File Write EoP Apr 2018)
 */
 func (g *Session) ATTACKEntComponentObjectModel(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1559.001").
-        Msg("component object model")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1559.001").
+		Msg("component object model")
 }
 
 /* ATTACKEntComponentObjectModelHijacking Phases: privilege-escalation persistence
@@ -1878,10 +1876,10 @@ noticeable functionality within the system as to avoid system instability that
 could lead to detection.
 */
 func (g *Session) ATTACKEntComponentObjectModelHijacking(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1546.015").
-        Msg("component object model hijacking")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1546.015").
+		Msg("component object model hijacking")
 }
 
 /* ATTACKEntComponentObjectModelandDistributedCOM Phases: lateral-movement execution
@@ -1922,10 +1920,10 @@ Office application (Citation: Cyberreason DCOM DDE Lateral Movement Nov 2017),
 bypassing the need for a malicious document.
 */
 func (g *Session) ATTACKEntComponentObjectModelandDistributedCOM(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1175").
-        Msg("component object model and distributed com")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1175").
+		Msg("component object model and distributed com")
 }
 
 /* ATTACKEntCompromiseAccounts Phases: resource-development
@@ -1949,10 +1947,10 @@ networks, or incorporating photos. Adversaries may directly leverage compromised
 email accounts for Phishing for Information or Phishing.
 */
 func (g *Session) ATTACKEntCompromiseAccounts(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1586").
-        Msg("compromise accounts")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1586").
+		Msg("compromise accounts")
 }
 
 /* ATTACKEntCompromiseClientSoftwareBinary Phases: persistence
@@ -1969,10 +1967,10 @@ routinely executed by the user, the adversary can leverage this for persistent
 access to the host.
 */
 func (g *Session) ATTACKEntCompromiseClientSoftwareBinary(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1554").
-        Msg("compromise client software binary")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1554").
+		Msg("compromise client software binary")
 }
 
 /* ATTACKEntCompromiseHardwareSupplyChain Phases: initial-access
@@ -1986,10 +1984,10 @@ various devices, such as servers, workstations, network infrastructure, or
 peripherals.
 */
 func (g *Session) ATTACKEntCompromiseHardwareSupplyChain(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1195.003").
-        Msg("compromise hardware supply chain")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1195.003").
+		Msg("compromise hardware supply chain")
 }
 
 /* ATTACKEntCompromiseInfrastructure Phases: resource-development
@@ -2010,10 +2008,10 @@ them. Prior to targeting, adversaries may compromise the infrastructure of other
 adversaries.(Citation: NSA NCSC Turla OilRig)
 */
 func (g *Session) ATTACKEntCompromiseInfrastructure(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1584").
-        Msg("compromise infrastructure")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1584").
+		Msg("compromise infrastructure")
 }
 
 /* ATTACKEntCompromiseSoftwareDependenciesandDevelopmentTools Phases: initial-access
@@ -2028,10 +2026,10 @@ or may be distributed to a broad set of consumers but only move on to additional
 tactics on specific victims.
 */
 func (g *Session) ATTACKEntCompromiseSoftwareDependenciesandDevelopmentTools(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1195.001").
-        Msg("compromise software dependencies and development tools")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1195.001").
+		Msg("compromise software dependencies and development tools")
 }
 
 /* ATTACKEntCompromiseSoftwareSupplyChain Phases: initial-access
@@ -2046,10 +2044,10 @@ consumers but only move on to additional tactics on specific victims.(Citation:
 Avast CCleaner3 2018) (Citation: Command Five SK 2011)
 */
 func (g *Session) ATTACKEntCompromiseSoftwareSupplyChain(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1195.002").
-        Msg("compromise software supply chain")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1195.002").
+		Msg("compromise software supply chain")
 }
 
 /* ATTACKEntConfluence Phases: collection
@@ -2064,10 +2062,10 @@ credentials Work / project schedules Source code snippets Links to network
 shares and other internal resources
 */
 func (g *Session) ATTACKEntConfluence(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1213.001").
-        Msg("confluence")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1213.001").
+		Msg("confluence")
 }
 
 /* ATTACKEntContainerAPI Phases: credential-access
@@ -2084,10 +2082,10 @@ from the Kubernetes API server. These credentials may include those needed for
 Docker API authentication or secrets from Kubernetes cluster components.
 */
 func (g *Session) ATTACKEntContainerAPI(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1552.007").
-        Msg("container api")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1552.007").
+		Msg("container api")
 }
 
 /* ATTACKEntContainerAdministrationCommand Phases: execution
@@ -2106,10 +2104,10 @@ kubelet, or by running a command such as kubectl exec.(Citation: Kubectl Exec
 Get Shell)
 */
 func (g *Session) ATTACKEntContainerAdministrationCommand(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1609").
-        Msg("container administration command")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1609").
+		Msg("container administration command")
 }
 
 /* ATTACKEntContainerOrchestrationJob Phases: execution persistence privilege-escalation
@@ -2127,10 +2125,10 @@ to schedule deployment of a Job that executes malicious code in the
 cluster.(Citation: Threat Matrix for Kubernetes)
 */
 func (g *Session) ATTACKEntContainerOrchestrationJob(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1053.007").
-        Msg("container orchestration job")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1053.007").
+		Msg("container orchestration job")
 }
 
 /* ATTACKEntContainerandResourceDiscovery Phases: discovery
@@ -2147,10 +2145,10 @@ these resources may inform an adversary’s next steps in the environment, such 
 how to perform lateral movement and which methods to utilize for execution.
 */
 func (g *Session) ATTACKEntContainerandResourceDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1613").
-        Msg("container and resource discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1613").
+		Msg("container and resource discovery")
 }
 
 /* ATTACKEntControlPanel Phases: defense-evasion
@@ -2182,10 +2180,10 @@ exporting CPlApplet are not directly executable.(Citation: ESET InvisiMole June
 2020)
 */
 func (g *Session) ATTACKEntControlPanel(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1218.002").
-        Msg("control panel")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1218.002").
+		Msg("control panel")
 }
 
 /* ATTACKEntCreateAccount Phases: persistence
@@ -2199,10 +2197,10 @@ accounts that only have access to specific services, which can reduce the chance
 of detection.
 */
 func (g *Session) ATTACKEntCreateAccount(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1136").
-        Msg("create account")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1136").
+		Msg("create account")
 }
 
 /* ATTACKEntCreateCloudInstance Phases: defense-evasion
@@ -2219,10 +2217,10 @@ activity within an environment without affecting the execution of current
 running instances.
 */
 func (g *Session) ATTACKEntCreateCloudInstance(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1578.002").
-        Msg("create cloud instance")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1578.002").
+		Msg("create cloud instance")
 }
 
 /* ATTACKEntCreateProcesswithToken Phases: defense-evasion privilege-escalation
@@ -2235,10 +2233,10 @@ user. This is useful for creating a new process under the security context of a
 different user.
 */
 func (g *Session) ATTACKEntCreateProcesswithToken(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1134.002").
-        Msg("create process with token")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1134.002").
+		Msg("create process with token")
 }
 
 /* ATTACKEntCreateSnapshot Phases: defense-evasion
@@ -2256,10 +2254,10 @@ a firewall policy that allows them inbound and outbound SSH access.(Citation:
 Mandiant M-Trends 2020)
 */
 func (g *Session) ATTACKEntCreateSnapshot(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1578.001").
-        Msg("create snapshot")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1578.001").
+		Msg("create snapshot")
 }
 
 /* ATTACKEntCreateorModifySystemProcess Phases: persistence privilege-escalation
@@ -2280,10 +2278,10 @@ functionality to create or modify system processes in order to escalate
 privileges. (Citation: OSX Malware Detection).
 */
 func (g *Session) ATTACKEntCreateorModifySystemProcess(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1543").
-        Msg("create or modify system process")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1543").
+		Msg("create or modify system process")
 }
 
 /* ATTACKEntCredentialAPIHooking Phases: collection credential-access
@@ -2306,10 +2304,10 @@ flow.(Citation: Elastic Process Injection July 2017)(Citation: HighTech Bridge
 Inline Hooking Sept 2011)(Citation: MWRInfoSecurity Dynamic Hooking 2015)
 */
 func (g *Session) ATTACKEntCredentialAPIHooking(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1056.004").
-        Msg("credential api hooking")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1056.004").
+		Msg("credential api hooking")
 }
 
 /* ATTACKEntCredentialStuffing Phases: credential-access
@@ -2334,10 +2332,10 @@ externally facing email applications, such as Office 365.(Citation: US-CERT
 TA18-068A 2018)
 */
 func (g *Session) ATTACKEntCredentialStuffing(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1110.004").
-        Msg("credential stuffing")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1110.004").
+		Msg("credential stuffing")
 }
 
 /* ATTACKEntCredentials Phases: reconnaissance
@@ -2362,10 +2360,10 @@ operational resources (ex: Compromise Accounts), and/or initial access (ex:
 External Remote Services or Valid Accounts).
 */
 func (g *Session) ATTACKEntCredentials(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1589.001").
-        Msg("credentials")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1589.001").
+		Msg("credentials")
 }
 
 /* ATTACKEntCredentialsInFiles Phases: credential-access
@@ -2387,10 +2385,10 @@ or the contents can be read and then used to authenticate without needing to
 copy any files.(Citation: Specter Ops - Cloud Credential Storage)
 */
 func (g *Session) ATTACKEntCredentialsInFiles(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1552.001").
-        Msg("credentials in files")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1552.001").
+		Msg("credentials in files")
 }
 
 /* ATTACKEntCredentialsfromPasswordStores Phases: credential-access
@@ -2403,10 +2401,10 @@ and maintain. Once credentials are obtained, they can be used to perform lateral
 movement and access restricted information.
 */
 func (g *Session) ATTACKEntCredentialsfromPasswordStores(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1555").
-        Msg("credentials from password stores")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1555").
+		Msg("credentials from password stores")
 }
 
 /* ATTACKEntCredentialsfromWebBrowsers Phases: credential-access
@@ -2438,10 +2436,10 @@ gained from web browsers overlap with privileged accounts (e.g. domain
 administrator).
 */
 func (g *Session) ATTACKEntCredentialsfromWebBrowsers(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1555.003").
-        Msg("credentials from web browsers")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1555.003").
+		Msg("credentials from web browsers")
 }
 
 /* ATTACKEntCredentialsinRegistry Phases: credential-access
@@ -2456,10 +2454,10 @@ Pentestlab Stored Credentials)  Local Machine Hive: reg query HKLM /f password
 /t REG_SZ /s Current User Hive: reg query HKCU /f password /t REG_SZ /s
 */
 func (g *Session) ATTACKEntCredentialsinRegistry(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1552.002").
-        Msg("credentials in registry")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1552.002").
+		Msg("credentials in registry")
 }
 
 /* ATTACKEntCron Phases: execution persistence privilege-escalation
@@ -2475,10 +2473,10 @@ remote Execution as part of Lateral Movement and or to run a process under the
 context of a specified account.
 */
 func (g *Session) ATTACKEntCron(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1053.003").
-        Msg("cron")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1053.003").
+		Msg("cron")
 }
 
 /* ATTACKEntDCSync Phases: credential-access
@@ -2501,10 +2499,10 @@ lsadump Module) Lsadump also includes NetSync, which performs DCSync over a
 legacy replication protocol.(Citation: Microsoft NRPC Dec 2017)
 */
 func (g *Session) ATTACKEntDCSync(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1003.006").
-        Msg("dcsync")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1003.006").
+		Msg("dcsync")
 }
 
 /* ATTACKEntDLLSearchOrderHijacking Phases: persistence privilege-escalation defense-evasion
@@ -2539,10 +2537,10 @@ path hijacking may appear to behave normally because malicious DLLs may be
 configured to also load the legitimate DLLs they were meant to replace.
 */
 func (g *Session) ATTACKEntDLLSearchOrderHijacking(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1574.001").
-        Msg("dll search order hijacking")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1574.001").
+		Msg("dll search order hijacking")
 }
 
 /* ATTACKEntDLLSideLoading Phases: persistence privilege-escalation defense-evasion
@@ -2563,10 +2561,10 @@ loaded into the memory of the trusted process.(Citation: FireEye DLL Side-
 Loading)
 */
 func (g *Session) ATTACKEntDLLSideLoading(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1574.002").
-        Msg("dll side-loading")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1574.002").
+		Msg("dll side-loading")
 }
 
 /* ATTACKEntDNS Phases: command-and-control
@@ -2584,10 +2582,10 @@ network while also mimicking normal, expected traffic.(Citation: PAN DNS
 Tunneling)(Citation: Medium DnsTunneling)
 */
 func (g *Session) ATTACKEntDNS(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1071.004").
-        Msg("dns")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1071.004").
+		Msg("dns")
 }
 
 /* ATTACKEntDNS2 Phases: reconnaissance
@@ -2607,10 +2605,10 @@ Compromise Infrastructure), and/or initial access (ex: External Remote
 Services).
 */
 func (g *Session) ATTACKEntDNS2(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1590.002").
-        Msg("dns")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1590.002").
+		Msg("dns")
 }
 
 /* ATTACKEntDNSCalculation Phases: command-and-control
@@ -2625,10 +2623,10 @@ those values to calculate the port for command and control traffic.(Citation:
 Meyers Numbered Panda)(Citation: Moran 2014)(Citation: Rapid7G20Espionage)
 */
 func (g *Session) ATTACKEntDNSCalculation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1568.003").
-        Msg("dns calculation")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1568.003").
+		Msg("dns calculation")
 }
 
 /* ATTACKEntDNSServer Phases: resource-development
@@ -2645,10 +2643,10 @@ responses to malware and, generally, have more flexibility in the structure of
 the DNS-based C2 channel.(Citation: Unit42 DNS Mar 2019)
 */
 func (g *Session) ATTACKEntDNSServer(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1583.002").
-        Msg("dns server")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1583.002").
+		Msg("dns server")
 }
 
 /* ATTACKEntDNSServer2 Phases: resource-development
@@ -2666,10 +2664,10 @@ subdomains pointed at malicious servers without tipping off the actual owner of
 the DNS server.(Citation: CiscoAngler)(Citation: Proofpoint Domain Shadowing)
 */
 func (g *Session) ATTACKEntDNSServer2(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1584.002").
-        Msg("dns server")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1584.002").
+		Msg("dns server")
 }
 
 /* ATTACKEntDNSPassiveDNS Phases: reconnaissance
@@ -2690,10 +2688,10 @@ Infrastructure or Compromise Infrastructure), and/or initial access (ex:
 External Remote Services or Trusted Relationship).
 */
 func (g *Session) ATTACKEntDNSPassiveDNS(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1596.001").
-        Msg("dns/passive dns")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1596.001").
+		Msg("dns/passive dns")
 }
 
 /* ATTACKEntDataDestruction Phases: impact
@@ -2728,10 +2726,10 @@ organization or their customers.(Citation: Data Destruction - Threat
 Post)(Citation: DOJ  - Cisco Insider)
 */
 func (g *Session) ATTACKEntDataDestruction(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1485").
-        Msg("data destruction")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1485").
+		Msg("data destruction")
 }
 
 /* ATTACKEntDataEncoding Phases: command-and-control
@@ -2745,10 +2743,10 @@ Wikipedia Binary-to-text Encoding) (Citation: Wikipedia Character Encoding) Some
 data encoding systems may also result in data compression, such as gzip.
 */
 func (g *Session) ATTACKEntDataEncoding(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1132").
-        Msg("data encoding")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1132").
+		Msg("data encoding")
 }
 
 /* ATTACKEntDataEncryptedforImpact Phases: impact
@@ -2774,10 +2772,10 @@ within compromised accounts may also be encrypted.(Citation: Rhino S3 Ransomware
 Part 1)
 */
 func (g *Session) ATTACKEntDataEncryptedforImpact(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1486").
-        Msg("data encrypted for impact")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1486").
+		Msg("data encrypted for impact")
 }
 
 /* ATTACKEntDataManipulation Phases: impact
@@ -2793,10 +2791,10 @@ typically be gained through a prolonged information gathering campaign in order
 to have the desired impact.
 */
 func (g *Session) ATTACKEntDataManipulation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1565").
-        Msg("data manipulation")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1565").
+		Msg("data manipulation")
 }
 
 /* ATTACKEntDataObfuscation Phases: command-and-control
@@ -2810,10 +2808,10 @@ data to protocol traffic, using steganography, or impersonating legitimate
 protocols.
 */
 func (g *Session) ATTACKEntDataObfuscation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1001").
-        Msg("data obfuscation")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1001").
+		Msg("data obfuscation")
 }
 
 /* ATTACKEntDataStaged Phases: collection
@@ -2831,10 +2829,10 @@ Exfiltration to minimize the number of connections made to their C2 server and
 better evade detection.
 */
 func (g *Session) ATTACKEntDataStaged(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1074").
-        Msg("data staged")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1074").
+		Msg("data staged")
 }
 
 /* ATTACKEntDataTransferSizeLimits Phases: exfiltration
@@ -2844,10 +2842,10 @@ limit packet sizes below certain thresholds. This approach may be used to avoid
 triggering network data transfer threshold alerts.
 */
 func (g *Session) ATTACKEntDataTransferSizeLimits(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1030").
-        Msg("data transfer size limits")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1030").
+		Msg("data transfer size limits")
 }
 
 /* ATTACKEntDatafromCloudStorageObject Phases: collection
@@ -2872,10 +2870,10 @@ as a way to gain access to cloud storage objects that have access permission
 controls.
 */
 func (g *Session) ATTACKEntDatafromCloudStorageObject(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1530").
-        Msg("data from cloud storage object")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1530").
+		Msg("data from cloud storage object")
 }
 
 /* ATTACKEntDatafromConfigurationRepository Phases: collection
@@ -2891,10 +2889,10 @@ data, much of which may align with adversary Discovery objectives.(Citation: US-
 CERT-TA18-106A)(Citation: US-CERT TA17-156A SNMP Abuse 2017)
 */
 func (g *Session) ATTACKEntDatafromConfigurationRepository(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1602").
-        Msg("data from configuration repository")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1602").
+		Msg("data from configuration repository")
 }
 
 /* ATTACKEntDatafromInformationRepositories Phases: collection
@@ -2914,10 +2912,10 @@ environment. Specific common information repositories include Sharepoint,
 Confluence, and enterprise databases such as SQL Server.
 */
 func (g *Session) ATTACKEntDatafromInformationRepositories(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1213").
-        Msg("data from information repositories")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1213").
+		Msg("data from information repositories")
 }
 
 /* ATTACKEntDatafromLocalSystem Phases: collection
@@ -2929,10 +2927,10 @@ which has functionality to interact with the file system to gather information.
 Some adversaries may also use Automated Collection on the local system.
 */
 func (g *Session) ATTACKEntDatafromLocalSystem(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1005").
-        Msg("data from local system")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1005").
+		Msg("data from local system")
 }
 
 /* ATTACKEntDatafromNetworkSharedDrive Phases: collection
@@ -2945,10 +2943,10 @@ command shells may be in use, and common functionality within cmd may be used to
 gather information.
 */
 func (g *Session) ATTACKEntDatafromNetworkSharedDrive(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1039").
-        Msg("data from network shared drive")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1039").
+		Msg("data from network shared drive")
 }
 
 /* ATTACKEntDatafromRemovableMedia Phases: collection
@@ -2961,10 +2959,10 @@ use, and common functionality within cmd may be used to gather information.
 Some adversaries may also use Automated Collection on removable media.
 */
 func (g *Session) ATTACKEntDatafromRemovableMedia(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1025").
-        Msg("data from removable media")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1025").
+		Msg("data from removable media")
 }
 
 /* ATTACKEntDeadDropResolver Phases: command-and-control
@@ -2985,10 +2983,10 @@ through malware binary analysis while also enabling operational resiliency
 (since this infrastructure may be dynamically changed).
 */
 func (g *Session) ATTACKEntDeadDropResolver(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1102.001").
-        Msg("dead drop resolver")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1102.001").
+		Msg("dead drop resolver")
 }
 
 /* ATTACKEntDefacement Phases: impact
@@ -3000,10 +2998,10 @@ or offensive images may be used as a part of Defacement in order to cause user
 discomfort, or to pressure compliance with accompanying messages.
 */
 func (g *Session) ATTACKEntDefacement(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1491").
-        Msg("defacement")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1491").
+		Msg("defacement")
 }
 
 /* ATTACKEntDefaultAccounts Phases: defense-evasion persistence privilege-escalation initial-access
@@ -3026,10 +3024,10 @@ credential materials to legitimately connect to remote environments via Remote
 Services.(Citation: Metasploit SSH Module)
 */
 func (g *Session) ATTACKEntDefaultAccounts(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1078.001").
-        Msg("default accounts")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1078.001").
+		Msg("default accounts")
 }
 
 /* ATTACKEntDeleteCloudInstance Phases: defense-evasion
@@ -3042,10 +3040,10 @@ recoverable. An adversary may also Create Cloud Instance and later terminate the
 instance after achieving their objectives.(Citation: Mandiant M-Trends 2020)
 */
 func (g *Session) ATTACKEntDeleteCloudInstance(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1578.003").
-        Msg("delete cloud instance")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1578.003").
+		Msg("delete cloud instance")
 }
 
 /* ATTACKEntDeobfuscateDecodeFilesorInformation Phases: defense-evasion
@@ -3065,10 +3063,10 @@ password protected compressed/encrypted file that was provided by the adversary.
 (Citation: Volexity PowerDuke November 2016)
 */
 func (g *Session) ATTACKEntDeobfuscateDecodeFilesorInformation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1140").
-        Msg("deobfuscate/decode files or information")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1140").
+		Msg("deobfuscate/decode files or information")
 }
 
 /* ATTACKEntDeployContainer Phases: defense-evasion execution
@@ -3087,10 +3085,10 @@ benign images that download and execute malicious payloads at runtime.(Citation:
 Aqua Build Images on Hosts)
 */
 func (g *Session) ATTACKEntDeployContainer(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1610").
-        Msg("deploy container")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1610").
+		Msg("deploy container")
 }
 
 /* ATTACKEntDeterminePhysicalLocations Phases: reconnaissance
@@ -3110,10 +3108,10 @@ establishing operational resources (ex: Develop Capabilities or Obtain
 Capabilities), and/or initial access (ex: Phishing or Hardware Additions).
 */
 func (g *Session) ATTACKEntDeterminePhysicalLocations(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1591.001").
-        Msg("determine physical locations")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1591.001").
+		Msg("determine physical locations")
 }
 
 /* ATTACKEntDevelopCapabilities Phases: resource-development
@@ -3133,10 +3131,10 @@ capabilities, provided the adversary plays a role in shaping requirements and
 maintains a degree of exclusivity to the capability.
 */
 func (g *Session) ATTACKEntDevelopCapabilities(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1587").
-        Msg("develop capabilities")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1587").
+		Msg("develop capabilities")
 }
 
 /* ATTACKEntDigitalCertificates Phases: resource-development
@@ -3157,10 +3155,10 @@ certificate, an adversary may then install that certificate (see Install Digital
 Certificate) on infrastructure under their control.
 */
 func (g *Session) ATTACKEntDigitalCertificates(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1587.003").
-        Msg("digital certificates")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1587.003").
+		Msg("digital certificates")
 }
 
 /* ATTACKEntDigitalCertificates2 Phases: resource-development
@@ -3188,10 +3186,10 @@ adversary may then install that certificate (see Install Digital Certificate) on
 infrastructure under their control.
 */
 func (g *Session) ATTACKEntDigitalCertificates2(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1588.004").
-        Msg("digital certificates")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1588.004").
+		Msg("digital certificates")
 }
 
 /* ATTACKEntDigitalCertificates3 Phases: reconnaissance
@@ -3213,10 +3211,10 @@ Capabilities or Obtain Capabilities), and/or initial access (ex: External Remote
 Services or Trusted Relationship).
 */
 func (g *Session) ATTACKEntDigitalCertificates3(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1596.003").
-        Msg("digital certificates")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1596.003").
+		Msg("digital certificates")
 }
 
 /* ATTACKEntDirectNetworkFlood Phases: impact
@@ -3240,10 +3238,10 @@ DDoS flooding attacks, such as the 2012 series of incidents that targeted major
 US banks.(Citation: USNYAG IranianBotnet March 2016)
 */
 func (g *Session) ATTACKEntDirectNetworkFlood(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1498.001").
-        Msg("direct network flood")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1498.001").
+		Msg("direct network flood")
 }
 
 /* ATTACKEntDirectVolumeAccess Phases: defense-evasion
@@ -3257,10 +3255,10 @@ Hakobyan 2009) Utilities, such as NinjaCopy, exist to perform these actions in
 PowerShell. (Citation: Github PowerSploit Ninjacopy)
 */
 func (g *Session) ATTACKEntDirectVolumeAccess(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1006").
-        Msg("direct volume access")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1006").
+		Msg("direct volume access")
 }
 
 /* ATTACKEntDisableCloudLogs Phases: defense-evasion
@@ -3276,10 +3274,10 @@ activity.(Citation: Following the CloudTrail: Generating strong AWS security
 signals with Sumo Logic)
 */
 func (g *Session) ATTACKEntDisableCloudLogs(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1562.008").
-        Msg("disable cloud logs")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1562.008").
+		Msg("disable cloud logs")
 }
 
 /* ATTACKEntDisableCryptoHardware Phases: defense-evasion
@@ -3299,10 +3297,10 @@ in software (e.g., Reduce Key Space). (Citation: Cisco Blog Legacy Device
 Attacks)
 */
 func (g *Session) ATTACKEntDisableCryptoHardware(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1600.002").
-        Msg("disable crypto hardware")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1600.002").
+		Msg("disable crypto hardware")
 }
 
 /* ATTACKEntDisableWindowsEventLogging Phases: defense-evasion
@@ -3316,10 +3314,10 @@ particular application. By disabling Windows event logging, adversaries can
 operate while leaving less evidence of a compromise behind.
 */
 func (g *Session) ATTACKEntDisableWindowsEventLogging(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1562.002").
-        Msg("disable windows event logging")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1562.002").
+		Msg("disable windows event logging")
 }
 
 /* ATTACKEntDisableorModifyCloudFirewall Phases: defense-evasion
@@ -3338,10 +3336,10 @@ communications, lateral movement, and/or data exfiltration that would otherwise
 not be allowed.
 */
 func (g *Session) ATTACKEntDisableorModifyCloudFirewall(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1562.007").
-        Msg("disable or modify cloud firewall")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1562.007").
+		Msg("disable or modify cloud firewall")
 }
 
 /* ATTACKEntDisableorModifySystemFirewall Phases: defense-evasion
@@ -3355,10 +3353,10 @@ system firewall may enable adversary C2 communications, lateral movement, and/or
 data exfiltration that would otherwise not be allowed.
 */
 func (g *Session) ATTACKEntDisableorModifySystemFirewall(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1562.004").
-        Msg("disable or modify system firewall")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1562.004").
+		Msg("disable or modify system firewall")
 }
 
 /* ATTACKEntDisableorModifyTools Phases: defense-evasion
@@ -3370,10 +3368,10 @@ run time, or other methods to interfere with security tools scanning or
 reporting information.
 */
 func (g *Session) ATTACKEntDisableorModifyTools(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1562.001").
-        Msg("disable or modify tools")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1562.001").
+		Msg("disable or modify tools")
 }
 
 /* ATTACKEntDiskContentWipe Phases: impact
@@ -3399,10 +3397,10 @@ like Valid Accounts, OS Credential Dumping, and SMB/Windows Admin
 Shares.(Citation: Novetta Blockbuster Destructive Malware)
 */
 func (g *Session) ATTACKEntDiskContentWipe(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1561.001").
-        Msg("disk content wipe")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1561.001").
+		Msg("disk content wipe")
 }
 
 /* ATTACKEntDiskStructureWipe Phases: impact
@@ -3428,10 +3426,10 @@ Dumping, and SMB/Windows Admin Shares.(Citation: Symantec Shamoon
 2016)(Citation: Kaspersky StoneDrill 2017)
 */
 func (g *Session) ATTACKEntDiskStructureWipe(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1561.002").
-        Msg("disk structure wipe")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1561.002").
+		Msg("disk structure wipe")
 }
 
 /* ATTACKEntDiskWipe Phases: impact
@@ -3449,10 +3447,10 @@ Credential Dumping, and SMB/Windows Admin Shares.(Citation: Novetta Blockbuster
 Destructive Malware)
 */
 func (g *Session) ATTACKEntDiskWipe(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1561").
-        Msg("disk wipe")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1561").
+		Msg("disk wipe")
 }
 
 /* ATTACKEntDistributedComponentObjectModel Phases: lateral-movement
@@ -3482,10 +3480,10 @@ instance of a Microsoft Office application(Citation: Cyberreason DCOM DDE
 Lateral Movement Nov 2017), bypassing the need for a malicious document.
 */
 func (g *Session) ATTACKEntDistributedComponentObjectModel(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1021.003").
-        Msg("distributed component object model")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1021.003").
+		Msg("distributed component object model")
 }
 
 /* ATTACKEntDomainAccount Phases: persistence
@@ -3500,10 +3498,10 @@ secondary credentialed access that do not require persistent remote access tools
 to be deployed on the system.
 */
 func (g *Session) ATTACKEntDomainAccount(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1136.002").
-        Msg("domain account")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1136.002").
+		Msg("domain account")
 }
 
 /* ATTACKEntDomainAccount2 Phases: discovery
@@ -3515,10 +3513,10 @@ utility, dscacheutil -q groupon macOS, and ldapsearch on Linux can list domain
 users and groups.
 */
 func (g *Session) ATTACKEntDomainAccount2(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1087.002").
-        Msg("domain account")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1087.002").
+		Msg("domain account")
 }
 
 /* ATTACKEntDomainAccounts Phases: defense-evasion persistence privilege-escalation initial-access
@@ -3534,10 +3532,10 @@ privileges, through various means such as OS Credential Dumping or password
 reuse, allowing access to privileged resources of the domain.
 */
 func (g *Session) ATTACKEntDomainAccounts(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1078.002").
-        Msg("domain accounts")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1078.002").
+		Msg("domain accounts")
 }
 
 /* ATTACKEntDomainControllerAuthentication Phases: credential-access defense-evasion persistence
@@ -3556,10 +3554,10 @@ enable unfettered access to hosts and/or resources within single-factor
 authentication environments.(Citation: Dell Skeleton)
 */
 func (g *Session) ATTACKEntDomainControllerAuthentication(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1556.001").
-        Msg("domain controller authentication")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1556.001").
+		Msg("domain controller authentication")
 }
 
 /* ATTACKEntDomainFronting Phases: command-and-control
@@ -3580,10 +3578,10 @@ TLS header and domain-y in the HTTP header. Traffic will appear to be going to
 domain-x, however the CDN may route it to domain-y.
 */
 func (g *Session) ATTACKEntDomainFronting(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1090.004").
-        Msg("domain fronting")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1090.004").
+		Msg("domain fronting")
 }
 
 /* ATTACKEntDomainGenerationAlgorithms Phases: command-and-control
@@ -3609,10 +3607,10 @@ reestablishing command and control.(Citation: Talos CCleanup 2017)(Citation:
 FireEye POSHSPY April 2017)(Citation: ESET Sednit 2017 Activity)
 */
 func (g *Session) ATTACKEntDomainGenerationAlgorithms(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1568.002").
-        Msg("domain generation algorithms")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1568.002").
+		Msg("domain generation algorithms")
 }
 
 /* ATTACKEntDomainGroups Phases: discovery
@@ -3626,10 +3624,10 @@ dscacheutil -q group on macOS, and ldapsearch on Linux can list domain-level
 groups.
 */
 func (g *Session) ATTACKEntDomainGroups(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1069.002").
-        Msg("domain groups")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1069.002").
+		Msg("domain groups")
 }
 
 /* ATTACKEntDomainPolicyModification Phases: defense-evasion privilege-escalation
@@ -3657,10 +3655,10 @@ modify domain policy, carry out a malicious action(s), and then revert the
 change to remove suspicious indicators.
 */
 func (g *Session) ATTACKEntDomainPolicyModification(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1484").
-        Msg("domain policy modification")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1484").
+		Msg("domain policy modification")
 }
 
 /* ATTACKEntDomainProperties Phases: reconnaissance
@@ -3682,10 +3680,10 @@ resources (ex: Acquire Infrastructure or Compromise Infrastructure), and/or
 initial access (ex: Phishing).
 */
 func (g *Session) ATTACKEntDomainProperties(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1590.001").
-        Msg("domain properties")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1590.001").
+		Msg("domain properties")
 }
 
 /* ATTACKEntDomainTrustDiscovery Phases: discovery
@@ -3705,10 +3703,10 @@ adversaries to enumerate domain trusts.(Citation: Microsoft Operation
 Wilysupply)
 */
 func (g *Session) ATTACKEntDomainTrustDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1482").
-        Msg("domain trust discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1482").
+		Msg("domain trust discovery")
 }
 
 /* ATTACKEntDomainTrustModification Phases: defense-evasion privilege-escalation
@@ -3727,10 +3725,10 @@ credentials. Instead, an adversary can manipulate domain trusts to add their own
 signing certificate.
 */
 func (g *Session) ATTACKEntDomainTrustModification(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1484.002").
-        Msg("domain trust modification")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1484.002").
+		Msg("domain trust modification")
 }
 
 /* ATTACKEntDomains Phases: resource-development
@@ -3755,10 +3753,10 @@ infrastructure by using varied registration information and purchasing domains
 with different domain registrars.(Citation: Mandiant APT1)
 */
 func (g *Session) ATTACKEntDomains(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1583.001").
-        Msg("domains")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1583.001").
+		Msg("domains")
 }
 
 /* ATTACKEntDomains2 Phases: resource-development
@@ -3777,10 +3775,10 @@ control of a subdomain to conduct operations with the benefit of the trust
 associated with that domain.(Citation: Microsoft Sub Takeover 2020)
 */
 func (g *Session) ATTACKEntDomains2(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1584.001").
-        Msg("domains")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1584.001").
+		Msg("domains")
 }
 
 /* ATTACKEntDowngradeSystemImage Phases: defense-evasion
@@ -3800,10 +3798,10 @@ behaviors such as Weaken Encryption.  Downgrading of a system image can be done
 on its own, or it can be used in conjunction with Patch System Image.
 */
 func (g *Session) ATTACKEntDowngradeSystemImage(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1601.002").
-        Msg("downgrade system image")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1601.002").
+		Msg("downgrade system image")
 }
 
 /* ATTACKEntDrivebyCompromise Phases: initial-access
@@ -3844,10 +3842,10 @@ applications and information. These malicious applications have been delivered
 through popups on legitimate websites.(Citation: Volexity OceanLotus Nov 2017)
 */
 func (g *Session) ATTACKEntDrivebyCompromise(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1189").
-        Msg("drive-by compromise")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1189").
+		Msg("drive-by compromise")
 }
 
 /* ATTACKEntDrivebyTarget Phases: resource-development
@@ -3881,10 +3879,10 @@ domains (ex: homoglyphs, typosquatting, different top-level domain, etc.) during
 acquisition of infrastructure (Domains) to help facilitate Drive-by Compromise.
 */
 func (g *Session) ATTACKEntDrivebyTarget(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1608.004").
-        Msg("drive-by target")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1608.004").
+		Msg("drive-by target")
 }
 
 /* ATTACKEntDylibHijacking Phases: persistence privilege-escalation defense-evasion
@@ -3911,10 +3909,10 @@ Writing Bad Malware for OSX)(Citation: wardle artofmalware volume1)(Citation:
 MalwareUnicorn macOS Dylib Injection MachO)
 */
 func (g *Session) ATTACKEntDylibHijacking(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1574.004").
-        Msg("dylib hijacking")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1574.004").
+		Msg("dylib hijacking")
 }
 
 /* ATTACKEntDynamicDataExchange Phases: execution
@@ -3940,10 +3938,10 @@ a compromised machine who does not have direct access to a Command and Scripting
 Interpreter.
 */
 func (g *Session) ATTACKEntDynamicDataExchange(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1559.002").
-        Msg("dynamic data exchange")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1559.002").
+		Msg("dynamic data exchange")
 }
 
 /* ATTACKEntDynamicLinkerHijacking Phases: persistence privilege-escalation defense-evasion
@@ -3983,10 +3981,10 @@ DYLD_INSERT_LIBRARIES)(Citation: Timac DYLD_INSERT_LIBRARIES)(Citation:
 Gabilondo DYLD_INSERT_LIBRARIES Catalina Bypass)
 */
 func (g *Session) ATTACKEntDynamicLinkerHijacking(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1574.006").
-        Msg("dynamic linker hijacking")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1574.006").
+		Msg("dynamic linker hijacking")
 }
 
 /* ATTACKEntDynamicResolution Phases: command-and-control
@@ -4004,10 +4002,10 @@ CCleanup 2017)(Citation: FireEye POSHSPY April 2017)(Citation: ESET Sednit 2017
 Activity)
 */
 func (g *Session) ATTACKEntDynamicResolution(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1568").
-        Msg("dynamic resolution")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1568").
+		Msg("dynamic resolution")
 }
 
 /* ATTACKEntDynamiclinkLibraryInjection Phases: defense-evasion privilege-escalation
@@ -4032,10 +4030,10 @@ elevated privileges. Execution via DLL injection may also evade detection from
 security products since the execution is masked under a legitimate process.
 */
 func (g *Session) ATTACKEntDynamiclinkLibraryInjection(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1055.001").
-        Msg("dynamic-link library injection")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1055.001").
+		Msg("dynamic-link library injection")
 }
 
 /* ATTACKEntElevatedExecutionwithPrompt Phases: privilege-escalation defense-evasion
@@ -4062,10 +4060,10 @@ been shown to work by modifying legitimate programs present on the machine that
 make use of this API.(Citation: Death by 1000 installers; it's all broken!)
 */
 func (g *Session) ATTACKEntElevatedExecutionwithPrompt(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1548.004").
-        Msg("elevated execution with prompt")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1548.004").
+		Msg("elevated execution with prompt")
 }
 
 /* ATTACKEntEmailAccount Phases: discovery
@@ -4083,10 +4081,10 @@ to get a listing of other users within the organization.(Citation: Google
 Workspace Global Access List)
 */
 func (g *Session) ATTACKEntEmailAccount(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1087.003").
-        Msg("email account")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1087.003").
+		Msg("email account")
 }
 
 /* ATTACKEntEmailAccounts Phases: resource-development
@@ -4103,10 +4101,10 @@ back operations to themselves, adversaries may make use of disposable email
 services.(Citation: Trend Micro R980 2016)
 */
 func (g *Session) ATTACKEntEmailAccounts(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1585.002").
-        Msg("email accounts")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1585.002").
+		Msg("email accounts")
 }
 
 /* ATTACKEntEmailAccounts2 Phases: resource-development
@@ -4127,10 +4125,10 @@ their operation. Adversaries can use a compromised email account to hijack
 existing email threads with targets of interest.
 */
 func (g *Session) ATTACKEntEmailAccounts2(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1586.002").
-        Msg("email accounts")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1586.002").
+		Msg("email accounts")
 }
 
 /* ATTACKEntEmailAddresses Phases: reconnaissance
@@ -4147,10 +4145,10 @@ operational resources (ex: Email Accounts), and/or initial access (ex:
 Phishing).
 */
 func (g *Session) ATTACKEntEmailAddresses(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1589.002").
-        Msg("email addresses")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1589.002").
+		Msg("email addresses")
 }
 
 /* ATTACKEntEmailCollection Phases: collection
@@ -4161,10 +4159,10 @@ can prove valuable to adversaries. Adversaries can collect or forward email from
 mail servers or clients.
 */
 func (g *Session) ATTACKEntEmailCollection(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1114").
-        Msg("email collection")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1114").
+		Msg("email collection")
 }
 
 /* ATTACKEntEmailForwardingRule Phases: collection
@@ -4187,10 +4185,10 @@ another recipient, forward emails to different locations based on the sender,
 and more.
 */
 func (g *Session) ATTACKEntEmailForwardingRule(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1114.003").
-        Msg("email forwarding rule")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1114.003").
+		Msg("email forwarding rule")
 }
 
 /* ATTACKEntEmond Phases: privilege-escalation persistence
@@ -4216,10 +4214,10 @@ to escalate privileges from administrator to root as the emond service is
 executed with root privileges by the Launch Daemon service.
 */
 func (g *Session) ATTACKEntEmond(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1546.014").
-        Msg("emond")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1546.014").
+		Msg("emond")
 }
 
 /* ATTACKEntEmployeeNames Phases: reconnaissance
@@ -4236,10 +4234,10 @@ resources (ex: Compromise Accounts), and/or initial access (ex: Phishing or
 Valid Accounts).
 */
 func (g *Session) ATTACKEntEmployeeNames(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1589.003").
-        Msg("employee names")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1589.003").
+		Msg("employee names")
 }
 
 /* ATTACKEntEncryptedChannel Phases: command-and-control
@@ -4251,10 +4249,10 @@ implementations may be vulnerable to reverse engineering if secret keys are
 encoded and/or generated within malware samples/configuration files.
 */
 func (g *Session) ATTACKEntEncryptedChannel(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1573").
-        Msg("encrypted channel")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1573").
+		Msg("encrypted channel")
 }
 
 /* ATTACKEntEndpointDenialofService Phases: impact
@@ -4304,10 +4302,10 @@ target web servers.(Citation: ArsTechnica Great Firewall of China) For attacks
 attempting to saturate the providing network, see Network Denial of Service.
 */
 func (g *Session) ATTACKEntEndpointDenialofService(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1499").
-        Msg("endpoint denial of service")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1499").
+		Msg("endpoint denial of service")
 }
 
 /* ATTACKEntEnvironmentalKeying Phases: defense-evasion
@@ -4354,10 +4352,10 @@ expected target-specific value that must match for decryption and subsequent
 execution to be successful.
 */
 func (g *Session) ATTACKEntEnvironmentalKeying(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1480.001").
-        Msg("environmental keying")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1480.001").
+		Msg("environmental keying")
 }
 
 /* ATTACKEntEscapetoHost Phases: privilege-escalation
@@ -4378,10 +4376,10 @@ as establishing persistence, moving laterally within the environment, or setting
 up a command and control channel on the host.
 */
 func (g *Session) ATTACKEntEscapetoHost(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1611").
-        Msg("escape to host")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1611").
+		Msg("escape to host")
 }
 
 /* ATTACKEntEstablishAccounts Phases: resource-development
@@ -4406,10 +4404,10 @@ may be directly leveraged for Phishing for Information or Phishing.(Citation:
 Mandiant APT1)
 */
 func (g *Session) ATTACKEntEstablishAccounts(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1585").
-        Msg("establish accounts")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1585").
+		Msg("establish accounts")
 }
 
 /* ATTACKEntEventTriggeredExecution Phases: privilege-escalation persistence
@@ -4428,10 +4426,10 @@ permissions, such as SYSTEM or service accounts, an adversary may be able to
 abuse these triggered execution mechanisms to escalate their privileges.
 */
 func (g *Session) ATTACKEntEventTriggeredExecution(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1546").
-        Msg("event triggered execution")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1546").
+		Msg("event triggered execution")
 }
 
 /* ATTACKEntExchangeEmailDelegatePermissions Phases: persistence
@@ -4452,10 +4450,10 @@ spam/phishing detection mechanisms.(Citation: Bienstock, D. - Defending O365 -
 2019)
 */
 func (g *Session) ATTACKEntExchangeEmailDelegatePermissions(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1098.002").
-        Msg("exchange email delegate permissions")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1098.002").
+		Msg("exchange email delegate permissions")
 }
 
 /* ATTACKEntExecutableInstallerFilePermissionsWeakness Phases: persistence privilege-escalation defense-evasion
@@ -4488,10 +4486,10 @@ executing process is set to run at a specific time or during a certain event
 (e.g., system bootup) then this technique can also be used for persistence.
 */
 func (g *Session) ATTACKEntExecutableInstallerFilePermissionsWeakness(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1574.005").
-        Msg("executable installer file permissions weakness")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1574.005").
+		Msg("executable installer file permissions weakness")
 }
 
 /* ATTACKEntExecutionGuardrails Phases: defense-evasion
@@ -4513,10 +4511,10 @@ guardrails will involve checking for an expected target-specific value and only
 continuing with execution if there is such a match.
 */
 func (g *Session) ATTACKEntExecutionGuardrails(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1480").
-        Msg("execution guardrails")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1480").
+		Msg("execution guardrails")
 }
 
 /* ATTACKEntExfiltrationOverAlternativeProtocol Phases: exfiltration
@@ -4533,10 +4531,10 @@ operating system utilities such as Net/SMB or FTP.(Citation: Palo Alto OilRig
 Oct 2016)
 */
 func (g *Session) ATTACKEntExfiltrationOverAlternativeProtocol(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1048").
-        Msg("exfiltration over alternative protocol")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1048").
+		Msg("exfiltration over alternative protocol")
 }
 
 /* ATTACKEntExfiltrationOverAsymmetricEncryptedNonC2Protocol Phases: exfiltration
@@ -4556,10 +4554,10 @@ Adversaries may opt to use these encrypted mechanisms that are baked into a
 protocol.
 */
 func (g *Session) ATTACKEntExfiltrationOverAsymmetricEncryptedNonC2Protocol(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1048.002").
-        Msg("exfiltration over asymmetric encrypted non-c2 protocol")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1048.002").
+		Msg("exfiltration over asymmetric encrypted non-c2 protocol")
 }
 
 /* ATTACKEntExfiltrationOverBluetooth Phases: exfiltration
@@ -4573,10 +4571,10 @@ well as the primary Internet-connected channel because it is not routed through
 the same enterprise network.
 */
 func (g *Session) ATTACKEntExfiltrationOverBluetooth(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1011.001").
-        Msg("exfiltration over bluetooth")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1011.001").
+		Msg("exfiltration over bluetooth")
 }
 
 /* ATTACKEntExfiltrationOverC2Channel Phases: exfiltration
@@ -4586,10 +4584,10 @@ control channel. Stolen data is encoded into the normal communications channel
 using the same protocol as command and control communications.
 */
 func (g *Session) ATTACKEntExfiltrationOverC2Channel(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1041").
-        Msg("exfiltration over c2 channel")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1041").
+		Msg("exfiltration over c2 channel")
 }
 
 /* ATTACKEntExfiltrationOverOtherNetworkMedium Phases: exfiltration
@@ -4604,10 +4602,10 @@ defended as well as the primary Internet-connected channel because it is not
 routed through the same enterprise network
 */
 func (g *Session) ATTACKEntExfiltrationOverOtherNetworkMedium(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1011").
-        Msg("exfiltration over other network medium")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1011").
+		Msg("exfiltration over other network medium")
 }
 
 /* ATTACKEntExfiltrationOverPhysicalMedium Phases: exfiltration
@@ -4621,10 +4619,10 @@ physical medium or device could be used as the final exfiltration point or to
 hop between otherwise disconnected systems.
 */
 func (g *Session) ATTACKEntExfiltrationOverPhysicalMedium(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1052").
-        Msg("exfiltration over physical medium")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1052").
+		Msg("exfiltration over physical medium")
 }
 
 /* ATTACKEntExfiltrationOverSymmetricEncryptedNonC2Protocol Phases: exfiltration
@@ -4643,10 +4641,10 @@ encryption (in protocols that are natively encrypted such as HTTPS) or
 encryption in protocols that not typically encrypted (such as HTTP or FTP).
 */
 func (g *Session) ATTACKEntExfiltrationOverSymmetricEncryptedNonC2Protocol(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1048.001").
-        Msg("exfiltration over symmetric encrypted non-c2 protocol")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1048.001").
+		Msg("exfiltration over symmetric encrypted non-c2 protocol")
 }
 
 /* ATTACKEntExfiltrationOverUnencryptedObfuscatedNonC2Protocol Phases: exfiltration
@@ -4661,10 +4659,10 @@ encoding/compression algorithms (such as base64) as well as embedding data
 within protocol headers and fields.
 */
 func (g *Session) ATTACKEntExfiltrationOverUnencryptedObfuscatedNonC2Protocol(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1048.003").
-        Msg("exfiltration over unencrypted/obfuscated non-c2 protocol")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1048.003").
+		Msg("exfiltration over unencrypted/obfuscated non-c2 protocol")
 }
 
 /* ATTACKEntExfiltrationOverWebService Phases: exfiltration
@@ -4678,10 +4676,10 @@ traffic to these services. Web service providers also commonly use SSL/TLS
 encryption, giving adversaries an added level of protection.
 */
 func (g *Session) ATTACKEntExfiltrationOverWebService(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1567").
-        Msg("exfiltration over web service")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1567").
+		Msg("exfiltration over web service")
 }
 
 /* ATTACKEntExfiltrationoverUSB Phases: exfiltration
@@ -4693,10 +4691,10 @@ as the final exfiltration point or to hop between otherwise disconnected
 systems.
 */
 func (g *Session) ATTACKEntExfiltrationoverUSB(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1052.001").
-        Msg("exfiltration over usb")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1052.001").
+		Msg("exfiltration over usb")
 }
 
 /* ATTACKEntExfiltrationtoCloudStorage Phases: exfiltration
@@ -4710,10 +4708,10 @@ cover to the adversary if hosts within the network are already communicating
 with the service.
 */
 func (g *Session) ATTACKEntExfiltrationtoCloudStorage(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1567.002").
-        Msg("exfiltration to cloud storage")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1567.002").
+		Msg("exfiltration to cloud storage")
 }
 
 /* ATTACKEntExfiltrationtoCodeRepository Phases: exfiltration
@@ -4726,10 +4724,10 @@ code repository can also provide a significant amount of cover to the adversary
 if it is a popular service already used by hosts within the network.
 */
 func (g *Session) ATTACKEntExfiltrationtoCodeRepository(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1567.001").
-        Msg("exfiltration to code repository")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1567.001").
+		Msg("exfiltration to code repository")
 }
 
 /* ATTACKEntExploitPublicFacingApplication Phases: initial-access
@@ -4755,10 +4753,10 @@ the most common web-based vulnerabilities.(Citation: OWASP Top 10)(Citation: CWE
 top 25)
 */
 func (g *Session) ATTACKEntExploitPublicFacingApplication(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1190").
-        Msg("exploit public-facing application")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1190").
+		Msg("exploit public-facing application")
 }
 
 /* ATTACKEntExploitationforClientExecution Phases: execution
@@ -4791,10 +4789,10 @@ open a file. For instance, some Flash exploits have been delivered as objects
 within Microsoft Office documents.
 */
 func (g *Session) ATTACKEntExploitationforClientExecution(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1203").
-        Msg("exploitation for client execution")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1203").
+		Msg("exploitation for client execution")
 }
 
 /* ATTACKEntExploitationforCredentialAccess Phases: credential-access
@@ -4812,10 +4810,10 @@ Detecting Forged Tickets) Exploitation for credential access may also result in
 Privilege Escalation depending on the process targeted or credentials obtained.
 */
 func (g *Session) ATTACKEntExploitationforCredentialAccess(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1212").
-        Msg("exploitation for credential access")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1212").
+		Msg("exploitation for credential access")
 }
 
 /* ATTACKEntExploitationforDefenseEvasion Phases: defense-evasion
@@ -4833,10 +4831,10 @@ exploitation. There are examples of antivirus software being targeted by
 persistent threat groups to avoid detection.
 */
 func (g *Session) ATTACKEntExploitationforDefenseEvasion(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1211").
-        Msg("exploitation for defense evasion")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1211").
+		Msg("exploitation for defense evasion")
 }
 
 /* ATTACKEntExploitationforPrivilegeEscalation Phases: privilege-escalation
@@ -4868,10 +4866,10 @@ Initial Access or download it to a compromised system via Ingress Tool Transfer
 or Lateral Tool Transfer.
 */
 func (g *Session) ATTACKEntExploitationforPrivilegeEscalation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1068").
-        Msg("exploitation for privilege escalation")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1068").
+		Msg("exploitation for privilege escalation")
 }
 
 /* ATTACKEntExploitationofRemoteServices Phases: lateral-movement
@@ -4898,10 +4896,10 @@ service an adversary may achieve Exploitation for Privilege Escalation as a
 result of lateral movement exploitation as well.
 */
 func (g *Session) ATTACKEntExploitationofRemoteServices(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1210").
-        Msg("exploitation of remote services")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1210").
+		Msg("exploitation of remote services")
 }
 
 /* ATTACKEntExploits Phases: resource-development
@@ -4927,10 +4925,10 @@ Exploitation for Credential Access, Exploitation of Remote Services, and
 Application or System Exploitation).
 */
 func (g *Session) ATTACKEntExploits(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1587.004").
-        Msg("exploits")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1587.004").
+		Msg("exploits")
 }
 
 /* ATTACKEntExploits2 Phases: resource-development
@@ -4960,10 +4958,10 @@ Defense Evasion, Exploitation for Credential Access, Exploitation of Remote
 Services, and Application or System Exploitation).
 */
 func (g *Session) ATTACKEntExploits2(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1588.005").
-        Msg("exploits")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1588.005").
+		Msg("exploits")
 }
 
 /* ATTACKEntExternalDefacement Phases: impact
@@ -4981,10 +4979,10 @@ precursor, for future attacks such as Drive-by Compromise.(Citation: Trend Micro
 Deep Dive Into Defacement)
 */
 func (g *Session) ATTACKEntExternalDefacement(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1491.002").
-        Msg("external defacement")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1491.002").
+		Msg("external defacement")
 }
 
 /* ATTACKEntExternalProxy Phases: command-and-control
@@ -5006,10 +5004,10 @@ communicate directly with the external proxy on the Internet and then the proxy
 would forward communications to the C2 server.
 */
 func (g *Session) ATTACKEntExternalProxy(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1090.002").
-        Msg("external proxy")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1090.002").
+		Msg("external proxy")
 }
 
 /* ATTACKEntExternalRemoteServices Phases: persistence initial-access
@@ -5031,10 +5029,10 @@ kubelet, or web application such as the Kubernetes dashboard.(Citation: Trend
 Micro Exposed Docker Server)(Citation: Unit 42 Hildegard Malware)
 */
 func (g *Session) ATTACKEntExternalRemoteServices(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1133").
-        Msg("external remote services")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1133").
+		Msg("external remote services")
 }
 
 /* ATTACKEntExtraWindowMemoryInjection Phases: defense-evasion privilege-escalation
@@ -5071,10 +5069,10 @@ via EWM injection may also evade detection from security products since the
 execution is masked under a legitimate process.
 */
 func (g *Session) ATTACKEntExtraWindowMemoryInjection(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1055.011").
-        Msg("extra window memory injection")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1055.011").
+		Msg("extra window memory injection")
 }
 
 /* ATTACKEntFallbackChannels Phases: command-and-control
@@ -5084,10 +5082,10 @@ channel is compromised or inaccessible in order to maintain reliable command and
 control and to avoid data transfer thresholds.
 */
 func (g *Session) ATTACKEntFallbackChannels(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1008").
-        Msg("fallback channels")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1008").
+		Msg("fallback channels")
 }
 
 /* ATTACKEntFastFluxDNS Phases: command-and-control
@@ -5109,10 +5107,10 @@ hosts can act as a proxy to the C2 host, further insulating the true source of
 the C2 channel.
 */
 func (g *Session) ATTACKEntFastFluxDNS(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1568.001").
-        Msg("fast flux dns")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1568.001").
+		Msg("fast flux dns")
 }
 
 /* ATTACKEntFileDeletion Phases: defense-evasion
@@ -5128,10 +5126,10 @@ such as DEL, secure deletion tools such as Windows Sysinternals SDelete, or
 other third-party file deletion tools. (Citation: Trend Micro APT Attack Tools)
 */
 func (g *Session) ATTACKEntFileDeletion(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1070.004").
-        Msg("file deletion")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1070.004").
+		Msg("file deletion")
 }
 
 /* ATTACKEntFileTransferProtocols Phases: command-and-control
@@ -5148,10 +5146,10 @@ communicate with systems under their control within a victim network while also
 mimicking normal, expected traffic.
 */
 func (g *Session) ATTACKEntFileTransferProtocols(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1071.002").
-        Msg("file transfer protocols")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1071.002").
+		Msg("file transfer protocols")
 }
 
 /* ATTACKEntFileandDirectoryDiscovery Phases: discovery
@@ -5167,10 +5165,10 @@ Custom tools may also be used to gather file and directory information and
 interact with the Native API.
 */
 func (g *Session) ATTACKEntFileandDirectoryDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1083").
-        Msg("file and directory discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1083").
+		Msg("file and directory discovery")
 }
 
 /* ATTACKEntFileandDirectoryPermissionsModification Phases: defense-evasion
@@ -5193,10 +5191,10 @@ tainting/hijacking other instrumental binary/configuration files via Hijack
 Execution Flow.
 */
 func (g *Session) ATTACKEntFileandDirectoryPermissionsModification(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1222").
-        Msg("file and directory permissions modification")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1222").
+		Msg("file and directory permissions modification")
 }
 
 /* ATTACKEntFirmware Phases: reconnaissance
@@ -5216,10 +5214,10 @@ resources (ex: Develop Capabilities or Obtain Capabilities), and/or initial
 access (ex: Supply Chain Compromise or Exploit Public-Facing Application).
 */
 func (g *Session) ATTACKEntFirmware(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1592.003").
-        Msg("firmware")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1592.003").
+		Msg("firmware")
 }
 
 /* ATTACKEntFirmwareCorruption Phases: impact
@@ -5232,10 +5230,10 @@ devices in order to initialize and manage device functionality. These devices
 could include the motherboard, hard drive, or video cards.
 */
 func (g *Session) ATTACKEntFirmwareCorruption(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1495").
-        Msg("firmware corruption")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1495").
+		Msg("firmware corruption")
 }
 
 /* ATTACKEntForcedAuthentication Phases: credential-access
@@ -5276,10 +5274,10 @@ to load the resource when the icon is rendered to repeatedly gather credentials.
 (Citation: US-CERT APT Energy Oct 2017)
 */
 func (g *Session) ATTACKEntForcedAuthentication(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1187").
-        Msg("forced authentication")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1187").
+		Msg("forced authentication")
 }
 
 /* ATTACKEntForgeWebCredentials Phases: credential-access
@@ -5301,10 +5299,10 @@ mechanisms.(Citation: Pass The Cookie)(Citation: Unit 42 Mac Crypto Cookies
 January 2019)(Citation: Microsoft SolarWinds Customer Guidance)
 */
 func (g *Session) ATTACKEntForgeWebCredentials(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1606").
-        Msg("forge web credentials")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1606").
+		Msg("forge web credentials")
 }
 
 /* ATTACKEntGUIInputCapture Phases: collection credential-access
@@ -5324,10 +5322,10 @@ malware) and PowerShell(Citation: LogRhythm Do You Trust Oct 2014)(Citation:
 Enigma Phishing for Credentials Jan 2015).
 */
 func (g *Session) ATTACKEntGUIInputCapture(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1056.002").
-        Msg("gui input capture")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1056.002").
+		Msg("gui input capture")
 }
 
 /* ATTACKEntGatekeeperBypass Phases: defense-evasion
@@ -5356,10 +5354,10 @@ based on the file being downloaded from a quarantine-savvy application.
 (Citation: Bypassing Gatekeeper)
 */
 func (g *Session) ATTACKEntGatekeeperBypass(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1553.001").
-        Msg("gatekeeper bypass")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1553.001").
+		Msg("gatekeeper bypass")
 }
 
 /* ATTACKEntGatherVictimHostInformation Phases: reconnaissance
@@ -5380,10 +5378,10 @@ resources (ex: Develop Capabilities or Obtain Capabilities), and/or initial
 access (ex: Supply Chain Compromise or External Remote Services).
 */
 func (g *Session) ATTACKEntGatherVictimHostInformation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1592").
-        Msg("gather victim host information")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1592").
+		Msg("gather victim host information")
 }
 
 /* ATTACKEntGatherVictimIdentityInformation Phases: reconnaissance
@@ -5404,10 +5402,10 @@ operational resources (ex: Compromise Accounts), and/or initial access (ex:
 Phishing or Valid Accounts).
 */
 func (g *Session) ATTACKEntGatherVictimIdentityInformation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1589").
-        Msg("gather victim identity information")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1589").
+		Msg("gather victim identity information")
 }
 
 /* ATTACKEntGatherVictimNetworkInformation Phases: reconnaissance
@@ -5426,10 +5424,10 @@ establishing operational resources (ex: Acquire Infrastructure or Compromise
 Infrastructure), and/or initial access (ex: Trusted Relationship).
 */
 func (g *Session) ATTACKEntGatherVictimNetworkInformation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1590").
-        Msg("gather victim network information")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1590").
+		Msg("gather victim network information")
 }
 
 /* ATTACKEntGatherVictimOrgInformation Phases: reconnaissance
@@ -5449,10 +5447,10 @@ Accounts or Compromise Accounts), and/or initial access (ex: Phishing or Trusted
 Relationship).
 */
 func (g *Session) ATTACKEntGatherVictimOrgInformation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1591").
-        Msg("gather victim org information")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1591").
+		Msg("gather victim org information")
 }
 
 /* ATTACKEntGoldenTicket Phases: credential-access
@@ -5473,10 +5471,10 @@ be obtained using OS Credential Dumping and privileged access to a domain
 controller.
 */
 func (g *Session) ATTACKEntGoldenTicket(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1558.001").
-        Msg("golden ticket")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1558.001").
+		Msg("golden ticket")
 }
 
 /* ATTACKEntGraphicalUserInterface Phases: execution
@@ -5491,10 +5489,10 @@ command (Citation: Wikipedia Run Command), or other potentially difficult to
 monitor interactions.
 */
 func (g *Session) ATTACKEntGraphicalUserInterface(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1061").
-        Msg("graphical user interface")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1061").
+		Msg("graphical user interface")
 }
 
 /* ATTACKEntGroupPolicyModification Phases: defense-evasion privilege-escalation
@@ -5529,10 +5527,10 @@ under the adversary's control would then be able to modify GPOs.(Citation:
 Harmj0y SeEnableDelegationPrivilege Right)
 */
 func (g *Session) ATTACKEntGroupPolicyModification(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1484.001").
-        Msg("group policy modification")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1484.001").
+		Msg("group policy modification")
 }
 
 /* ATTACKEntGroupPolicyPreferences Phases: credential-access
@@ -5551,10 +5549,10 @@ Get-GPPPassword) gpprefdecrypt.py  On the SYSVOL share, adversaries may use the
 following command to enumerate potential GPP XML files: dir /s * .xml
 */
 func (g *Session) ATTACKEntGroupPolicyPreferences(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1552.006").
-        Msg("group policy preferences")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1552.006").
+		Msg("group policy preferences")
 }
 
 /* ATTACKEntHardware Phases: reconnaissance
@@ -5578,10 +5576,10 @@ Obtain Capabilities), and/or initial access (ex: Compromise Hardware Supply
 Chain or Hardware Additions).
 */
 func (g *Session) ATTACKEntHardware(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1592.001").
-        Msg("hardware")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1592.001").
+		Msg("hardware")
 }
 
 /* ATTACKEntHardwareAdditions Phases: initial-access
@@ -5598,10 +5596,10 @@ RubberDuck Dec 2016), kernel memory reading via DMA (Citation: Frisk DMA August
 March 2012), and others.
 */
 func (g *Session) ATTACKEntHardwareAdditions(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1200").
-        Msg("hardware additions")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1200").
+		Msg("hardware additions")
 }
 
 /* ATTACKEntHiddenFileSystem Phases: defense-evasion
@@ -5627,10 +5625,10 @@ may also fragment files across the existing file system structure in non-
 standard ways.(Citation: Kaspersky Equation QA)
 */
 func (g *Session) ATTACKEntHiddenFileSystem(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1564.005").
-        Msg("hidden file system")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1564.005").
+		Msg("hidden file system")
 }
 
 /* ATTACKEntHiddenFilesandDirectories Phases: defense-evasion
@@ -5659,10 +5657,10 @@ on the system and evading a typical user or system analysis that does not
 incorporate investigation of hidden files.
 */
 func (g *Session) ATTACKEntHiddenFilesandDirectories(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1564.001").
-        Msg("hidden files and directories")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1564.001").
+		Msg("hidden files and directories")
 }
 
 /* ATTACKEntHiddenUsers Phases: defense-evasion
@@ -5678,10 +5676,10 @@ sudo dscl . -create /Users/username UniqueID 401) and enabling this property
 Cybereason OSX Pirrit).
 */
 func (g *Session) ATTACKEntHiddenUsers(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1564.002").
-        Msg("hidden users")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1564.002").
+		Msg("hidden users")
 }
 
 /* ATTACKEntHiddenWindow Phases: defense-evasion
@@ -5703,10 +5701,10 @@ windows from users so as not to alert the user to adversary activity on the
 system.(Citation: Antiquated Mac Malware)
 */
 func (g *Session) ATTACKEntHiddenWindow(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1564.003").
-        Msg("hidden window")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1564.003").
+		Msg("hidden window")
 }
 
 /* ATTACKEntHideArtifacts Phases: defense-evasion
@@ -5724,10 +5722,10 @@ that are isolated from common security instrumentation, such as through the use
 of virtualization technology.(Citation: Sophos Ragnar May 2020)
 */
 func (g *Session) ATTACKEntHideArtifacts(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1564").
-        Msg("hide artifacts")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1564").
+		Msg("hide artifacts")
 }
 
 /* ATTACKEntHijackExecutionFlow Phases: persistence privilege-escalation defense-evasion
@@ -5745,10 +5743,10 @@ directories and in the case of Windows the Registry, could also be poisoned to
 include malicious payloads.
 */
 func (g *Session) ATTACKEntHijackExecutionFlow(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1574").
-        Msg("hijack execution flow")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1574").
+		Msg("hijack execution flow")
 }
 
 /* ATTACKEntHypervisor Phases: persistence
@@ -5764,10 +5762,10 @@ hypervisor of this nature could be used to persist on systems through
 interruption.
 */
 func (g *Session) ATTACKEntHypervisor(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1062").
-        Msg("hypervisor")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1062").
+		Msg("hypervisor")
 }
 
 /* ATTACKEntIPAddresses Phases: reconnaissance
@@ -5790,10 +5788,10 @@ Infrastructure or Compromise Infrastructure), and/or initial access (ex:
 External Remote Services).
 */
 func (g *Session) ATTACKEntIPAddresses(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1590.005").
-        Msg("ip addresses")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1590.005").
+		Msg("ip addresses")
 }
 
 /* ATTACKEntIdentifyBusinessTempo Phases: reconnaissance
@@ -5813,10 +5811,10 @@ operational resources (ex: Establish Accounts or Compromise Accounts), and/or
 initial access (ex: Supply Chain Compromise or Trusted Relationship)
 */
 func (g *Session) ATTACKEntIdentifyBusinessTempo(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1591.003").
-        Msg("identify business tempo")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1591.003").
+		Msg("identify business tempo")
 }
 
 /* ATTACKEntIdentifyRoles Phases: reconnaissance
@@ -5835,10 +5833,10 @@ establishing operational resources (ex: Establish Accounts or Compromise
 Accounts), and/or initial access (ex: Phishing).
 */
 func (g *Session) ATTACKEntIdentifyRoles(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1591.004").
-        Msg("identify roles")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1591.004").
+		Msg("identify roles")
 }
 
 /* ATTACKEntImageFileExecutionOptionsInjection Phases: privilege-escalation persistence
@@ -5879,10 +5877,10 @@ that redirect and effectively disable various system and security applications.
 (Citation: FSecure Hupigon) (Citation: Symantec Ushedix June 2008)
 */
 func (g *Session) ATTACKEntImageFileExecutionOptionsInjection(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1546.012").
-        Msg("image file execution options injection")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1546.012").
+		Msg("image file execution options injection")
 }
 
 /* ATTACKEntImpairCommandHistoryLogging Phases: defense-evasion
@@ -5917,10 +5915,10 @@ History)(Citation: Sophos PowerShell command audit)(Citation: Sophos PowerShell
 Command History Forensics)
 */
 func (g *Session) ATTACKEntImpairCommandHistoryLogging(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1562.003").
-        Msg("impair command history logging")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1562.003").
+		Msg("impair command history logging")
 }
 
 /* ATTACKEntImpairDefenses Phases: defense-evasion
@@ -5935,10 +5933,10 @@ target event aggregation and analysis mechanisms, or otherwise disrupt these
 procedures by altering other system components.
 */
 func (g *Session) ATTACKEntImpairDefenses(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1562").
-        Msg("impair defenses")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1562").
+		Msg("impair defenses")
 }
 
 /* ATTACKEntImplantInternalImage Phases: persistence
@@ -5959,10 +5957,10 @@ available container images, they may implant a backdoor such as a Web
 Shell.(Citation: Rhino Labs Cloud Image Backdoor Technique Sept 2019)
 */
 func (g *Session) ATTACKEntImplantInternalImage(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1525").
-        Msg("implant internal image")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1525").
+		Msg("implant internal image")
 }
 
 /* ATTACKEntIndicatorBlocking Phases: defense-evasion
@@ -5986,10 +5984,10 @@ firewall rule to block traffic to specific hosts responsible for aggregating
 events, such as security information and event management (SIEM) products.
 */
 func (g *Session) ATTACKEntIndicatorBlocking(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1562.006").
-        Msg("indicator blocking")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1562.006").
+		Msg("indicator blocking")
 }
 
 /* ATTACKEntIndicatorRemovalfromTools Phases: defense-evasion
@@ -6004,10 +6002,10 @@ that the malware was quarantined because of its file signature may modify the
 file to explicitly avoid that signature, and then re-use the malware.
 */
 func (g *Session) ATTACKEntIndicatorRemovalfromTools(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1027.005").
-        Msg("indicator removal from tools")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1027.005").
+		Msg("indicator removal from tools")
 }
 
 /* ATTACKEntIndicatorRemovalonHost Phases: defense-evasion
@@ -6023,10 +6021,10 @@ This activity may also impede forensic analysis and incident response, due to
 lack of sufficient data to determine what occurred.
 */
 func (g *Session) ATTACKEntIndicatorRemovalonHost(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1070").
-        Msg("indicator removal on host")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1070").
+		Msg("indicator removal on host")
 }
 
 /* ATTACKEntIndirectCommandExecution Phases: defense-evasion
@@ -6045,10 +6043,10 @@ the usage of cmd or file extensions more commonly associated with malicious
 payloads.
 */
 func (g *Session) ATTACKEntIndirectCommandExecution(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1202").
-        Msg("indirect command execution")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1202").
+		Msg("indirect command execution")
 }
 
 /* ATTACKEntIngressToolTransfer Phases: command-and-control
@@ -6061,10 +6059,10 @@ Files can also be copied over on Mac and Linux with native tools like scp,
 rsync, and sftp.
 */
 func (g *Session) ATTACKEntIngressToolTransfer(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1105").
-        Msg("ingress tool transfer")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1105").
+		Msg("ingress tool transfer")
 }
 
 /* ATTACKEntInhibitSystemRecovery Phases: impact
@@ -6088,10 +6086,10 @@ Windows recovery features by modifying boot configuration data - bcdedit.exe
 recoveryenabled no
 */
 func (g *Session) ATTACKEntInhibitSystemRecovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1490").
-        Msg("inhibit system recovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1490").
+		Msg("inhibit system recovery")
 }
 
 /* ATTACKEntInputCapture Phases: collection credential-access
@@ -6104,10 +6102,10 @@ API Hooking) or rely on deceiving the user into providing input into what they
 believe to be a genuine service (e.g. Web Portal Capture).
 */
 func (g *Session) ATTACKEntInputCapture(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1056").
-        Msg("input capture")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1056").
+		Msg("input capture")
 }
 
 /* ATTACKEntInstallDigitalCertificate Phases: resource-development
@@ -6133,10 +6131,10 @@ acquired (Acquire Infrastructure) or previously compromised (Compromise
 Infrastructure).
 */
 func (g *Session) ATTACKEntInstallDigitalCertificate(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1608.003").
-        Msg("install digital certificate")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1608.003").
+		Msg("install digital certificate")
 }
 
 /* ATTACKEntInstallRootCertificate Phases: defense-evasion
@@ -6172,10 +6170,10 @@ malicious certificate as a trusted root certificate into the system keychain.
 (Citation: objective-see ay mami 2018)
 */
 func (g *Session) ATTACKEntInstallRootCertificate(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1553.004").
-        Msg("install root certificate")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1553.004").
+		Msg("install root certificate")
 }
 
 /* ATTACKEntInstallUtil Phases: defense-evasion
@@ -6192,10 +6190,10 @@ that execute the class decorated with the attribute
 [System.ComponentModel.RunInstaller(true)]. (Citation: LOLBAS Installutil)
 */
 func (g *Session) ATTACKEntInstallUtil(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1218.004").
-        Msg("installutil")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1218.004").
+		Msg("installutil")
 }
 
 /* ATTACKEntInterProcessCommunication Phases: execution
@@ -6212,10 +6210,10 @@ execution mediums, such as those of Command and Scripting Interpreters, may also
 leverage underlying IPC mechanisms.
 */
 func (g *Session) ATTACKEntInterProcessCommunication(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1559").
-        Msg("inter-process communication")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1559").
+		Msg("inter-process communication")
 }
 
 /* ATTACKEntInternalDefacement Phases: impact
@@ -6231,10 +6229,10 @@ intrusion goals have been accomplished.(Citation: Novetta Blockbuster
 Destructive Malware)
 */
 func (g *Session) ATTACKEntInternalDefacement(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1491.001").
-        Msg("internal defacement")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1491.001").
+		Msg("internal defacement")
 }
 
 /* ATTACKEntInternalProxy Phases: command-and-control
@@ -6254,10 +6252,10 @@ destination of C2 traffic while reducing the need for numerous connections to
 external systems.
 */
 func (g *Session) ATTACKEntInternalProxy(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1090.001").
-        Msg("internal proxy")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1090.001").
+		Msg("internal proxy")
 }
 
 /* ATTACKEntInternalSpearphishing Phases: lateral-movement
@@ -6285,10 +6283,10 @@ Times IT department and were able to compromise even more users.(Citation: THE
 FINANCIAL TIMES LTD 2019.)
 */
 func (g *Session) ATTACKEntInternalSpearphishing(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1534").
-        Msg("internal spearphishing")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1534").
+		Msg("internal spearphishing")
 }
 
 /* ATTACKEntInternetConnectionDiscovery Phases: discovery
@@ -6302,10 +6300,10 @@ them. The results may also be used to identify routes, redirectors, and proxy
 servers.
 */
 func (g *Session) ATTACKEntInternetConnectionDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1016.001").
-        Msg("internet connection discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1016.001").
+		Msg("internet connection discovery")
 }
 
 /* ATTACKEntInvalidCodeSignature Phases: defense-evasion
@@ -6321,10 +6319,10 @@ tools may improperly handle these files.(Citation: Threatexpress MetaTwin 2017)
 Unlike Code Signing, this activity will not result in a valid signature.
 */
 func (g *Session) ATTACKEntInvalidCodeSignature(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1036.001").
-        Msg("invalid code signature")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1036.001").
+		Msg("invalid code signature")
 }
 
 /* ATTACKEntJavaScript Phases: execution
@@ -6356,10 +6354,10 @@ payloads are text-based, it is also very common for adversaries to obfuscate
 their content as part of Obfuscated Files or Information.
 */
 func (g *Session) ATTACKEntJavaScript(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1059.007").
-        Msg("javascript")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1059.007").
+		Msg("javascript")
 }
 
 /* ATTACKEntJunkData Phases: command-and-control
@@ -6372,10 +6370,10 @@ appending/prepending data with junk characters or writing junk characters
 between significant characters.
 */
 func (g *Session) ATTACKEntJunkData(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1001.001").
-        Msg("junk data")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1001.001").
+		Msg("junk data")
 }
 
 /* ATTACKEntKerberoasting Phases: credential-access
@@ -6405,10 +6403,10 @@ Escalation, and Lateral Movement via access to Valid Accounts.(Citation: SANS
 Attacking Kerberos Nov 2014)
 */
 func (g *Session) ATTACKEntKerberoasting(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1558.003").
-        Msg("kerberoasting")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1558.003").
+		Msg("kerberoasting")
 }
 
 /* ATTACKEntKernelModulesandExtensions Phases: persistence privilege-escalation
@@ -6437,10 +6435,10 @@ Patrick Wardle) (Citation: Synack Secure Kernel Extension Broken)(Citation:
 Securelist Ventir) (Citation: Trend Micro Skidmap)
 */
 func (g *Session) ATTACKEntKernelModulesandExtensions(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1547.006").
-        Msg("kernel modules and extensions")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1547.006").
+		Msg("kernel modules and extensions")
 }
 
 /* ATTACKEntKeychain Phases: credential-access
@@ -6459,10 +6457,10 @@ then they can get access to all the other credentials stored in this vault.
 keychain is the user’s logon credentials.
 */
 func (g *Session) ATTACKEntKeychain(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1555.001").
-        Msg("keychain")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1555.001").
+		Msg("keychain")
 }
 
 /* ATTACKEntKeylogging Phases: collection credential-access
@@ -6482,10 +6480,10 @@ adversaries with hooks into the operating system of network devices to read raw
 keystrokes for login sessions.(Citation: Cisco Blog Legacy Device Attacks)
 */
 func (g *Session) ATTACKEntKeylogging(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1056.001").
-        Msg("keylogging")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1056.001").
+		Msg("keylogging")
 }
 
 /* ATTACKEntLC_LOAD_DYLIBAddition Phases: privilege-escalation persistence
@@ -6505,10 +6503,10 @@ command from the binary so that the signature isn’t checked at load time.
 (Citation: Malware Persistence on OS X)
 */
 func (g *Session) ATTACKEntLC_LOAD_DYLIBAddition(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1546.006").
-        Msg("lc_load_dylib addition")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1546.006").
+		Msg("lc_load_dylib addition")
 }
 
 /* ATTACKEntLC_MAINHijacking Phases: defense-evasion
@@ -6525,10 +6523,10 @@ modifying a binary in this way, application whitelisting can be bypassed because
 the file name or application path is still the same.
 */
 func (g *Session) ATTACKEntLC_MAINHijacking(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1149").
-        Msg("lc_main hijacking")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1149").
+		Msg("lc_main hijacking")
 }
 
 /* ATTACKEntLLMNRNBTNSPoisoningandSMBRelay Phases: credential-access collection
@@ -6563,10 +6561,10 @@ Responder. (Citation: GitHub NBNSpoof) (Citation: Rapid7 LLMNR Spoofer)
 (Citation: GitHub Responder)
 */
 func (g *Session) ATTACKEntLLMNRNBTNSPoisoningandSMBRelay(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1557.001").
-        Msg("llmnr/nbt-ns poisoning and smb relay")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1557.001").
+		Msg("llmnr/nbt-ns poisoning and smb relay")
 }
 
 /* ATTACKEntLSASecrets Phases: credential-access
@@ -6582,10 +6580,10 @@ Registry. Mimikatz can be used to extract secrets from memory.(Citation: ired
 Dumping LSA Secrets)
 */
 func (g *Session) ATTACKEntLSASecrets(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1003.004").
-        Msg("lsa secrets")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1003.004").
+		Msg("lsa secrets")
 }
 
 /* ATTACKEntLSASSDriver Phases: persistence privilege-escalation
@@ -6603,10 +6601,10 @@ Execution Flow), an adversary can use LSA operations to continuously execute
 malicious payloads.
 */
 func (g *Session) ATTACKEntLSASSDriver(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1547.008").
-        Msg("lsass driver")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1547.008").
+		Msg("lsass driver")
 }
 
 /* ATTACKEntLSASSMemory Phases: credential-access
@@ -6640,10 +6638,10 @@ and Network Level Authentication for Remote Desktop Services.(Citation: TechNet
 Blogs Credential Protection)
 */
 func (g *Session) ATTACKEntLSASSMemory(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1003.001").
-        Msg("lsass memory")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1003.001").
+		Msg("lsass memory")
 }
 
 /* ATTACKEntLateralToolTransfer Phases: lateral-movement
@@ -6658,10 +6656,10 @@ or Remote Desktop Protocol. Files can also be copied over on Mac and Linux with
 native tools like scp, rsync, and sftp.
 */
 func (g *Session) ATTACKEntLateralToolTransfer(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1570").
-        Msg("lateral tool transfer")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1570").
+		Msg("lateral tool transfer")
 }
 
 /* ATTACKEntLaunchAgent Phases: persistence privilege-escalation
@@ -6686,10 +6684,10 @@ specific user’s directory structure) or when any user logs in (which requires
 administrator privileges).
 */
 func (g *Session) ATTACKEntLaunchAgent(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1543.001").
-        Msg("launch agent")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1543.001").
+		Msg("launch agent")
 }
 
 /* ATTACKEntLaunchDaemon Phases: persistence privilege-escalation
@@ -6714,10 +6712,10 @@ So, it is possible for poor configurations to allow an adversary to modify a
 current Launch Daemon’s executable and gain persistence or Privilege Escalation.
 */
 func (g *Session) ATTACKEntLaunchDaemon(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1543.004").
-        Msg("launch daemon")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1543.004").
+		Msg("launch daemon")
 }
 
 /* ATTACKEntLaunchctl Phases: execution
@@ -6734,10 +6732,10 @@ launchctl is as simple as launchctl submit -l  -- /Path/to/thing/to/execute
 even bypass application control if launchctl is an allowed process.
 */
 func (g *Session) ATTACKEntLaunchctl(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1569.001").
-        Msg("launchctl")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1569.001").
+		Msg("launchctl")
 }
 
 /* ATTACKEntLaunchd Phases: execution persistence privilege-escalation
@@ -6757,10 +6755,10 @@ as launchd, run with the permissions of the root user account, and will operate
 regardless of which user account is logged in.
 */
 func (g *Session) ATTACKEntLaunchd(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1053.004").
-        Msg("launchd")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1053.004").
+		Msg("launchd")
 }
 
 /* ATTACKEntLinkTarget Phases: resource-development
@@ -6787,10 +6785,10 @@ etc.) during acquisition of infrastructure (Domains) to help facilitate
 Malicious Link. Link shortening services can also be employed.
 */
 func (g *Session) ATTACKEntLinkTarget(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1608.005").
-        Msg("link target")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1608.005").
+		Msg("link target")
 }
 
 /* ATTACKEntLinuxandMacFileandDirectoryPermissionsModification Phases: defense-evasion
@@ -6816,10 +6814,10 @@ Modification or tainting/hijacking other instrumental binary/configuration files
 via Hijack Execution Flow.
 */
 func (g *Session) ATTACKEntLinuxandMacFileandDirectoryPermissionsModification(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1222.002").
-        Msg("linux and mac file and directory permissions modification")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1222.002").
+		Msg("linux and mac file and directory permissions modification")
 }
 
 /* ATTACKEntLocalAccount Phases: persistence
@@ -6833,10 +6831,10 @@ access that do not require persistent remote access tools to be deployed on the
 system.
 */
 func (g *Session) ATTACKEntLocalAccount(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1136.001").
-        Msg("local account")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1136.001").
+		Msg("local account")
 }
 
 /* ATTACKEntLocalAccount2 Phases: discovery
@@ -6849,10 +6847,10 @@ users and groups. On Linux, local users can also be enumerated through the use
 of the /etc/passwd file.
 */
 func (g *Session) ATTACKEntLocalAccount2(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1087.001").
-        Msg("local account")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1087.001").
+		Msg("local account")
 }
 
 /* ATTACKEntLocalAccounts Phases: defense-evasion persistence privilege-escalation initial-access
@@ -6867,10 +6865,10 @@ accounts across a set of machines on a network for the purposes of Privilege
 Escalation and Lateral Movement.
 */
 func (g *Session) ATTACKEntLocalAccounts(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1078.003").
-        Msg("local accounts")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1078.003").
+		Msg("local accounts")
 }
 
 /* ATTACKEntLocalDataStaging Phases: collection
@@ -6882,10 +6880,10 @@ Interactive command shells may be used, and common functionality within cmd and
 bash may be used to copy data into a staging location.
 */
 func (g *Session) ATTACKEntLocalDataStaging(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1074.001").
-        Msg("local data staging")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1074.001").
+		Msg("local data staging")
 }
 
 /* ATTACKEntLocalEmailCollection Phases: collection
@@ -6903,10 +6901,10 @@ C:\Users\<username>\AppData\Local\Microsoft\Outlook.(Citation: Microsoft Outlook
 Files)
 */
 func (g *Session) ATTACKEntLocalEmailCollection(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1114.001").
-        Msg("local email collection")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1114.001").
+		Msg("local email collection")
 }
 
 /* ATTACKEntLocalGroups Phases: discovery
@@ -6920,10 +6918,10 @@ localgroup of the Net utility, dscl . -list /Groups on macOS, and groups on
 Linux can list local groups.
 */
 func (g *Session) ATTACKEntLocalGroups(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1069.001").
-        Msg("local groups")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1069.001").
+		Msg("local groups")
 }
 
 /* ATTACKEntLogonScriptMac Phases: persistence privilege-escalation
@@ -6941,10 +6939,10 @@ configuration of the hooks, either local credentials or an administrator account
 may be necessary.
 */
 func (g *Session) ATTACKEntLogonScriptMac(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1037.002").
-        Msg("logon script (mac)")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1037.002").
+		Msg("logon script (mac)")
 }
 
 /* ATTACKEntLogonScriptWindows Phases: persistence privilege-escalation
@@ -6959,10 +6957,10 @@ system. Depending on the access configuration of the logon scripts, either local
 credentials or an administrator account may be necessary.
 */
 func (g *Session) ATTACKEntLogonScriptWindows(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1037.001").
-        Msg("logon script (windows)")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1037.001").
+		Msg("logon script (windows)")
 }
 
 /* ATTACKEntMSBuild Phases: defense-evasion
@@ -6981,10 +6979,10 @@ arbitrary code and bypass application control defenses that are configured to
 allow MSBuild.exe execution.(Citation: LOLBAS Msbuild)
 */
 func (g *Session) ATTACKEntMSBuild(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1127.001").
-        Msg("msbuild")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1127.001").
+		Msg("msbuild")
 }
 
 /* ATTACKEntMailProtocols Phases: command-and-control
@@ -7001,10 +6999,10 @@ protocols to communicate with systems under their control within a victim
 network while also mimicking normal, expected traffic.
 */
 func (g *Session) ATTACKEntMailProtocols(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1071.003").
-        Msg("mail protocols")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1071.003").
+		Msg("mail protocols")
 }
 
 /* ATTACKEntMakeandImpersonateToken Phases: defense-evasion privilege-escalation
@@ -7017,10 +7015,10 @@ session's access token and the adversary can use SetThreadToken to assign the
 token to a thread.
 */
 func (g *Session) ATTACKEntMakeandImpersonateToken(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1134.003").
-        Msg("make and impersonate token")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1134.003").
+		Msg("make and impersonate token")
 }
 
 /* ATTACKEntMaliciousFile Phases: execution
@@ -7039,10 +7037,10 @@ will click on it. This activity may also be seen shortly after Internal
 Spearphishing.
 */
 func (g *Session) ATTACKEntMaliciousFile(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1204.002").
-        Msg("malicious file")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1204.002").
+		Msg("malicious file")
 }
 
 /* ATTACKEntMaliciousImage Phases: execution
@@ -7061,10 +7059,10 @@ chance of users mistakenly deploying an instance or container from the image
 (ex: Match Legitimate Name or Location).
 */
 func (g *Session) ATTACKEntMaliciousImage(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1204.003").
-        Msg("malicious image")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1204.003").
+		Msg("malicious image")
 }
 
 /* ATTACKEntMaliciousLink Phases: execution
@@ -7078,10 +7076,10 @@ application vulnerability via Exploitation for Client Execution. Links may also
 lead users to download files that require execution via Malicious File.
 */
 func (g *Session) ATTACKEntMaliciousLink(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1204.001").
-        Msg("malicious link")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1204.001").
+		Msg("malicious link")
 }
 
 /* ATTACKEntMalware Phases: resource-development
@@ -7105,10 +7103,10 @@ malware developed that will communicate with Twitter for C2, may require use of
 Web Services.(Citation: FireEye APT29)
 */
 func (g *Session) ATTACKEntMalware(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1587.001").
-        Msg("malware")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1587.001").
+		Msg("malware")
 }
 
 /* ATTACKEntMalware2 Phases: resource-development
@@ -7126,10 +7124,10 @@ addition to purchasing malware, adversaries may steal and repurpose malware from
 third-party entities (including other adversaries).
 */
 func (g *Session) ATTACKEntMalware2(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1588.001").
-        Msg("malware")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1588.001").
+		Msg("malware")
 }
 
 /* ATTACKEntManintheBrowser Phases: collection
@@ -7156,10 +7154,10 @@ webmail. Browser pivoting also eliminates the security provided by 2-factor
 authentication. (Citation: cobaltstrike manual)
 */
 func (g *Session) ATTACKEntManintheBrowser(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1185").
-        Msg("man in the browser")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1185").
+		Msg("man in the browser")
 }
 
 /* ATTACKEntManintheMiddle Phases: credential-access collection
@@ -7176,10 +7174,10 @@ in Transmitted Data Manipulation. Adversaries can also stop traffic from flowing
 to the appropriate destination, causing denial of service.
 */
 func (g *Session) ATTACKEntManintheMiddle(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1557").
-        Msg("man-in-the-middle")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1557").
+		Msg("man-in-the-middle")
 }
 
 /* ATTACKEntMarkoftheWebBypass Phases: defense-evasion
@@ -7206,10 +7204,10 @@ as local files on disk and run without protections.(Citation: Beek Use of VHD
 Dec 2020)(Citation: Outflank MotW 2020)
 */
 func (g *Session) ATTACKEntMarkoftheWebBypass(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1553.005").
-        Msg("mark-of-the-web bypass")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1553.005").
+		Msg("mark-of-the-web bypass")
 }
 
 /* ATTACKEntMasqueradeTaskorService Phases: defense-evasion
@@ -7226,10 +7224,10 @@ legitimate.(Citation: Palo Alto Shamoon Nov 2016)(Citation: Fysbis Dr Web
 Analysis)
 */
 func (g *Session) ATTACKEntMasqueradeTaskorService(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1036.004").
-        Msg("masquerade task or service")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1036.004").
+		Msg("masquerade task or service")
 }
 
 /* ATTACKEntMasquerading Phases: defense-evasion
@@ -7244,10 +7242,10 @@ to evade security monitoring is also a form of Masquerading.(Citation: LOLBAS
 Main Site)
 */
 func (g *Session) ATTACKEntMasquerading(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1036").
-        Msg("masquerading")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1036").
+		Msg("masquerading")
 }
 
 /* ATTACKEntMatchLegitimateNameorLocation Phases: defense-evasion
@@ -7264,10 +7262,10 @@ programs/images or something innocuous. Adversaries may also use the same icon
 of the file they are trying to mimic.
 */
 func (g *Session) ATTACKEntMatchLegitimateNameorLocation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1036.005").
-        Msg("match legitimate name or location")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1036.005").
+		Msg("match legitimate name or location")
 }
 
 /* ATTACKEntModifyAuthenticationProcess Phases: credential-access defense-evasion persistence
@@ -7288,10 +7286,10 @@ systems and externally available services, such as VPNs, Outlook Web Access and
 remote desktop.
 */
 func (g *Session) ATTACKEntModifyAuthenticationProcess(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1556").
-        Msg("modify authentication process")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1556").
+		Msg("modify authentication process")
 }
 
 /* ATTACKEntModifyCloudComputeInfrastructure Phases: defense-evasion
@@ -7306,10 +7304,10 @@ infrastructure components may also allow an adversary to evade detection and
 remove evidence of their presence.(Citation: Mandiant M-Trends 2020)
 */
 func (g *Session) ATTACKEntModifyCloudComputeInfrastructure(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1578").
-        Msg("modify cloud compute infrastructure")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1578").
+		Msg("modify cloud compute infrastructure")
 }
 
 /* ATTACKEntModifyRegistry Phases: defense-evasion
@@ -7334,10 +7332,10 @@ It requires the remote Registry service to be running on the target system.
 access to the remote system's SMB/Windows Admin Shares for RPC communication.
 */
 func (g *Session) ATTACKEntModifyRegistry(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1112").
-        Msg("modify registry")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1112").
+		Msg("modify registry")
 }
 
 /* ATTACKEntModifySystemImage Phases: defense-evasion
@@ -7352,10 +7350,10 @@ runtime for immediate effect, or in storage to implement the change on the next
 boot of the network device.
 */
 func (g *Session) ATTACKEntModifySystemImage(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1601").
-        Msg("modify system image")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1601").
+		Msg("modify system image")
 }
 
 /* ATTACKEntMshta Phases: defense-evasion
@@ -7378,10 +7376,10 @@ Since mshta.exe executes outside of the Internet Explorer's security context, it
 also bypasses browser security settings. (Citation: LOLBAS Mshta)
 */
 func (g *Session) ATTACKEntMshta(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1218.005").
-        Msg("mshta")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1218.005").
+		Msg("mshta")
 }
 
 /* ATTACKEntMsiexec Phases: defense-evasion
@@ -7399,10 +7397,10 @@ if the AlwaysInstallElevated policy is enabled.(Citation: Microsoft
 AlwaysInstallElevated 2018)
 */
 func (g *Session) ATTACKEntMsiexec(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1218.007").
-        Msg("msiexec")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1218.007").
+		Msg("msiexec")
 }
 
 /* ATTACKEntMultiStageChannels Phases: command-and-control
@@ -7422,10 +7420,10 @@ backup first-stage callbacks or Fallback Channels in case the original first-
 stage communication path is discovered and blocked.
 */
 func (g *Session) ATTACKEntMultiStageChannels(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1104").
-        Msg("multi-stage channels")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1104").
+		Msg("multi-stage channels")
 }
 
 /* ATTACKEntMultihopProxy Phases: command-and-control
@@ -7451,10 +7449,10 @@ protected network boundary of the Internet perimeter and into the organization�
 WAN. Protocols such as ICMP may be used as a transport.
 */
 func (g *Session) ATTACKEntMultihopProxy(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1090.003").
-        Msg("multi-hop proxy")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1090.003").
+		Msg("multi-hop proxy")
 }
 
 /* ATTACKEntMultibandCommunication Phases: command-and-control
@@ -7466,10 +7464,10 @@ allowing it to bypass certain firewall restrictions. The split could also be
 random to simply avoid data threshold alerts on any one communication.
 */
 func (g *Session) ATTACKEntMultibandCommunication(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1026").
-        Msg("multiband communication")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1026").
+		Msg("multiband communication")
 }
 
 /* ATTACKEntNTDS Phases: credential-access
@@ -7487,10 +7485,10 @@ hashes.  Volume Shadow Copy secretsdump.py Using the in-built Windows tool,
 ntdsutil.exe Invoke-NinjaCopy
 */
 func (g *Session) ATTACKEntNTDS(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1003.003").
-        Msg("ntds")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1003.003").
+		Msg("ntds")
 }
 
 /* ATTACKEntNTFSFileAttributes Phases: defense-evasion
@@ -7511,10 +7509,10 @@ scanning tools and anti-virus. (Citation: Journey into IR ZeroAccess NTFS EA)
 (Citation: MalwareBytes ADS July 2015)
 */
 func (g *Session) ATTACKEntNTFSFileAttributes(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1564.004").
-        Msg("ntfs file attributes")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1564.004").
+		Msg("ntfs file attributes")
 }
 
 /* ATTACKEntNativeAPI Phases: execution
@@ -7543,10 +7541,10 @@ API and its hierarchy of interfaces, provide mechanisms to interact with and
 utilize various components of a victimized system.
 */
 func (g *Session) ATTACKEntNativeAPI(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1106").
-        Msg("native api")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1106").
+		Msg("native api")
 }
 
 /* ATTACKEntNetshHelperDLL Phases: privilege-escalation persistence
@@ -7565,10 +7563,10 @@ as part of its normal functionality. (Citation: Github Netsh Helper CS
 Beacon)(Citation: Demaske Netsh Persistence)
 */
 func (g *Session) ATTACKEntNetshHelperDLL(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1546.007").
-        Msg("netsh helper dll")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1546.007").
+		Msg("netsh helper dll")
 }
 
 /* ATTACKEntNetworkAddressTranslationTraversal Phases: defense-evasion
@@ -7597,10 +7595,10 @@ system of a network device, implementing their own custom NAT mechanisms to
 further obscure their activities
 */
 func (g *Session) ATTACKEntNetworkAddressTranslationTraversal(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1599.001").
-        Msg("network address translation traversal")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1599.001").
+		Msg("network address translation traversal")
 }
 
 /* ATTACKEntNetworkBoundaryBridging Phases: defense-evasion
@@ -7626,10 +7624,10 @@ where a border device separates two separate organizations, the adversary can
 also facilitate lateral movement into new victim environments.
 */
 func (g *Session) ATTACKEntNetworkBoundaryBridging(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1599").
-        Msg("network boundary bridging")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1599").
+		Msg("network boundary bridging")
 }
 
 /* ATTACKEntNetworkDenialofService Phases: impact
@@ -7659,10 +7657,10 @@ source address on network defense devices. For DoS attacks targeting the hosting
 system directly, see Endpoint Denial of Service.
 */
 func (g *Session) ATTACKEntNetworkDenialofService(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1498").
-        Msg("network denial of service")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1498").
+		Msg("network denial of service")
 }
 
 /* ATTACKEntNetworkDeviceAuthentication Phases: credential-access defense-evasion persistence
@@ -7679,10 +7677,10 @@ for verification of potentially valid credentials.(Citation: FireEye - Synful
 Knock)
 */
 func (g *Session) ATTACKEntNetworkDeviceAuthentication(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1556.004").
-        Msg("network device authentication")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1556.004").
+		Msg("network device authentication")
 }
 
 /* ATTACKEntNetworkDeviceCLI Phases: execution
@@ -7703,10 +7701,10 @@ system software, or to disable security features or logging to avoid detection.
 (Citation: Cisco Synful Knock Evolution)
 */
 func (g *Session) ATTACKEntNetworkDeviceCLI(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1059.008").
-        Msg("network device cli")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1059.008").
+		Msg("network device cli")
 }
 
 /* ATTACKEntNetworkDeviceConfigurationDump Phases: collection
@@ -7727,10 +7725,10 @@ from a configuration repository or configure the device to export the
 configuration for later analysis.
 */
 func (g *Session) ATTACKEntNetworkDeviceConfigurationDump(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1602.002").
-        Msg("network device configuration dump")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1602.002").
+		Msg("network device configuration dump")
 }
 
 /* ATTACKEntNetworkLogonScript Phases: persistence privilege-escalation
@@ -7746,10 +7744,10 @@ configuration of the logon scripts, either local credentials or an administrator
 account may be necessary.
 */
 func (g *Session) ATTACKEntNetworkLogonScript(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1037.003").
-        Msg("network logon script")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1037.003").
+		Msg("network logon script")
 }
 
 /* ATTACKEntNetworkSecurityAppliances Phases: reconnaissance
@@ -7771,10 +7769,10 @@ resources (ex: Develop Capabilities or Obtain Capabilities), and/or initial
 access (ex: External Remote Services).
 */
 func (g *Session) ATTACKEntNetworkSecurityAppliances(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1590.006").
-        Msg("network security appliances")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1590.006").
+		Msg("network security appliances")
 }
 
 /* ATTACKEntNetworkServiceScanning Phases: discovery
@@ -7788,10 +7786,10 @@ the cloud environment is connected to a on-premises environment, adversaries may
 be able to identify services running on non-cloud systems as well.
 */
 func (g *Session) ATTACKEntNetworkServiceScanning(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1046").
-        Msg("network service scanning")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1046").
+		Msg("network service scanning")
 }
 
 /* ATTACKEntNetworkShareConnectionRemoval Phases: defense-evasion
@@ -7803,10 +7801,10 @@ utility that can be used to remove network share connections with the net use
 \system\share /delete command. (Citation: Technet Net Use)
 */
 func (g *Session) ATTACKEntNetworkShareConnectionRemoval(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1070.005").
-        Msg("network share connection removal")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1070.005").
+		Msg("network share connection removal")
 }
 
 /* ATTACKEntNetworkShareDiscovery Phases: discovery
@@ -7822,10 +7820,10 @@ available shared drives using the net view \\remotesystem command. It can also
 be used to query shared drives on the local system using net share.
 */
 func (g *Session) ATTACKEntNetworkShareDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1135").
-        Msg("network share discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1135").
+		Msg("network share discovery")
 }
 
 /* ATTACKEntNetworkSniffing Phases: credential-access discovery
@@ -7846,10 +7844,10 @@ such as running services, version numbers, and other network characteristics
 Movement and/or Defense Evasion activities.
 */
 func (g *Session) ATTACKEntNetworkSniffing(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1040").
-        Msg("network sniffing")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1040").
+		Msg("network sniffing")
 }
 
 /* ATTACKEntNetworkTopology Phases: reconnaissance
@@ -7870,10 +7868,10 @@ Databases or Search Open Websites/Domains), establishing operational resources
 (ex: External Remote Services).
 */
 func (g *Session) ATTACKEntNetworkTopology(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1590.004").
-        Msg("network topology")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1590.004").
+		Msg("network topology")
 }
 
 /* ATTACKEntNetworkTrustDependencies Phases: reconnaissance
@@ -7893,10 +7891,10 @@ Infrastructure or Compromise Infrastructure), and/or initial access (ex: Trusted
 Relationship).
 */
 func (g *Session) ATTACKEntNetworkTrustDependencies(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1590.003").
-        Msg("network trust dependencies")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1590.003").
+		Msg("network trust dependencies")
 }
 
 /* ATTACKEntNonApplicationLayerProtocol Phases: command-and-control
@@ -7915,10 +7913,10 @@ commonly monitored as other Internet Protocols such as TCP or UDP and may be
 used by adversaries to hide communications.
 */
 func (g *Session) ATTACKEntNonApplicationLayerProtocol(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1095").
-        Msg("non-application layer protocol")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1095").
+		Msg("non-application layer protocol")
 }
 
 /* ATTACKEntNonStandardEncoding Phases: command-and-control
@@ -7933,10 +7931,10 @@ request.(Citation: Wikipedia Binary-to-text Encoding) (Citation: Wikipedia
 Character Encoding)
 */
 func (g *Session) ATTACKEntNonStandardEncoding(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1132.002").
-        Msg("non-standard encoding")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1132.002").
+		Msg("non-standard encoding")
 }
 
 /* ATTACKEntNonStandardPort Phases: command-and-control
@@ -7948,10 +7946,10 @@ traditional port 443. Adversaries may make changes to the standard port used by
 a protocol to bypass filtering or muddle analysis/parsing of network data.
 */
 func (g *Session) ATTACKEntNonStandardPort(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1571").
-        Msg("non-standard port")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1571").
+		Msg("non-standard port")
 }
 
 /* ATTACKEntOSCredentialDumping Phases: credential-access
@@ -7964,10 +7962,10 @@ mentioned in associated sub-techniques may be used by both adversaries and
 professional security testers. Additional custom tools likely exist as well.
 */
 func (g *Session) ATTACKEntOSCredentialDumping(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1003").
-        Msg("os credential dumping")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1003").
+		Msg("os credential dumping")
 }
 
 /* ATTACKEntOSExhaustionFlood Phases: impact
@@ -7995,10 +7993,10 @@ rogue ACK packets. This greatly reduces the resources available for providing
 the targeted service.(Citation: Corero SYN-ACKflood)
 */
 func (g *Session) ATTACKEntOSExhaustionFlood(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1499.001").
-        Msg("os exhaustion flood")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1499.001").
+		Msg("os exhaustion flood")
 }
 
 /* ATTACKEntObfuscatedFilesorInformation Phases: defense-evasion
@@ -8026,10 +8024,10 @@ to evade signature based detections and application control mechanisms.
 July 2017)(Citation: PaloAlto EncodedCommand March 2017)
 */
 func (g *Session) ATTACKEntObfuscatedFilesorInformation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1027").
-        Msg("obfuscated files or information")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1027").
+		Msg("obfuscated files or information")
 }
 
 /* ATTACKEntObtainCapabilities Phases: resource-development
@@ -8051,10 +8049,10 @@ malware, SSL/TLS and code-signing certificates, or raiding closed databases of
 vulnerabilities or exploits.(Citation: DiginotarCompromise)
 */
 func (g *Session) ATTACKEntObtainCapabilities(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1588").
-        Msg("obtain capabilities")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1588").
+		Msg("obtain capabilities")
 }
 
 /* ATTACKEntOdbcconf Phases: defense-evasion
@@ -8070,10 +8068,10 @@ that can be misused to execute DLLs (ex: odbcconf.exe /S /A {REGSVR
 Squiblydoo Aug 2017)(Citation: TrendMicro Cobalt Group Nov 2017)
 */
 func (g *Session) ATTACKEntOdbcconf(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1218.008").
-        Msg("odbcconf")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1218.008").
+		Msg("odbcconf")
 }
 
 /* ATTACKEntOfficeApplicationStartup Phases: persistence
@@ -8090,10 +8088,10 @@ within Outlook or be used through Office 365.(Citation: TechNet O365 Outlook
 Rules)
 */
 func (g *Session) ATTACKEntOfficeApplicationStartup(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1137").
-        Msg("office application startup")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1137").
+		Msg("office application startup")
 }
 
 /* ATTACKEntOfficeTemplateMacros Phases: persistence
@@ -8127,10 +8125,10 @@ trusted document or place it in a trusted location.(Citation: GlobalDotName Jun
 on the system or enterprise security policy on use of macros.
 */
 func (g *Session) ATTACKEntOfficeTemplateMacros(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1137.001").
-        Msg("office template macros")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1137.001").
+		Msg("office template macros")
 }
 
 /* ATTACKEntOfficeTest Phases: persistence
@@ -8149,10 +8147,10 @@ add this Registry key and specify a malicious DLL that will be executed whenever
 an Office application, such as Word or Excel, is started.
 */
 func (g *Session) ATTACKEntOfficeTest(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1137.002").
-        Msg("office test")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1137.002").
+		Msg("office test")
 }
 
 /* ATTACKEntOneWayCommunication Phases: command-and-control
@@ -8173,10 +8171,10 @@ providers commonly use SSL/TLS encryption, giving adversaries an added level of
 protection.
 */
 func (g *Session) ATTACKEntOneWayCommunication(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1102.003").
-        Msg("one-way communication")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1102.003").
+		Msg("one-way communication")
 }
 
 /* ATTACKEntOutlookForms Phases: persistence
@@ -8191,10 +8189,10 @@ started. Malicious forms will execute when an adversary sends a specifically
 crafted email to the user.(Citation: SensePost Outlook Forms)
 */
 func (g *Session) ATTACKEntOutlookForms(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1137.003").
-        Msg("outlook forms")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1137.003").
+		Msg("outlook forms")
 }
 
 /* ATTACKEntOutlookHomePage Phases: persistence
@@ -8210,10 +8208,10 @@ started. Malicious Home Pages will execute when the right Outlook folder is
 loaded/reloaded.(Citation: SensePost Outlook Home Page)
 */
 func (g *Session) ATTACKEntOutlookHomePage(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1137.004").
-        Msg("outlook home page")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1137.004").
+		Msg("outlook home page")
 }
 
 /* ATTACKEntOutlookRules Phases: persistence
@@ -8230,10 +8228,10 @@ rules will execute when an adversary sends a specifically crafted email to the
 user.(Citation: SilentBreak Outlook Rules)
 */
 func (g *Session) ATTACKEntOutlookRules(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1137.005").
-        Msg("outlook rules")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1137.005").
+		Msg("outlook rules")
 }
 
 /* ATTACKEntParentPIDSpoofing Phases: defense-evasion privilege-escalation
@@ -8263,10 +8261,10 @@ running as SYSTEM (such as lsass.exe), causing the new process to be elevated
 via the inherited access token.(Citation: XPNSec PPID Nov 2017)
 */
 func (g *Session) ATTACKEntParentPIDSpoofing(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1134.004").
-        Msg("parent pid spoofing")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1134.004").
+		Msg("parent pid spoofing")
 }
 
 /* ATTACKEntPasstheHash Phases: defense-evasion lateral-movement
@@ -8287,10 +8285,10 @@ be used to perform Pass the Ticket attacks.(Citation: Stealthbits Overpass-the-
 Hash)
 */
 func (g *Session) ATTACKEntPasstheHash(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1550.002").
-        Msg("pass the hash")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1550.002").
+		Msg("pass the hash")
 }
 
 /* ATTACKEntPasstheTicket Phases: defense-evasion lateral-movement
@@ -8319,10 +8317,10 @@ authenticate as a user (i.e. Pass the Hash) while also using the password hash
 to create a valid Kerberos ticket.(Citation: Stealthbits Overpass-the-Hash)
 */
 func (g *Session) ATTACKEntPasstheTicket(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1550.003").
-        Msg("pass the ticket")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1550.003").
+		Msg("pass the ticket")
 }
 
 /* ATTACKEntPasswordCracking Phases: credential-access
@@ -8339,10 +8337,10 @@ resulting from a successfully cracked hash may be used to log into systems,
 resources, and services in which the account has access.
 */
 func (g *Session) ATTACKEntPasswordCracking(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1110.002").
-        Msg("password cracking")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1110.002").
+		Msg("password cracking")
 }
 
 /* ATTACKEntPasswordFilterDLL Phases: credential-access defense-evasion persistence
@@ -8364,10 +8362,10 @@ text credentials every time a password request is made.(Citation: Carnal Ownage
 Password Filters Sept 2013)
 */
 func (g *Session) ATTACKEntPasswordFilterDLL(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1556.002").
-        Msg("password filter dll")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1556.002").
+		Msg("password filter dll")
 }
 
 /* ATTACKEntPasswordGuessing Phases: credential-access
@@ -8396,10 +8394,10 @@ Kerberos connection attempts are less likely to trigger events over SMB, which
 creates Windows "logon failure" event ID 4625.
 */
 func (g *Session) ATTACKEntPasswordGuessing(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1110.001").
-        Msg("password guessing")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1110.001").
+		Msg("password guessing")
 }
 
 /* ATTACKEntPasswordManagers Phases: credential-access
@@ -8420,10 +8418,10 @@ master password of a password manager.(Citation: Cyberreason Anchor December
 2019)
 */
 func (g *Session) ATTACKEntPasswordManagers(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1555.005").
-        Msg("password managers")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1555.005").
+		Msg("password managers")
 }
 
 /* ATTACKEntPasswordPolicyDiscovery Phases: discovery
@@ -8443,10 +8441,10 @@ getaccountpolicies.(Citation: Superuser Linux Password Policies) (Citation: Jamf
 User Password Policies)
 */
 func (g *Session) ATTACKEntPasswordPolicyDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1201").
-        Msg("password policy discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1201").
+		Msg("password policy discovery")
 }
 
 /* ATTACKEntPasswordSpraying Phases: credential-access
@@ -8471,10 +8469,10 @@ and Kerberos connection attempts are less likely to trigger events over SMB,
 which creates Windows "logon failure" event ID 4625.
 */
 func (g *Session) ATTACKEntPasswordSpraying(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1110.003").
-        Msg("password spraying")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1110.003").
+		Msg("password spraying")
 }
 
 /* ATTACKEntPatchSystemImage Phases: defense-evasion
@@ -8526,10 +8524,10 @@ will not survive across reboots.  However, live memory modification of the
 operating system can be combined with ROMMONkit to achieve persistence.
 */
 func (g *Session) ATTACKEntPatchSystemImage(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1601.001").
-        Msg("patch system image")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1601.001").
+		Msg("patch system image")
 }
 
 /* ATTACKEntPathInterception Phases: persistence privilege-escalation
@@ -8591,10 +8589,10 @@ hijacking is also a common practice for hijacking DLL loads and is covered in
 DLL Search Order Hijacking.
 */
 func (g *Session) ATTACKEntPathInterception(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1034").
-        Msg("path interception")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1034").
+		Msg("path interception")
 }
 
 /* ATTACKEntPathInterceptionbyPATHEnvironmentVariable Phases: persistence privilege-escalation defense-evasion
@@ -8618,10 +8616,10 @@ is named net.exe and placed in C:\example path will be called instead of the
 Windows system "net" when "net" is executed from the command-line.
 */
 func (g *Session) ATTACKEntPathInterceptionbyPATHEnvironmentVariable(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1574.007").
-        Msg("path interception by path environment variable")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1574.007").
+		Msg("path interception by path environment variable")
 }
 
 /* ATTACKEntPathInterceptionbySearchOrderHijacking Phases: persistence privilege-escalation defense-evasion
@@ -8652,10 +8650,10 @@ hijacking is also a common practice for hijacking DLL loads and is covered in
 DLL Search Order Hijacking.
 */
 func (g *Session) ATTACKEntPathInterceptionbySearchOrderHijacking(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1574.008").
-        Msg("path interception by search order hijacking")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1574.008").
+		Msg("path interception by search order hijacking")
 }
 
 /* ATTACKEntPathInterceptionbyUnquotedPath Phases: persistence privilege-escalation defense-evasion
@@ -8679,10 +8677,10 @@ regular basis, as well as privilege escalation if intercepted executables are
 started by a higher privileged process.
 */
 func (g *Session) ATTACKEntPathInterceptionbyUnquotedPath(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1574.009").
-        Msg("path interception by unquoted path")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1574.009").
+		Msg("path interception by unquoted path")
 }
 
 /* ATTACKEntPeripheralDeviceDiscovery Phases: discovery
@@ -8695,10 +8693,10 @@ be used to enhance their awareness of the system and network environment or may
 be used for further actions.
 */
 func (g *Session) ATTACKEntPeripheralDeviceDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1120").
-        Msg("peripheral device discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1120").
+		Msg("peripheral device discovery")
 }
 
 /* ATTACKEntPermissionGroupsDiscovery Phases: discovery
@@ -8709,10 +8707,10 @@ membership of users in particular groups, and which users and groups have
 elevated permissions.
 */
 func (g *Session) ATTACKEntPermissionGroupsDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1069").
-        Msg("permission groups discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1069").
+		Msg("permission groups discovery")
 }
 
 /* ATTACKEntPhishing Phases: initial-access
@@ -8729,10 +8727,10 @@ Phishing may also involve social engineering techniques, such as posing as a
 trusted source.
 */
 func (g *Session) ATTACKEntPhishing(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1566").
-        Msg("phishing")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1566").
+		Msg("phishing")
 }
 
 /* ATTACKEntPhishingforInformation Phases: reconnaissance
@@ -8756,10 +8754,10 @@ to collect information (ex: Establish Accounts or Compromise Accounts) and/or
 sending multiple, seemingly urgent messages.
 */
 func (g *Session) ATTACKEntPhishingforInformation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1598").
-        Msg("phishing for information")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1598").
+		Msg("phishing for information")
 }
 
 /* ATTACKEntPlistModification Phases: persistence privilege-escalation
@@ -8792,10 +8790,10 @@ method  SMLoginItemSetEnabled can be used to set Login Items, but scripting
 languages like AppleScript can do this as well. (Citation: Adding Login Items)
 */
 func (g *Session) ATTACKEntPlistModification(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1547.011").
-        Msg("plist modification")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1547.011").
+		Msg("plist modification")
 }
 
 /* ATTACKEntPluggableAuthenticationModules Phases: credential-access defense-evasion persistence
@@ -8816,10 +8814,10 @@ components may be plain-text since PAM does not store passwords.(Citation: PAM
 Creds)(Citation: Apple PAM)
 */
 func (g *Session) ATTACKEntPluggableAuthenticationModules(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1556.003").
-        Msg("pluggable authentication modules")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1556.003").
+		Msg("pluggable authentication modules")
 }
 
 /* ATTACKEntPortKnocking Phases: defense-evasion persistence command-and-control
@@ -8838,10 +8836,10 @@ Another method leverages raw sockets, which enables the malware to use ports
 that are already open for use by other programs.
 */
 func (g *Session) ATTACKEntPortKnocking(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1205.001").
-        Msg("port knocking")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1205.001").
+		Msg("port knocking")
 }
 
 /* ATTACKEntPortMonitors Phases: persistence privilege-escalation
@@ -8859,10 +8857,10 @@ Port USB Monitor WSD Port  Adversaries can use this technique to load malicious
 code at startup that will persist on system reboot and execute as SYSTEM.
 */
 func (g *Session) ATTACKEntPortMonitors(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1547.010").
-        Msg("port monitors")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1547.010").
+		Msg("port monitors")
 }
 
 /* ATTACKEntPortableExecutableInjection Phases: defense-evasion privilege-escalation
@@ -8883,10 +8881,10 @@ privileges. Execution via PE injection may also evade detection from security
 products since the execution is masked under a legitimate process.
 */
 func (g *Session) ATTACKEntPortableExecutableInjection(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1055.002").
-        Msg("portable executable injection")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1055.002").
+		Msg("portable executable injection")
 }
 
 /* ATTACKEntPowerShell Phases: execution
@@ -8911,10 +8909,10 @@ Windows Common Language Interface (CLI). (Citation: Sixdub PowerPick Jan
 PSfromCsharp APR 2014)
 */
 func (g *Session) ATTACKEntPowerShell(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1059.001").
-        Msg("powershell")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1059.001").
+		Msg("powershell")
 }
 
 /* ATTACKEntPowerShellProfile Phases: privilege-escalation persistence
@@ -8937,10 +8935,10 @@ such as a domain administrator. (Citation: Wits End and Shady PowerShell
 Profiles)
 */
 func (g *Session) ATTACKEntPowerShellProfile(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1546.013").
-        Msg("powershell profile")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1546.013").
+		Msg("powershell profile")
 }
 
 /* ATTACKEntPreOSBoot Phases: defense-evasion persistence
@@ -8956,10 +8954,10 @@ particularly difficult to detect as malware at this level will not be detected
 by host software-based defenses.
 */
 func (g *Session) ATTACKEntPreOSBoot(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1542").
-        Msg("pre-os boot")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1542").
+		Msg("pre-os boot")
 }
 
 /* ATTACKEntPrintProcessors Phases: persistence privilege-escalation
@@ -8984,10 +8982,10 @@ therefore print processors installed by an adversary may run under elevated
 privileges.
 */
 func (g *Session) ATTACKEntPrintProcessors(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1547.012").
-        Msg("print processors")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1547.012").
+		Msg("print processors")
 }
 
 /* ATTACKEntPrivateKeys Phases: credential-access
@@ -9008,10 +9006,10 @@ operation, so an adversary may also use Input Capture for keylogging or attempt
 to Brute Force the passphrase off-line.
 */
 func (g *Session) ATTACKEntPrivateKeys(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1552.004").
-        Msg("private keys")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1552.004").
+		Msg("private keys")
 }
 
 /* ATTACKEntProcFilesystem Phases: credential-access
@@ -9030,10 +9028,10 @@ given applications such as Gnome Keyring, sshd, and Apache use memory to store
 such authentication artifacts.
 */
 func (g *Session) ATTACKEntProcFilesystem(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1003.007").
-        Msg("proc filesystem")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1003.007").
+		Msg("proc filesystem")
 }
 
 /* ATTACKEntProcMemory Phases: defense-evasion privilege-escalation
@@ -9062,10 +9060,10 @@ privileges. Execution via proc memory injection may also evade detection from
 security products since the execution is masked under a legitimate process.
 */
 func (g *Session) ATTACKEntProcMemory(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1055.009").
-        Msg("proc memory")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1055.009").
+		Msg("proc memory")
 }
 
 /* ATTACKEntProcessDiscovery Phases: discovery
@@ -9083,10 +9081,10 @@ Linux, this is accomplished with the ps command. Adversaries may also opt to
 enumerate processes via /proc.
 */
 func (g *Session) ATTACKEntProcessDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1057").
-        Msg("process discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1057").
+		Msg("process discovery")
 }
 
 /* ATTACKEntProcessDoppelgänging Phases: defense-evasion privilege-escalation
@@ -9125,10 +9123,10 @@ may evade detection from security products since the execution is masked under a
 legitimate process.
 */
 func (g *Session) ATTACKEntProcessDoppelgänging(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1055.013").
-        Msg("process doppelgänging")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1055.013").
+		Msg("process doppelgänging")
 }
 
 /* ATTACKEntProcessHollowing Phases: defense-evasion privilege-escalation
@@ -9153,10 +9151,10 @@ also evade detection from security products since the execution is masked under
 a legitimate process.
 */
 func (g *Session) ATTACKEntProcessHollowing(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1055.012").
-        Msg("process hollowing")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1055.012").
+		Msg("process hollowing")
 }
 
 /* ATTACKEntProcessInjection Phases: defense-evasion privilege-escalation
@@ -9175,10 +9173,10 @@ segment modules and further evade detection, utilizing named pipes or other
 inter-process communication (IPC) mechanisms as a communication channel.
 */
 func (g *Session) ATTACKEntProcessInjection(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1055").
-        Msg("process injection")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1055").
+		Msg("process injection")
 }
 
 /* ATTACKEntProtocolImpersonation Phases: command-and-control
@@ -9193,10 +9191,10 @@ security tooling, or to make the traffic look like it is related with a trusted
 entity.
 */
 func (g *Session) ATTACKEntProtocolImpersonation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1001.003").
-        Msg("protocol impersonation")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1001.003").
+		Msg("protocol impersonation")
 }
 
 /* ATTACKEntProtocolTunneling Phases: command-and-control
@@ -9220,10 +9218,10 @@ Protocol Tunneling in conjunction with Proxy and/or Protocol Impersonation to
 further conceal C2 communications and infrastructure.
 */
 func (g *Session) ATTACKEntProtocolTunneling(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1572").
-        Msg("protocol tunneling")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1572").
+		Msg("protocol tunneling")
 }
 
 /* ATTACKEntProxy Phases: command-and-control
@@ -9242,10 +9240,10 @@ traffic. Adversaries can also take advantage of routing schemes in Content
 Delivery Networks (CDNs) to proxy command and control traffic.
 */
 func (g *Session) ATTACKEntProxy(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1090").
-        Msg("proxy")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1090").
+		Msg("proxy")
 }
 
 /* ATTACKEntPtraceSystemCalls Phases: defense-evasion privilege-escalation
@@ -9272,10 +9270,10 @@ via ptrace system call injection may also evade detection from security products
 since the execution is masked under a legitimate process.
 */
 func (g *Session) ATTACKEntPtraceSystemCalls(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1055.008").
-        Msg("ptrace system calls")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1055.008").
+		Msg("ptrace system calls")
 }
 
 /* ATTACKEntPubPrn Phases: defense-evasion
@@ -9290,10 +9288,10 @@ command is cscript C[:]\Windows\System32\Printing_Admin_Scripts\en-
 US\pubprn[.]vbs 127.0.0.1 script:http[:]//192.168.1.100/hi.png.
 */
 func (g *Session) ATTACKEntPubPrn(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1216.001").
-        Msg("pubprn")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1216.001").
+		Msg("pubprn")
 }
 
 /* ATTACKEntPurchaseTechnicalData Phases: reconnaissance
@@ -9315,10 +9313,10 @@ or Obtain Capabilities), and/or initial access (ex: External Remote Services or
 Valid Accounts).
 */
 func (g *Session) ATTACKEntPurchaseTechnicalData(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1597.002").
-        Msg("purchase technical data")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1597.002").
+		Msg("purchase technical data")
 }
 
 /* ATTACKEntPython Phases: execution
@@ -9334,10 +9332,10 @@ download and execute commands or other scripts as well as perform various
 malicious behaviors.
 */
 func (g *Session) ATTACKEntPython(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1059.006").
-        Msg("python")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1059.006").
+		Msg("python")
 }
 
 /* ATTACKEntQueryRegistry Phases: discovery
@@ -9354,10 +9352,10 @@ whether or not the adversary fully infects the target and/or attempts specific
 actions.
 */
 func (g *Session) ATTACKEntQueryRegistry(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1012").
-        Msg("query registry")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1012").
+		Msg("query registry")
 }
 
 /* ATTACKEntRCScripts Phases: persistence privilege-escalation
@@ -9382,10 +9380,10 @@ such as Ubuntu, will execute the RC scripts if they exist with the correct file
 permissions.(Citation: Ubuntu Manpage systemd rc)
 */
 func (g *Session) ATTACKEntRCScripts(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1037.004").
-        Msg("rc scripts")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1037.004").
+		Msg("rc scripts")
 }
 
 /* ATTACKEntRDPHijacking Phases: lateral-movement
@@ -9409,10 +9407,10 @@ using native Windows commands, but it has also been added as a feature in red
 teaming tools.(Citation: Kali Redsnarf)
 */
 func (g *Session) ATTACKEntRDPHijacking(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1563.002").
-        Msg("rdp hijacking")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1563.002").
+		Msg("rdp hijacking")
 }
 
 /* ATTACKEntROMMONkit Phases: defense-evasion persistence
@@ -9430,10 +9428,10 @@ the means to update the ROMMON to gain persistence on a system in a way that may
 be difficult to detect.
 */
 func (g *Session) ATTACKEntROMMONkit(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1542.004").
-        Msg("rommonkit")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1542.004").
+		Msg("rommonkit")
 }
 
 /* ATTACKEntReopenedApplications Phases: persistence privilege-escalation
@@ -9450,10 +9448,10 @@ executable to provide a persistence mechanism each time the user reboots their
 machine (Citation: Methods of Mac Malware Persistence).
 */
 func (g *Session) ATTACKEntReopenedApplications(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1547.007").
-        Msg("re-opened applications")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1547.007").
+		Msg("re-opened applications")
 }
 
 /* ATTACKEntReduceKeySpace Phases: defense-evasion
@@ -9471,10 +9469,10 @@ introduced to the system through Modify System Image to change the configuration
 of the device. (Citation: Cisco Blog Legacy Device Attacks)
 */
 func (g *Session) ATTACKEntReduceKeySpace(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1600.001").
-        Msg("reduce key space")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1600.001").
+		Msg("reduce key space")
 }
 
 /* ATTACKEntRedundantAccess Phases: defense-evasion persistence
@@ -9494,10 +9492,10 @@ cloud-based infrastructure and applications. Use of a Web Shell is one such way
 to maintain access to a network through an externally accessible Web server.
 */
 func (g *Session) ATTACKEntRedundantAccess(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1108").
-        Msg("redundant access")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1108").
+		Msg("redundant access")
 }
 
 /* ATTACKEntReflectionAmplification Phases: impact
@@ -9526,10 +9524,10 @@ protocol, with amplification sizes up to 51,200 times the requesting
 packet.(Citation: Cloudflare Memcrashed Feb 2018)
 */
 func (g *Session) ATTACKEntReflectionAmplification(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1498.002").
-        Msg("reflection amplification")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1498.002").
+		Msg("reflection amplification")
 }
 
 /* ATTACKEntRegistryRunKeysStartupFolder Phases: persistence privilege-escalation
@@ -9598,10 +9596,10 @@ make the Registry entries look as if they are associated with legitimate
 programs.
 */
 func (g *Session) ATTACKEntRegistryRunKeysStartupFolder(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1547.001").
-        Msg("registry run keys / startup folder")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1547.001").
+		Msg("registry run keys / startup folder")
 }
 
 /* ATTACKEntRegsvcsRegasm Phases: defense-evasion
@@ -9618,10 +9616,10 @@ be executed even if the process is run under insufficient privileges and fails
 to execute. (Citation: LOLBAS Regsvcs)(Citation: LOLBAS Regasm)
 */
 func (g *Session) ATTACKEntRegsvcsRegasm(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1218.009").
-        Msg("regsvcs/regasm")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1218.009").
+		Msg("regsvcs/regasm")
 }
 
 /* ATTACKEntRegsvr32 Phases: defense-evasion
@@ -9647,10 +9645,10 @@ leveraged to register a COM Object used to establish persistence via Component
 Object Model Hijacking. (Citation: Carbon Black Squiblydoo Apr 2016)
 */
 func (g *Session) ATTACKEntRegsvr32(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1218.010").
-        Msg("regsvr32")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1218.010").
+		Msg("regsvr32")
 }
 
 /* ATTACKEntRemoteAccessSoftware Phases: command-and-control
@@ -9672,10 +9670,10 @@ the Russian state and criminal campaigns. (Citation: CrowdStrike 2015 Global
 Threat Report) (Citation: CrySyS Blog TeamSpy)
 */
 func (g *Session) ATTACKEntRemoteAccessSoftware(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1219").
-        Msg("remote access software")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1219").
+		Msg("remote access software")
 }
 
 /* ATTACKEntRemoteDataStaging Phases: collection
@@ -9692,10 +9690,10 @@ system prior to Exfiltration, adversaries can minimize the number of connections
 made to their C2 server and better evade detection.
 */
 func (g *Session) ATTACKEntRemoteDataStaging(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1074.002").
-        Msg("remote data staging")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1074.002").
+		Msg("remote data staging")
 }
 
 /* ATTACKEntRemoteDesktopProtocol Phases: lateral-movement
@@ -9714,10 +9712,10 @@ in conjunction with the Accessibility Features technique for
 Persistence.(Citation: Alperovitch Malware)
 */
 func (g *Session) ATTACKEntRemoteDesktopProtocol(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1021.001").
-        Msg("remote desktop protocol")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1021.001").
+		Msg("remote desktop protocol")
 }
 
 /* ATTACKEntRemoteEmailCollection Phases: collection
@@ -9730,10 +9728,10 @@ network. Adversaries may also access externally facing Exchange services, Office
 Tools such as MailSniper can be used to automate searches for specific keywords.
 */
 func (g *Session) ATTACKEntRemoteEmailCollection(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1114.002").
-        Msg("remote email collection")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1114.002").
+		Msg("remote email collection")
 }
 
 /* ATTACKEntRemoteServiceSessionHijacking Phases: lateral-movement
@@ -9750,10 +9748,10 @@ Valid Accounts.(Citation: RDP Hijacking Medium)(Citation: Breach Post-mortem SSH
 Hijack)
 */
 func (g *Session) ATTACKEntRemoteServiceSessionHijacking(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1563").
-        Msg("remote service session hijacking")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1563").
+		Msg("remote service session hijacking")
 }
 
 /* ATTACKEntRemoteServices Phases: lateral-movement
@@ -9769,10 +9767,10 @@ remote access protocols such as secure shell (SSH) or remote desktop protocol
 (RDP).(Citation: SSH Secure Shell)(Citation: TechNet Remote Desktop Services)
 */
 func (g *Session) ATTACKEntRemoteServices(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1021").
-        Msg("remote services")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1021").
+		Msg("remote services")
 }
 
 /* ATTACKEntRemoteSystemDiscovery Phases: discovery
@@ -9788,10 +9786,10 @@ macOS, the bonjour protocol exists to discover additional Mac-based systems
 within the same broadcast domain.
 */
 func (g *Session) ATTACKEntRemoteSystemDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1018").
-        Msg("remote system discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1018").
+		Msg("remote system discovery")
 }
 
 /* ATTACKEntRenameSystemUtilities Phases: defense-evasion
@@ -9807,10 +9805,10 @@ renamed to avoid detections based on system utilities executing from non-
 standard paths. (Citation: F-Secure CozyDuke)
 */
 func (g *Session) ATTACKEntRenameSystemUtilities(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1036.003").
-        Msg("rename system utilities")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1036.003").
+		Msg("rename system utilities")
 }
 
 /* ATTACKEntReplicationThroughRemovableMedia Phases: lateral-movement initial-access
@@ -9826,10 +9824,10 @@ modification of systems used to initially format the media, or modification to
 the media's firmware itself.
 */
 func (g *Session) ATTACKEntReplicationThroughRemovableMedia(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1091").
-        Msg("replication through removable media")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1091").
+		Msg("replication through removable media")
 }
 
 /* ATTACKEntResourceHijacking Phases: impact
@@ -9853,10 +9851,10 @@ ensure it’s not competing for resources.(Citation: Trend Micro War of Crypto
 Miners)
 */
 func (g *Session) ATTACKEntResourceHijacking(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1496").
-        Msg("resource hijacking")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1496").
+		Msg("resource hijacking")
 }
 
 /* ATTACKEntRevertCloudInstance Phases: defense-evasion
@@ -9873,10 +9871,10 @@ reset upon stop/restart of the VM.(Citation: Tech Republic - Restore AWS
 Snapshots)(Citation: Google - Restore Cloud Snapshot)
 */
 func (g *Session) ATTACKEntRevertCloudInstance(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1578.004").
-        Msg("revert cloud instance")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1578.004").
+		Msg("revert cloud instance")
 }
 
 /* ATTACKEntRighttoLeftOverride Phases: defense-evasion
@@ -9897,10 +9895,10 @@ in the Windows Registry as well, where regedit.exe displays the reversed
 characters but the command line tool reg.exe does not by default.
 */
 func (g *Session) ATTACKEntRighttoLeftOverride(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1036.002").
-        Msg("right-to-left override")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1036.002").
+		Msg("right-to-left override")
 }
 
 /* ATTACKEntRogueDomainController Phases: defense-evasion
@@ -9925,10 +9923,10 @@ this technique to perform SID-History Injection and/or manipulate AD objects
 Persistence. (Citation: DCShadow Blog)
 */
 func (g *Session) ATTACKEntRogueDomainController(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1207").
-        Msg("rogue domain controller")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1207").
+		Msg("rogue domain controller")
 }
 
 /* ATTACKEntRootkit Phases: defense-evasion
@@ -9944,10 +9942,10 @@ Rootkit) Rootkits have been seen for Windows, Linux, and Mac OS X systems.
 (Citation: CrowdStrike Linux Rootkit) (Citation: BlackHat Mac OSX Rootkit)
 */
 func (g *Session) ATTACKEntRootkit(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1014").
-        Msg("rootkit")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1014").
+		Msg("rootkit")
 }
 
 /* ATTACKEntRunVirtualInstance Phases: defense-evasion
@@ -9969,10 +9967,10 @@ instance to interact with the host file system.(Citation: Sophos Ragnar May
 2020)
 */
 func (g *Session) ATTACKEntRunVirtualInstance(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1564.006").
-        Msg("run virtual instance")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1564.006").
+		Msg("run virtual instance")
 }
 
 /* ATTACKEntRundll32 Phases: defense-evasion
@@ -9992,10 +9990,10 @@ tps[:]//www[.]example[.]com/malicious.sct")"  This behavior has been seen used
 by malware such as Poweliks. (Citation: This is Security Command Line Confusion)
 */
 func (g *Session) ATTACKEntRundll32(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1218.011").
-        Msg("rundll32")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1218.011").
+		Msg("rundll32")
 }
 
 /* ATTACKEntRuntimeDataManipulation Phases: impact
@@ -10014,10 +10012,10 @@ software related to the system that would typically be gained through a
 prolonged information gathering campaign in order to have the desired impact.
 */
 func (g *Session) ATTACKEntRuntimeDataManipulation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1565.003").
-        Msg("runtime data manipulation")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1565.003").
+		Msg("runtime data manipulation")
 }
 
 /* ATTACKEntSAMLTokens Phases: credential-access
@@ -10044,10 +10042,10 @@ which may bypass multi-factor and other authentication protection
 mechanisms.(Citation: Microsoft SolarWinds Customer Guidance)
 */
 func (g *Session) ATTACKEntSAMLTokens(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1606.002").
-        Msg("saml tokens")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1606.002").
+		Msg("saml tokens")
 }
 
 /* ATTACKEntSIDHistoryInjection Phases: defense-evasion privilege-escalation
@@ -10068,10 +10066,10 @@ techniques such as Remote Services, SMB/Windows Admin Shares, or Windows Remote
 Management.
 */
 func (g *Session) ATTACKEntSIDHistoryInjection(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1134.005").
-        Msg("sid-history injection")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1134.005").
+		Msg("sid-history injection")
 }
 
 /* ATTACKEntSIPandTrustProviderHijacking Phases: defense-evasion
@@ -10137,10 +10135,10 @@ components may be invoked by any application that performs code signing or
 signature validation. (Citation: SpectorOps Subverting Trust Sept 2017)
 */
 func (g *Session) ATTACKEntSIPandTrustProviderHijacking(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1553.003").
-        Msg("sip and trust provider hijacking")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1553.003").
+		Msg("sip and trust provider hijacking")
 }
 
 /* ATTACKEntSMBWindowsAdminShares Phases: lateral-movement
@@ -10165,10 +10163,10 @@ with Pass the Hash and certain configuration and patch levels.(Citation:
 Microsoft Admin Shares)
 */
 func (g *Session) ATTACKEntSMBWindowsAdminShares(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1021.002").
-        Msg("smb/windows admin shares")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1021.002").
+		Msg("smb/windows admin shares")
 }
 
 /* ATTACKEntSNMPMIBDump Phases: collection
@@ -10190,10 +10188,10 @@ and facilitate future targeted exploitation.(Citation: US-CERT-
 TA18-106A)(Citation: Cisco Blog Legacy Device Attacks)
 */
 func (g *Session) ATTACKEntSNMPMIBDump(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1602.001").
-        Msg("snmp (mib dump)")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1602.001").
+		Msg("snmp (mib dump)")
 }
 
 /* ATTACKEntSQLStoredProcedures Phases: persistence
@@ -10217,10 +10215,10 @@ CLR assemblies that are linked to stored procedures since these CLR assemblies
 can be made to execute arbitrary commands.(Citation: NetSPI SQL Server CLR)
 */
 func (g *Session) ATTACKEntSQLStoredProcedures(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1505.001").
-        Msg("sql stored procedures")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1505.001").
+		Msg("sql stored procedures")
 }
 
 /* ATTACKEntSSH Phases: lateral-movement
@@ -10237,10 +10235,10 @@ that lists which keypairs are allowed to login as that user.(Citation: SSH
 Secure Shell)
 */
 func (g *Session) ATTACKEntSSH(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1021.004").
-        Msg("ssh")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1021.004").
+		Msg("ssh")
 }
 
 /* ATTACKEntSSHAuthorizedKeys Phases: persistence
@@ -10262,10 +10260,10 @@ user via SSH.(Citation: Venafi SSH Key Abuse) (Citation: Cybereason Linux Exim
 Worm)
 */
 func (g *Session) ATTACKEntSSHAuthorizedKeys(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1098.004").
-        Msg("ssh authorized keys")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1098.004").
+		Msg("ssh authorized keys")
 }
 
 /* ATTACKEntSSHHijacking Phases: lateral-movement
@@ -10286,10 +10284,10 @@ SSH Hijack) SSH Hijacking differs from use of SSH because it hijacks an existing
 SSH session rather than creating a new session using Valid Accounts.
 */
 func (g *Session) ATTACKEntSSHHijacking(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1563.001").
-        Msg("ssh hijacking")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1563.001").
+		Msg("ssh hijacking")
 }
 
 /* ATTACKEntScanDatabases Phases: reconnaissance
@@ -10309,10 +10307,10 @@ Capabilities or Obtain Capabilities), and/or initial access (ex: External Remote
 Services or Exploit Public-Facing Application).
 */
 func (g *Session) ATTACKEntScanDatabases(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1596.005").
-        Msg("scan databases")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1596.005").
+		Msg("scan databases")
 }
 
 /* ATTACKEntScanningIPBlocks Phases: reconnaissance
@@ -10331,10 +10329,10 @@ resources (ex: Develop Capabilities or Obtain Capabilities), and/or initial
 access (ex: External Remote Services).
 */
 func (g *Session) ATTACKEntScanningIPBlocks(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1595.001").
-        Msg("scanning ip blocks")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1595.001").
+		Msg("scanning ip blocks")
 }
 
 /* ATTACKEntScheduledTask Phases: execution persistence privilege-escalation
@@ -10355,10 +10353,10 @@ Movement and or to run a process under the context of a specified account (such
 as SYSTEM).
 */
 func (g *Session) ATTACKEntScheduledTask(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1053.005").
-        Msg("scheduled task")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1053.005").
+		Msg("scheduled task")
 }
 
 /* ATTACKEntScheduledTaskJob Phases: execution persistence privilege-escalation
@@ -10376,10 +10374,10 @@ mechanisms can also be abused to run a process under the context of a specified
 account (such as one with elevated permissions/privileges).
 */
 func (g *Session) ATTACKEntScheduledTaskJob(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1053").
-        Msg("scheduled task/job")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1053").
+		Msg("scheduled task/job")
 }
 
 /* ATTACKEntScheduledTransfer Phases: exfiltration
@@ -10392,10 +10390,10 @@ the network, such as Exfiltration Over C2 Channel or Exfiltration Over
 Alternative Protocol.
 */
 func (g *Session) ATTACKEntScheduledTransfer(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1029").
-        Msg("scheduled transfer")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1029").
+		Msg("scheduled transfer")
 }
 
 /* ATTACKEntScreenCapture Phases: collection
@@ -10408,10 +10406,10 @@ utilities or API calls, such as CopyFromScreen, xwd, or screencapture.(Citation:
 CopyFromScreen .NET)(Citation: Antiquated Mac Malware)
 */
 func (g *Session) ATTACKEntScreenCapture(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1113").
-        Msg("screen capture")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1113").
+		Msg("screen capture")
 }
 
 /* ATTACKEntScreensaver Phases: privilege-escalation persistence
@@ -10432,10 +10430,10 @@ maintain persistence by setting the screensaver to run malware after a certain
 timeframe of user inactivity. (Citation: ESET Gazer Aug 2017)
 */
 func (g *Session) ATTACKEntScreensaver(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1546.002").
-        Msg("screensaver")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1546.002").
+		Msg("screensaver")
 }
 
 /* ATTACKEntScripting Phases: defense-evasion execution
@@ -10462,10 +10460,10 @@ features for evading defenses. Some adversaries are known to use PowerShell.
 (Citation: Alperovitch 2014)
 */
 func (g *Session) ATTACKEntScripting(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1064").
-        Msg("scripting")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1064").
+		Msg("scripting")
 }
 
 /* ATTACKEntSearchClosedSources Phases: reconnaissance
@@ -10484,10 +10482,10 @@ Capabilities or Obtain Capabilities), and/or initial access (ex: External Remote
 Services or Valid Accounts).
 */
 func (g *Session) ATTACKEntSearchClosedSources(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1597").
-        Msg("search closed sources")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1597").
+		Msg("search closed sources")
 }
 
 /* ATTACKEntSearchEngines Phases: reconnaissance
@@ -10507,10 +10505,10 @@ operational resources (ex: Establish Accounts or Compromise Accounts), and/or
 initial access (ex: Valid Accounts or Phishing).
 */
 func (g *Session) ATTACKEntSearchEngines(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1593.002").
-        Msg("search engines")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1593.002").
+		Msg("search engines")
 }
 
 /* ATTACKEntSearchOpenTechnicalDatabases Phases: reconnaissance
@@ -10530,10 +10528,10 @@ Infrastructure or Compromise Infrastructure), and/or initial access (ex:
 External Remote Services or Trusted Relationship).
 */
 func (g *Session) ATTACKEntSearchOpenTechnicalDatabases(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1596").
-        Msg("search open technical databases")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1596").
+		Msg("search open technical databases")
 }
 
 /* ATTACKEntSearchOpenWebsitesDomains Phases: reconnaissance
@@ -10552,10 +10550,10 @@ Compromise Accounts), and/or initial access (ex: External Remote Services or
 Phishing).
 */
 func (g *Session) ATTACKEntSearchOpenWebsitesDomains(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1593").
-        Msg("search open websites/domains")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1593").
+		Msg("search open websites/domains")
 }
 
 /* ATTACKEntSearchVictimOwnedWebsites Phases: reconnaissance
@@ -10573,10 +10571,10 @@ resources (ex: Establish Accounts or Compromise Accounts), and/or initial access
 (ex: Trusted Relationship or Phishing).
 */
 func (g *Session) ATTACKEntSearchVictimOwnedWebsites(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1594").
-        Msg("search victim-owned websites")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1594").
+		Msg("search victim-owned websites")
 }
 
 /* ATTACKEntSecurityAccountManager Phases: credential-access
@@ -10595,10 +10593,10 @@ account is the local, built-in administrator. * RID 501 is the guest account. *
 User accounts start with a RID of 1,000+.
 */
 func (g *Session) ATTACKEntSecurityAccountManager(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1003.002").
-        Msg("security account manager")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1003.002").
+		Msg("security account manager")
 }
 
 /* ATTACKEntSecuritySoftwareDiscovery Phases: discovery
@@ -10618,10 +10616,10 @@ utilize cloud APIs to discover the configurations of firewall rules within an
 environment.(Citation: Expel IO Evil in AWS)
 */
 func (g *Session) ATTACKEntSecuritySoftwareDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1518.001").
-        Msg("security software discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1518.001").
+		Msg("security software discovery")
 }
 
 /* ATTACKEntSecuritySupportProvider Phases: persistence privilege-escalation
@@ -10638,10 +10636,10 @@ will be loaded the next time the system boots, or when the AddSecurityPackage
 Windows API function is called.(Citation: Graeber 2014)
 */
 func (g *Session) ATTACKEntSecuritySupportProvider(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1547.005").
-        Msg("security support provider")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1547.005").
+		Msg("security support provider")
 }
 
 /* ATTACKEntSecuritydMemory Phases: credential-access
@@ -10662,10 +10660,10 @@ attacker need only iterate over the other values to unlock the final
 password.(Citation: OS X Keychain)
 */
 func (g *Session) ATTACKEntSecuritydMemory(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1555.002").
-        Msg("securityd memory")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1555.002").
+		Msg("securityd memory")
 }
 
 /* ATTACKEntServer Phases: resource-development
@@ -10682,10 +10680,10 @@ they want to test, communicate, and control other aspects of their activities on
 their own systems.(Citation: NYTStuxnet)
 */
 func (g *Session) ATTACKEntServer(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1583.004").
-        Msg("server")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1583.004").
+		Msg("server")
 }
 
 /* ATTACKEntServer2 Phases: resource-development
@@ -10699,10 +10697,10 @@ support of operations. Adversaries may also compromise web servers to support
 watering hole operations, as in Drive-by Compromise.
 */
 func (g *Session) ATTACKEntServer2(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1584.004").
-        Msg("server")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1584.004").
+		Msg("server")
 }
 
 /* ATTACKEntServerSoftwareComponent Phases: persistence
@@ -10714,10 +10712,10 @@ to extend the functionality of the main application. Adversaries may install
 malicious components to extend and abuse server applications.
 */
 func (g *Session) ATTACKEntServerSoftwareComponent(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1505").
-        Msg("server software component")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1505").
+		Msg("server software component")
 }
 
 /* ATTACKEntServiceExecution Phases: execution
@@ -10735,10 +10733,10 @@ in conjunction with Windows Service during service persistence or privilege
 escalation.
 */
 func (g *Session) ATTACKEntServiceExecution(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1569.002").
-        Msg("service execution")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1569.002").
+		Msg("service execution")
 }
 
 /* ATTACKEntServiceExhaustionFlood Phases: impact
@@ -10765,10 +10763,10 @@ availability of the service when done in volume.(Citation: Arbor SSLDoS April
 2012)
 */
 func (g *Session) ATTACKEntServiceExhaustionFlood(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1499.002").
-        Msg("service exhaustion flood")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1499.002").
+		Msg("service exhaustion flood")
 }
 
 /* ATTACKEntServiceStop Phases: impact
@@ -10788,10 +10786,10 @@ Destruction or Data Encrypted for Impact on the data stores of services like
 Exchange and SQL Server.(Citation: SecureWorks WannaCry Analysis)
 */
 func (g *Session) ATTACKEntServiceStop(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1489").
-        Msg("service stop")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1489").
+		Msg("service stop")
 }
 
 /* ATTACKEntServicesFilePermissionsWeakness Phases: persistence privilege-escalation defense-evasion
@@ -10813,10 +10811,10 @@ during a certain event (e.g., system bootup) then this technique can also be
 used for persistence.
 */
 func (g *Session) ATTACKEntServicesFilePermissionsWeakness(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1574.010").
-        Msg("services file permissions weakness")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1574.010").
+		Msg("services file permissions weakness")
 }
 
 /* ATTACKEntServicesRegistryPermissionsWeakness Phases: persistence privilege-escalation defense-evasion
@@ -10844,10 +10842,10 @@ corrupted.(Citation: Kansa Service related collectors)(Citation: Tweet Registry
 Perms Weakness)
 */
 func (g *Session) ATTACKEntServicesRegistryPermissionsWeakness(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1574.011").
-        Msg("services registry permissions weakness")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1574.011").
+		Msg("services registry permissions weakness")
 }
 
 /* ATTACKEntSetuidandSetgid Phases: privilege-escalation defense-evasion
@@ -10870,10 +10868,10 @@ they're able to execute in elevated contexts in the future.(Citation: OSX
 Keydnap malware).
 */
 func (g *Session) ATTACKEntSetuidandSetgid(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1548.001").
-        Msg("setuid and setgid")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1548.001").
+		Msg("setuid and setgid")
 }
 
 /* ATTACKEntSharedModules Phases: execution
@@ -10897,10 +10895,10 @@ victim system. For example, malware may execute share modules to load additional
 components or features.
 */
 func (g *Session) ATTACKEntSharedModules(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1129").
-        Msg("shared modules")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1129").
+		Msg("shared modules")
 }
 
 /* ATTACKEntSharedWebroot Phases: lateral-movement
@@ -10920,10 +10918,10 @@ access tool and PHP script to execute the RAT on the system running the Web
 server when a specific page is visited. (Citation: Webroot PHP 2011)
 */
 func (g *Session) ATTACKEntSharedWebroot(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1051").
-        Msg("shared webroot")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1051").
+		Msg("shared webroot")
 }
 
 /* ATTACKEntSharepoint Phases: collection
@@ -10939,10 +10937,10 @@ credentials Work / project schedules Source code snippets Links to network
 shares and other internal resources
 */
 func (g *Session) ATTACKEntSharepoint(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1213.002").
-        Msg("sharepoint")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1213.002").
+		Msg("sharepoint")
 }
 
 /* ATTACKEntShortcutModification Phases: persistence privilege-escalation
@@ -10958,10 +10956,10 @@ shortcut so their tools will be executed instead of the intended legitimate
 program.
 */
 func (g *Session) ATTACKEntShortcutModification(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1547.009").
-        Msg("shortcut modification")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1547.009").
+		Msg("shortcut modification")
 }
 
 /* ATTACKEntSignedBinaryProxyExecution Phases: defense-evasion
@@ -10973,10 +10971,10 @@ signature validation. Several Microsoft signed binaries that are default on
 Windows installations can be used to proxy execution of other files.
 */
 func (g *Session) ATTACKEntSignedBinaryProxyExecution(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1218").
-        Msg("signed binary proxy execution")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1218").
+		Msg("signed binary proxy execution")
 }
 
 /* ATTACKEntSignedScriptProxyExecution Phases: defense-evasion
@@ -10989,10 +10987,10 @@ application control and signature validation on systems.(Citation: GitHub
 Ultimate AppLocker Bypass List)
 */
 func (g *Session) ATTACKEntSignedScriptProxyExecution(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1216").
-        Msg("signed script proxy execution")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1216").
+		Msg("signed script proxy execution")
 }
 
 /* ATTACKEntSilverTicket Phases: credential-access
@@ -11010,10 +11008,10 @@ difficult.(Citation: ADSecurity Detecting Forged Tickets) Password hashes for
 target services may be obtained using OS Credential Dumping or Kerberoasting.
 */
 func (g *Session) ATTACKEntSilverTicket(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1558.002").
-        Msg("silver ticket")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1558.002").
+		Msg("silver ticket")
 }
 
 /* ATTACKEntSocialMedia Phases: reconnaissance
@@ -11032,10 +11030,10 @@ Databases), establishing operational resources (ex: Establish Accounts or
 Compromise Accounts), and/or initial access (ex: Spearphishing via Service).
 */
 func (g *Session) ATTACKEntSocialMedia(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1593.001").
-        Msg("social media")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1593.001").
+		Msg("social media")
 }
 
 /* ATTACKEntSocialMediaAccounts Phases: resource-development
@@ -11059,10 +11057,10 @@ may be leveraged during other phases of the adversary lifecycle, such as during
 Initial Access (ex: Spearphishing via Service).
 */
 func (g *Session) ATTACKEntSocialMediaAccounts(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1585.001").
-        Msg("social media accounts")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1585.001").
+		Msg("social media accounts")
 }
 
 /* ATTACKEntSocialMediaAccounts2 Phases: resource-development
@@ -11091,10 +11089,10 @@ leveraged during other phases of the adversary lifecycle, such as during Initial
 Access (ex: Spearphishing via Service).
 */
 func (g *Session) ATTACKEntSocialMediaAccounts2(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1586.001").
-        Msg("social media accounts")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1586.001").
+		Msg("social media accounts")
 }
 
 /* ATTACKEntSoftware Phases: reconnaissance
@@ -11117,10 +11115,10 @@ operational resources (ex: Develop Capabilities or Obtain Capabilities), and/or
 for initial access (ex: Supply Chain Compromise or External Remote Services).
 */
 func (g *Session) ATTACKEntSoftware(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1592.002").
-        Msg("software")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1592.002").
+		Msg("software")
 }
 
 /* ATTACKEntSoftwareDeploymentTools Phases: execution lateral-movement
@@ -11140,10 +11138,10 @@ specific domain credentials may be required. However, the system may require an
 administrative account to log in or to perform it's intended purpose.
 */
 func (g *Session) ATTACKEntSoftwareDeploymentTools(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1072").
-        Msg("software deployment tools")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1072").
+		Msg("software deployment tools")
 }
 
 /* ATTACKEntSoftwareDiscovery Phases: discovery
@@ -11158,10 +11156,10 @@ present or if the compromised system has a version of software that is
 vulnerable to Exploitation for Privilege Escalation.
 */
 func (g *Session) ATTACKEntSoftwareDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1518").
-        Msg("software discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1518").
+		Msg("software discovery")
 }
 
 /* ATTACKEntSoftwarePacking Phases: defense-evasion
@@ -11180,10 +11178,10 @@ create their own packing techniques that do not leave the same artifacts as
 well-known packers to evade defenses.
 */
 func (g *Session) ATTACKEntSoftwarePacking(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1027.002").
-        Msg("software packing")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1027.002").
+		Msg("software packing")
 }
 
 /* ATTACKEntSource Phases: execution
@@ -11201,10 +11199,10 @@ functionality to execute programs. The file executed with this technique does
 not need to be marked executable beforehand.
 */
 func (g *Session) ATTACKEntSource(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1153").
-        Msg("source")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1153").
+		Msg("source")
 }
 
 /* ATTACKEntSpaceafterFilename Phases: defense-evasion
@@ -11224,10 +11222,10 @@ feature to trick users into double clicking benign-looking files of any format
 and ultimately executing something malicious.
 */
 func (g *Session) ATTACKEntSpaceafterFilename(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1036.006").
-        Msg("space after filename")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1036.006").
+		Msg("space after filename")
 }
 
 /* ATTACKEntSpearphishingAttachment Phases: initial-access
@@ -11253,10 +11251,10 @@ in order to make attached executables appear to be document files, or files
 exploiting one application appear to be a file for a different one.
 */
 func (g *Session) ATTACKEntSpearphishingAttachment(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1566.001").
-        Msg("spearphishing attachment")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1566.001").
+		Msg("spearphishing attachment")
 }
 
 /* ATTACKEntSpearphishingAttachment2 Phases: reconnaissance
@@ -11280,10 +11278,10 @@ Websites/Domains or Search Victim-Owned Websites) to craft persuasive and
 believable lures.
 */
 func (g *Session) ATTACKEntSpearphishingAttachment2(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1598.002").
-        Msg("spearphishing attachment")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1598.002").
+		Msg("spearphishing attachment")
 }
 
 /* ATTACKEntSpearphishingLink Phases: initial-access
@@ -11311,10 +11309,10 @@ protected applications and information.(Citation: Trend Micro Pawn Storm OAuth
 2017)
 */
 func (g *Session) ATTACKEntSpearphishingLink(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1566.002").
-        Msg("spearphishing link")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1566.002").
+		Msg("spearphishing link")
 }
 
 /* ATTACKEntSpearphishingLink2 Phases: reconnaissance
@@ -11338,10 +11336,10 @@ reconnaissance efforts (ex: Search Open Websites/Domains or Search Victim-Owned
 Websites) to craft persuasive and believable lures.
 */
 func (g *Session) ATTACKEntSpearphishingLink2(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1598.003").
-        Msg("spearphishing link")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1598.003").
+		Msg("spearphishing link")
 }
 
 /* ATTACKEntSpearphishingService Phases: reconnaissance
@@ -11367,10 +11365,10 @@ information from previous reconnaissance efforts (ex: Social Media or Search
 Victim-Owned Websites) to craft persuasive and believable lures.
 */
 func (g *Session) ATTACKEntSpearphishingService(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1598.001").
-        Msg("spearphishing service")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1598.001").
+		Msg("spearphishing service")
 }
 
 /* ATTACKEntSpearphishingviaService Phases: initial-access
@@ -11399,10 +11397,10 @@ continue normal communications and troubleshoot with the target on how to get it
 working.
 */
 func (g *Session) ATTACKEntSpearphishingviaService(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1566.003").
-        Msg("spearphishing via service")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1566.003").
+		Msg("spearphishing via service")
 }
 
 /* ATTACKEntStageCapabilities Phases: resource-development
@@ -11429,10 +11427,10 @@ Asymmetric Cryptography with Web Protocols).(Citation: DigiCert Install SSL
 Cert)
 */
 func (g *Session) ATTACKEntStageCapabilities(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1608").
-        Msg("stage capabilities")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1608").
+		Msg("stage capabilities")
 }
 
 /* ATTACKEntStandardEncoding Phases: command-and-control
@@ -11446,10 +11444,10 @@ Binary-to-text Encoding) (Citation: Wikipedia Character Encoding) Some data
 encoding systems may also result in data compression, such as gzip.
 */
 func (g *Session) ATTACKEntStandardEncoding(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1132.001").
-        Msg("standard encoding")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1132.001").
+		Msg("standard encoding")
 }
 
 /* ATTACKEntStartupItems Phases: persistence privilege-escalation
@@ -11470,10 +11468,10 @@ Additionally, since StartupItems run during the bootup phase of macOS, they will
 run as the elevated root user.
 */
 func (g *Session) ATTACKEntStartupItems(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1037.005").
-        Msg("startup items")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1037.005").
+		Msg("startup items")
 }
 
 /* ATTACKEntStealApplicationAccessToken Phases: credential-access
@@ -11508,10 +11506,10 @@ Microsoft Outlook, and Yahoo Mail users.(Citation: Amnesty OAuth Phishing
 Attacks, August 2019)(Citation: Trend Micro Pawn Storm OAuth 2017)
 */
 func (g *Session) ATTACKEntStealApplicationAccessToken(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1528").
-        Msg("steal application access token")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1528").
+		Msg("steal application access token")
 }
 
 /* ATTACKEntStealWebSessionCookie Phases: credential-access
@@ -11537,10 +11535,10 @@ perform a Web Session Cookie technique to login to the corresponding web
 application.
 */
 func (g *Session) ATTACKEntStealWebSessionCookie(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1539").
-        Msg("steal web session cookie")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1539").
+		Msg("steal web session cookie")
 }
 
 /* ATTACKEntStealorForgeKerberosTickets Phases: credential-access
@@ -11557,10 +11555,10 @@ authentication and ticket granting.  Attackers may attempt to abuse Kerberos by
 stealing tickets or forging tickets to enable unauthorized access.
 */
 func (g *Session) ATTACKEntStealorForgeKerberosTickets(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1558").
-        Msg("steal or forge kerberos tickets")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1558").
+		Msg("steal or forge kerberos tickets")
 }
 
 /* ATTACKEntSteganography Phases: defense-evasion
@@ -11578,10 +11576,10 @@ from the victim's machine and communicate it back to the adversary.(Citation:
 McAfee Malicious Doc Targets Pyeongchang Olympics)
 */
 func (g *Session) ATTACKEntSteganography(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1027.003").
-        Msg("steganography")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1027.003").
+		Msg("steganography")
 }
 
 /* ATTACKEntSteganography2 Phases: command-and-control
@@ -11594,10 +11592,10 @@ systems. In some cases, the passing of files embedded using steganography, such
 as image or document files, can be used for command and control.
 */
 func (g *Session) ATTACKEntSteganography2(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1001.002").
-        Msg("steganography")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1001.002").
+		Msg("steganography")
 }
 
 /* ATTACKEntStoredDataManipulation Phases: impact
@@ -11615,10 +11613,10 @@ related to the system that would typically be gained through a prolonged
 information gathering campaign in order to have the desired impact.
 */
 func (g *Session) ATTACKEntStoredDataManipulation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1565.001").
-        Msg("stored data manipulation")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1565.001").
+		Msg("stored data manipulation")
 }
 
 /* ATTACKEntSubvertTrustControls Phases: defense-evasion
@@ -11640,10 +11638,10 @@ systems.(Citation: Securelist Digital Certificates)(Citation: Symantec Digital
 Certificates)
 */
 func (g *Session) ATTACKEntSubvertTrustControls(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1553").
-        Msg("subvert trust controls")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1553").
+		Msg("subvert trust controls")
 }
 
 /* ATTACKEntSudoandSudoCaching Phases: privilege-escalation defense-evasion
@@ -11686,10 +11684,10 @@ killall Terminal. As of macOS Sierra, the sudoers file has tty_tickets enabled
 by default.
 */
 func (g *Session) ATTACKEntSudoandSudoCaching(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1548.003").
-        Msg("sudo and sudo caching")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1548.003").
+		Msg("sudo and sudo caching")
 }
 
 /* ATTACKEntSupplyChainCompromise Phases: initial-access
@@ -11717,10 +11715,10 @@ dependencies in many applications may also be targeted as a means to add
 malicious code to users of the dependency. (Citation: Trendmicro NPM Compromise)
 */
 func (g *Session) ATTACKEntSupplyChainCompromise(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1195").
-        Msg("supply chain compromise")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1195").
+		Msg("supply chain compromise")
 }
 
 /* ATTACKEntSymmetricCryptography Phases: command-and-control
@@ -11732,10 +11730,10 @@ plaintext encryption and ciphertext decryption. Common symmetric encryption
 algorithms include AES, DES, 3DES, Blowfish, and RC4.
 */
 func (g *Session) ATTACKEntSymmetricCryptography(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1573.001").
-        Msg("symmetric cryptography")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1573.001").
+		Msg("symmetric cryptography")
 }
 
 /* ATTACKEntSystemChecks Phases: defense-evasion discovery
@@ -11769,10 +11767,10 @@ also query for specific readings from these devices.(Citation: Unit 42 OilRig
 Sept 2018)
 */
 func (g *Session) ATTACKEntSystemChecks(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1497.001").
-        Msg("system checks")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1497.001").
+		Msg("system checks")
 }
 
 /* ATTACKEntSystemFirmware Phases: persistence defense-evasion
@@ -11789,10 +11787,10 @@ sophisticated adversaries a means to install malicious firmware updates as a
 means of persistence on a system that may be difficult to detect.
 */
 func (g *Session) ATTACKEntSystemFirmware(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1542.001").
-        Msg("system firmware")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1542.001").
+		Msg("system firmware")
 }
 
 /* ATTACKEntSystemInformationDiscovery Phases: discovery
@@ -11813,10 +11811,10 @@ Describe Instance)(Citation: Google Instances Resource)(Citation: Microsoft
 Virutal Machine API)
 */
 func (g *Session) ATTACKEntSystemInformationDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1082").
-        Msg("system information discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1082").
+		Msg("system information discovery")
 }
 
 /* ATTACKEntSystemLocationDiscovery Phases: discovery
@@ -11839,10 +11837,10 @@ services.(Citation: Securelist Trasparent Tribe 2020)(Citation: Sophos
 Geolocation 2016)
 */
 func (g *Session) ATTACKEntSystemLocationDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1614").
-        Msg("system location discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1614").
+		Msg("system location discovery")
 }
 
 /* ATTACKEntSystemNetworkConfigurationDiscovery Phases: discovery
@@ -11856,10 +11854,10 @@ during automated discovery to shape follow-on behaviors, including whether or
 not the adversary fully infects the target and/or attempts specific actions.
 */
 func (g *Session) ATTACKEntSystemNetworkConfigurationDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1016").
-        Msg("system network configuration discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1016").
+		Msg("system network configuration discovery")
 }
 
 /* ATTACKEntSystemNetworkConnectionsDiscovery Phases: discovery
@@ -11881,10 +11879,10 @@ current connections. who -a and w can be used to show which users are currently
 logged in, similar to "net session".
 */
 func (g *Session) ATTACKEntSystemNetworkConnectionsDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1049").
-        Msg("system network connections discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1049").
+		Msg("system network connections discovery")
 }
 
 /* ATTACKEntSystemOwnerUserDiscovery Phases: discovery
@@ -11903,10 +11901,10 @@ acquire this information include whoami. In Mac and Linux, the currently logged
 in user can be identified with w and who.
 */
 func (g *Session) ATTACKEntSystemOwnerUserDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1033").
-        Msg("system owner/user discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1033").
+		Msg("system owner/user discovery")
 }
 
 /* ATTACKEntSystemServiceDiscovery Phases: discovery
@@ -11920,10 +11918,10 @@ including whether or not the adversary fully infects the target and/or attempts
 specific actions.
 */
 func (g *Session) ATTACKEntSystemServiceDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1007").
-        Msg("system service discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1007").
+		Msg("system service discovery")
 }
 
 /* ATTACKEntSystemServices Phases: execution
@@ -11935,10 +11933,10 @@ achieving persistence (Create or Modify System Process), but adversaries can
 also abuse services for one-time or temporary execution.
 */
 func (g *Session) ATTACKEntSystemServices(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1569").
-        Msg("system services")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1569").
+		Msg("system services")
 }
 
 /* ATTACKEntSystemShutdownReboot Phases: impact
@@ -11955,10 +11953,10 @@ system availability.(Citation: Talos Nyetya June 2017)(Citation: Talos Olympic
 Destroyer 2018)
 */
 func (g *Session) ATTACKEntSystemShutdownReboot(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1529").
-        Msg("system shutdown/reboot")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1529").
+		Msg("system shutdown/reboot")
 }
 
 /* ATTACKEntSystemTimeDiscovery Phases: discovery
@@ -11979,10 +11977,10 @@ knowledge of system time as part of a time bomb, or delaying execution until a
 specified date/time.(Citation: AnyRun TimeBomb)
 */
 func (g *Session) ATTACKEntSystemTimeDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1124").
-        Msg("system time discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1124").
+		Msg("system time discovery")
 }
 
 /* ATTACKEntSystemdService Phases: persistence privilege-escalation
@@ -12015,10 +12013,10 @@ can create/modify service unit files in directories such as
 Service Persistence 22JUNE2016)
 */
 func (g *Session) ATTACKEntSystemdService(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1543.002").
-        Msg("systemd service")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1543.002").
+		Msg("systemd service")
 }
 
 /* ATTACKEntSystemdTimers Phases: execution persistence privilege-escalation
@@ -12042,10 +12040,10 @@ paths may be used to maintain root level persistence. Adversaries may also
 install user level timers to achieve user level persistence.
 */
 func (g *Session) ATTACKEntSystemdTimers(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1053.006").
-        Msg("systemd timers")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1053.006").
+		Msg("systemd timers")
 }
 
 /* ATTACKEntTFTPBoot Phases: defense-evasion persistence
@@ -12066,10 +12064,10 @@ result in the network device running a modified image. (Citation: Cisco Blog
 Legacy Device Attacks)
 */
 func (g *Session) ATTACKEntTFTPBoot(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1542.005").
-        Msg("tftp boot")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1542.005").
+		Msg("tftp boot")
 }
 
 /* ATTACKEntTaintSharedContent Phases: lateral-movement
@@ -12100,10 +12098,10 @@ target both binary and non-binary formats that end with extensions including,
 but not limited to, .EXE, .DLL, .SCR, .BAT, and/or .VBS.
 */
 func (g *Session) ATTACKEntTaintSharedContent(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1080").
-        Msg("taint shared content")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1080").
+		Msg("taint shared content")
 }
 
 /* ATTACKEntTemplateInjection Phases: defense-evasion
@@ -12134,10 +12132,10 @@ triggering an authentication attempt. (Citation: Anomali Template Injection MAR
 phishery SEPT 2016)
 */
 func (g *Session) ATTACKEntTemplateInjection(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1221").
-        Msg("template injection")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1221").
+		Msg("template injection")
 }
 
 /* ATTACKEntThreadExecutionHijacking Phases: defense-evasion privilege-escalation
@@ -12160,10 +12158,10 @@ Execution via Thread Execution Hijacking may also evade detection from security
 products since the execution is masked under a legitimate process.
 */
 func (g *Session) ATTACKEntThreadExecutionHijacking(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1055.003").
-        Msg("thread execution hijacking")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1055.003").
+		Msg("thread execution hijacking")
 }
 
 /* ATTACKEntThreadLocalStorage Phases: defense-evasion privilege-escalation
@@ -12184,10 +12182,10 @@ callback injection may also evade detection from security products since the
 execution is masked under a legitimate process.
 */
 func (g *Session) ATTACKEntThreadLocalStorage(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1055.005").
-        Msg("thread local storage")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1055.005").
+		Msg("thread local storage")
 }
 
 /* ATTACKEntThreatIntelVendors Phases: reconnaissance
@@ -12209,10 +12207,10 @@ Capabilities or Obtain Capabilities), and/or initial access (ex: Exploit Public-
 Facing Application or External Remote Services).
 */
 func (g *Session) ATTACKEntThreatIntelVendors(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1597.001").
-        Msg("threat intel vendors")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1597.001").
+		Msg("threat intel vendors")
 }
 
 /* ATTACKEntTimeBasedEvasion Phases: defense-evasion discovery
@@ -12235,10 +12233,10 @@ calculating the expected value for an environment's timestamp before and after
 execution of a sleep function.(Citation: ISACA Malware Tricks)
 */
 func (g *Session) ATTACKEntTimeBasedEvasion(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1497.003").
-        Msg("time based evasion")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1497.003").
+		Msg("time based evasion")
 }
 
 /* ATTACKEntTimeProviders Phases: persistence privilege-escalation
@@ -12261,10 +12259,10 @@ registration, though execution will run in context of the Local Service account.
 (Citation: Github W32Time Oct 2017)
 */
 func (g *Session) ATTACKEntTimeProviders(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1547.003").
-        Msg("time providers")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1547.003").
+		Msg("time providers")
 }
 
 /* ATTACKEntTimestomp Phases: defense-evasion
@@ -12279,10 +12277,10 @@ name Masquerading to hide malware and tools.(Citation: WindowsIR Anti-Forensic
 Techniques)
 */
 func (g *Session) ATTACKEntTimestomp(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1070.006").
-        Msg("timestomp")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1070.006").
+		Msg("timestomp")
 }
 
 /* ATTACKEntTokenImpersonationTheft Phases: defense-evasion privilege-escalation
@@ -12298,10 +12296,10 @@ example, this may be useful for when the target user has a non-network logon
 session on the system.
 */
 func (g *Session) ATTACKEntTokenImpersonationTheft(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1134.001").
-        Msg("token impersonation/theft")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1134.001").
+		Msg("token impersonation/theft")
 }
 
 /* ATTACKEntTool Phases: resource-development
@@ -12320,10 +12318,10 @@ adversaries may steal software and/or software licenses from third-party
 entities (including other adversaries).
 */
 func (g *Session) ATTACKEntTool(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1588.002").
-        Msg("tool")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1588.002").
+		Msg("tool")
 }
 
 /* ATTACKEntTrafficDuplication Phases: exfiltration
@@ -12343,10 +12341,10 @@ Input Capture, or Man-in-the-Middle depending on the goals and objectives of the
 adversary.
 */
 func (g *Session) ATTACKEntTrafficDuplication(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1020.001").
-        Msg("traffic duplication")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1020.001").
+		Msg("traffic duplication")
 }
 
 /* ATTACKEntTrafficSignaling Phases: defense-evasion persistence command-and-control
@@ -12385,10 +12383,10 @@ powered on, it may become a target for lateral movement.(Citation: Bleeping
 Computer - Ryuk WoL) (Citation: AMD Magic Packet)
 */
 func (g *Session) ATTACKEntTrafficSignaling(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1205").
-        Msg("traffic signaling")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1205").
+		Msg("traffic signaling")
 }
 
 /* ATTACKEntTransferDatatoCloudAccount Phases: exfiltration
@@ -12406,10 +12404,10 @@ observed where adversaries have created backups of cloud instances and
 transferred them to separate accounts.(Citation: DOJ GRU Indictment Jul 2018)
 */
 func (g *Session) ATTACKEntTransferDatatoCloudAccount(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1537").
-        Msg("transfer data to cloud account")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1537").
+		Msg("transfer data to cloud account")
 }
 
 /* ATTACKEntTransmittedDataManipulation Phases: impact
@@ -12428,10 +12426,10 @@ related to the system that would typically be gained through a prolonged
 information gathering campaign in order to have the desired impact.
 */
 func (g *Session) ATTACKEntTransmittedDataManipulation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1565.002").
-        Msg("transmitted data manipulation")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1565.002").
+		Msg("transmitted data manipulation")
 }
 
 /* ATTACKEntTransportAgent Phases: persistence
@@ -12456,10 +12454,10 @@ later exfiltration if the recipient email address matches an entry on a list
 provided by the adversary.
 */
 func (g *Session) ATTACKEntTransportAgent(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1505.002").
-        Msg("transport agent")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1505.002").
+		Msg("transport agent")
 }
 
 /* ATTACKEntTrap Phases: privilege-escalation persistence
@@ -12475,10 +12473,10 @@ list' signals where "command list" will be executed when "signals" are
 received.(Citation: Trap Manual)(Citation: Cyberciti Trap Statements)
 */
 func (g *Session) ATTACKEntTrap(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1546.005").
-        Msg("trap")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1546.005").
+		Msg("trap")
 }
 
 /* ATTACKEntTrustedDeveloperUtilitiesProxyExecution Phases: defense-evasion
@@ -12494,10 +12492,10 @@ execution of malicious code through a trusted process that effectively bypasses
 application control solutions.
 */
 func (g *Session) ATTACKEntTrustedDeveloperUtilitiesProxyExecution(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1127").
-        Msg("trusted developer utilities proxy execution")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1127").
+		Msg("trusted developer utilities proxy execution")
 }
 
 /* ATTACKEntTrustedRelationship Phases: initial-access
@@ -12517,10 +12515,10 @@ access to internal network systems may be compromised and used.(Citation: CISA
 IT Service Providers)
 */
 func (g *Session) ATTACKEntTrustedRelationship(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1199").
-        Msg("trusted relationship")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1199").
+		Msg("trusted relationship")
 }
 
 /* ATTACKEntTwoFactorAuthenticationInterception Phases: credential-access
@@ -12550,10 +12548,10 @@ criminals, these authentication mechanisms have been targeted by advanced
 actors. (Citation: Operation Emmental)
 */
 func (g *Session) ATTACKEntTwoFactorAuthenticationInterception(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1111").
-        Msg("two-factor authentication interception")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1111").
+		Msg("two-factor authentication interception")
 }
 
 /* ATTACKEntUnixShell Phases: execution
@@ -12574,10 +12572,10 @@ scripts to deliver and execute multiple commands on victims or as part of
 payloads used for persistence.
 */
 func (g *Session) ATTACKEntUnixShell(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1059.004").
-        Msg("unix shell")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1059.004").
+		Msg("unix shell")
 }
 
 /* ATTACKEntUnixShellConfigurationModification Phases: privilege-escalation persistence
@@ -12623,10 +12621,10 @@ shell uses the ~/.zshrc to configure the user environment. Upon exiting,
 /etc/bashrc on startup.
 */
 func (g *Session) ATTACKEntUnixShellConfigurationModification(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1546.004").
-        Msg("unix shell configuration modification")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1546.004").
+		Msg("unix shell configuration modification")
 }
 
 /* ATTACKEntUnsecuredCredentials Phases: credential-access
@@ -12638,10 +12636,10 @@ application-specific repositories (e.g. Credentials in Registry), or other
 specialized files/artifacts (e.g. Private Keys).
 */
 func (g *Session) ATTACKEntUnsecuredCredentials(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1552").
-        Msg("unsecured credentials")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1552").
+		Msg("unsecured credentials")
 }
 
 /* ATTACKEntUnusedUnsupportedCloudRegions Phases: defense-evasion
@@ -12662,10 +12660,10 @@ which can cost organizations substantial amounts of money over time depending on
 the processing power used.(Citation: CloudSploit - Unused AWS Regions)
 */
 func (g *Session) ATTACKEntUnusedUnsupportedCloudRegions(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1535").
-        Msg("unused/unsupported cloud regions")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1535").
+		Msg("unused/unsupported cloud regions")
 }
 
 /* ATTACKEntUploadMalware Phases: resource-development
@@ -12687,10 +12685,10 @@ directly download/install these backdoored files via User Execution.
 Masquerading may increase the chance of users mistakenly executing these files.
 */
 func (g *Session) ATTACKEntUploadMalware(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1608.001").
-        Msg("upload malware")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1608.001").
+		Msg("upload malware")
 }
 
 /* ATTACKEntUploadTool Phases: resource-development
@@ -12711,10 +12709,10 @@ directly from a third-party hosting location (ex: a non-adversary controlled
 GitHub repo), including the original hosting site of the tool.
 */
 func (g *Session) ATTACKEntUploadTool(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1608.002").
-        Msg("upload tool")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1608.002").
+		Msg("upload tool")
 }
 
 /* ATTACKEntUseAlternateAuthenticationMaterial Phases: defense-evasion lateral-movement
@@ -12738,10 +12736,10 @@ to bypass system access controls and authenticate to systems without knowing the
 plaintext password or any additional authentication factors.
 */
 func (g *Session) ATTACKEntUseAlternateAuthenticationMaterial(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1550").
-        Msg("use alternate authentication material")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1550").
+		Msg("use alternate authentication material")
 }
 
 /* ATTACKEntUserActivityBasedChecks Phases: defense-evasion discovery
@@ -12764,10 +12762,10 @@ activated, such as waiting for a document to close before activating a macro
 embedded image to activate.(Citation: FireEye FIN7 April 2017)
 */
 func (g *Session) ATTACKEntUserActivityBasedChecks(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1497.002").
-        Msg("user activity based checks")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1497.002").
+		Msg("user activity based checks")
 }
 
 /* ATTACKEntUserExecution Phases: execution
@@ -12782,10 +12780,10 @@ file in a shared directory or on a user's desktop hoping that a user will click
 on it. This activity may also be seen shortly after Internal Spearphishing.
 */
 func (g *Session) ATTACKEntUserExecution(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1204").
-        Msg("user execution")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1204").
+		Msg("user execution")
 }
 
 /* ATTACKEntVBAStomping Phases: defense-evasion
@@ -12811,10 +12809,10 @@ and potentially bypassing dynamic analysis.(Citation: Walmart Roberts Oct
 2018)(Citation: FireEye VBA stomp Feb 2020)(Citation: pcodedmp Bontchev)
 */
 func (g *Session) ATTACKEntVBAStomping(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1564.007").
-        Msg("vba stomping")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1564.007").
+		Msg("vba stomping")
 }
 
 /* ATTACKEntVDSOHijacking Phases: defense-evasion privilege-escalation
@@ -12838,10 +12836,10 @@ also evade detection from security products since the execution is masked under
 a legitimate process.
 */
 func (g *Session) ATTACKEntVDSOHijacking(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1055.014").
-        Msg("vdso hijacking")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1055.014").
+		Msg("vdso hijacking")
 }
 
 /* ATTACKEntVNC Phases: lateral-movement
@@ -12855,10 +12853,10 @@ client and server may be configured with sets of credentials that are used only
 for VNC connections.
 */
 func (g *Session) ATTACKEntVNC(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1021.005").
-        Msg("vnc")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1021.005").
+		Msg("vnc")
 }
 
 /* ATTACKEntValidAccounts Phases: defense-evasion persistence privilege-escalation initial-access
@@ -12879,10 +12877,10 @@ of access (i.e., domain or enterprise administrator) to bypass access controls
 set within the enterprise. (Citation: TechNet Credential Theft)
 */
 func (g *Session) ATTACKEntValidAccounts(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1078").
-        Msg("valid accounts")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1078").
+		Msg("valid accounts")
 }
 
 /* ATTACKEntVerclsid Phases: defense-evasion
@@ -12903,10 +12901,10 @@ Verclsid)(Citation: Red Canary Verclsid.exe)(Citation: BOHOPS Abusing the COM
 Registry)(Citation: Nick Tyrer GitHub)
 */
 func (g *Session) ATTACKEntVerclsid(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1218.012").
-        Msg("verclsid")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1218.012").
+		Msg("verclsid")
 }
 
 /* ATTACKEntVideoCapture Phases: collection
@@ -12924,10 +12922,10 @@ In macOS, there are a few different malware samples that record the user's
 webcam such as FruitFly and Proton. (Citation: objective-see 2017 review)
 */
 func (g *Session) ATTACKEntVideoCapture(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1125").
-        Msg("video capture")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1125").
+		Msg("video capture")
 }
 
 /* ATTACKEntVirtualPrivateServer Phases: resource-development
@@ -12946,10 +12944,10 @@ registration information, allowing for more anonymous acquisitions of
 infrastructure.(Citation: TrendmicroHideoutsLease)
 */
 func (g *Session) ATTACKEntVirtualPrivateServer(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1583.003").
-        Msg("virtual private server")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1583.003").
+		Msg("virtual private server")
 }
 
 /* ATTACKEntVirtualPrivateServer2 Phases: resource-development
@@ -12966,10 +12964,10 @@ higher reputation cloud service providers as well as that added by the
 compromised third-party.
 */
 func (g *Session) ATTACKEntVirtualPrivateServer2(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1584.003").
-        Msg("virtual private server")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1584.003").
+		Msg("virtual private server")
 }
 
 /* ATTACKEntVirtualizationSandboxEvasion Phases: defense-evasion discovery
@@ -12991,10 +12989,10 @@ methods include use of sleep timers or loops within malware code to avoid
 operating within a temporary sandbox.(Citation: Unit 42 Pirpi July 2015)
 */
 func (g *Session) ATTACKEntVirtualizationSandboxEvasion(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1497").
-        Msg("virtualization/sandbox evasion")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1497").
+		Msg("virtualization/sandbox evasion")
 }
 
 /* ATTACKEntVisualBasic Phases: execution
@@ -13018,10 +13016,10 @@ commands. Common malicious usage includes automating execution of behaviors with
 VBScript or embedding VBA content into Spearphishing Attachment payloads.
 */
 func (g *Session) ATTACKEntVisualBasic(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1059.005").
-        Msg("visual basic")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1059.005").
+		Msg("visual basic")
 }
 
 /* ATTACKEntVulnerabilities Phases: resource-development
@@ -13041,10 +13039,10 @@ search for an existing exploit (i.e. Exploits) or to attempt to develop one
 themselves (i.e. Exploits).
 */
 func (g *Session) ATTACKEntVulnerabilities(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1588.006").
-        Msg("vulnerabilities")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1588.006").
+		Msg("vulnerabilities")
 }
 
 /* ATTACKEntVulnerabilityScanning Phases: reconnaissance
@@ -13064,10 +13062,10 @@ Obtain Capabilities), and/or initial access (ex: Exploit Public-Facing
 Application).
 */
 func (g *Session) ATTACKEntVulnerabilityScanning(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1595.002").
-        Msg("vulnerability scanning")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1595.002").
+		Msg("vulnerability scanning")
 }
 
 /* ATTACKEntWHOIS Phases: reconnaissance
@@ -13086,10 +13084,10 @@ Active Scanning or Phishing for Information), establishing operational resources
 (ex: External Remote Services or Trusted Relationship).
 */
 func (g *Session) ATTACKEntWHOIS(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1596.002").
-        Msg("whois")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1596.002").
+		Msg("whois")
 }
 
 /* ATTACKEntWeakenEncryption Phases: defense-evasion
@@ -13111,10 +13109,10 @@ help facilitate data manipulation, Credential Access, or Collection efforts.
 (Citation: Cisco Blog Legacy Device Attacks)
 */
 func (g *Session) ATTACKEntWeakenEncryption(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1600").
-        Msg("weaken encryption")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1600").
+		Msg("weaken encryption")
 }
 
 /* ATTACKEntWebCookies Phases: credential-access
@@ -13136,10 +13134,10 @@ SolarWinds)(Citation: Pass The Cookie)(Citation: Unit 42 Mac Crypto Cookies
 January 2019)
 */
 func (g *Session) ATTACKEntWebCookies(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1606.001").
-        Msg("web cookies")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1606.001").
+		Msg("web cookies")
 }
 
 /* ATTACKEntWebPortalCapture Phases: collection credential-access
@@ -13154,10 +13152,10 @@ Accounts or as part of the initial compromise by exploitation of the externally
 facing web service.(Citation: Volexity Virtual Private Keylogging)
 */
 func (g *Session) ATTACKEntWebPortalCapture(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1056.003").
-        Msg("web portal capture")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1056.003").
+		Msg("web portal capture")
 }
 
 /* ATTACKEntWebProtocols Phases: command-and-control
@@ -13173,10 +13171,10 @@ under their control within a victim network while also mimicking normal,
 expected traffic.
 */
 func (g *Session) ATTACKEntWebProtocols(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1071.001").
-        Msg("web protocols")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1071.001").
+		Msg("web protocols")
 }
 
 /* ATTACKEntWebService Phases: command-and-control
@@ -13193,10 +13191,10 @@ discovery through malware binary analysis while also enabling operational
 resiliency (since this infrastructure may be dynamically changed).
 */
 func (g *Session) ATTACKEntWebService(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1102").
-        Msg("web service")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1102").
+		Msg("web service")
 }
 
 /* ATTACKEntWebServices Phases: resource-development
@@ -13210,10 +13208,10 @@ easier for adversaries to hide in expected noise. By utilizing a web service,
 adversaries can make it difficult to physically tie back operations to them.
 */
 func (g *Session) ATTACKEntWebServices(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1583.006").
-        Msg("web services")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1583.006").
+		Msg("web services")
 }
 
 /* ATTACKEntWebServices2 Phases: resource-development
@@ -13232,10 +13230,10 @@ stolen from legitimate users, adversaries can make it difficult to physically
 tie back operations to them.
 */
 func (g *Session) ATTACKEntWebServices2(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1584.006").
-        Msg("web services")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1584.006").
+		Msg("web services")
 }
 
 /* ATTACKEntWebSessionCookie Phases: defense-evasion lateral-movement
@@ -13257,10 +13255,10 @@ targeting session cookies to bypass multi-factor authentication
 systems.(Citation: Unit 42 Mac Crypto Cookies January 2019)
 */
 func (g *Session) ATTACKEntWebSessionCookie(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1550.004").
-        Msg("web session cookie")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1550.004").
+		Msg("web session cookie")
 }
 
 /* ATTACKEntWebShell Phases: persistence
@@ -13275,10 +13273,10 @@ to talk to the Web server (ex: China Chopper Web shell client).(Citation: Lee
 2013)
 */
 func (g *Session) ATTACKEntWebShell(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1505.003").
-        Msg("web shell")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1505.003").
+		Msg("web shell")
 }
 
 /* ATTACKEntWindowsCommandShell Phases: execution
@@ -13296,10 +13294,10 @@ a single command, or abusing cmd interactively with input and output forwarded
 over a command and control channel.
 */
 func (g *Session) ATTACKEntWindowsCommandShell(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1059.003").
-        Msg("windows command shell")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1059.003").
+		Msg("windows command shell")
 }
 
 /* ATTACKEntWindowsCredentialManager Phases: credential-access
@@ -13330,10 +13328,10 @@ password recovery tools to obtain plain text passwords from the Credential
 Manager.(Citation: Malwarebytes The Windows Vault)
 */
 func (g *Session) ATTACKEntWindowsCredentialManager(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1555.004").
-        Msg("windows credential manager")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1555.004").
+		Msg("windows credential manager")
 }
 
 /* ATTACKEntWindowsFileandDirectoryPermissionsModification Phases: defense-evasion
@@ -13361,10 +13359,10 @@ Features, Boot or Logon Initialization Scripts, or tainting/hijacking other
 instrumental binary/configuration files via Hijack Execution Flow.
 */
 func (g *Session) ATTACKEntWindowsFileandDirectoryPermissionsModification(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1222.001").
-        Msg("windows file and directory permissions modification")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1222.001").
+		Msg("windows file and directory permissions modification")
 }
 
 /* ATTACKEntWindowsManagementInstrumentation Phases: execution
@@ -13381,10 +13379,10 @@ gathering information for Discovery and remote Execution of files as part of
 Lateral Movement. (Citation: FireEye WMI SANS 2015) (Citation: FireEye WMI 2015)
 */
 func (g *Session) ATTACKEntWindowsManagementInstrumentation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1047").
-        Msg("windows management instrumentation")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1047").
+		Msg("windows management instrumentation")
 }
 
 /* ATTACKEntWindowsManagementInstrumentationEventSubscription Phases: privilege-escalation persistence
@@ -13405,10 +13403,10 @@ Provider Host process (WmiPrvSe.exe) and thus may result in elevated SYSTEM
 privileges.
 */
 func (g *Session) ATTACKEntWindowsManagementInstrumentationEventSubscription(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1546.003").
-        Msg("windows management instrumentation event subscription")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1546.003").
+		Msg("windows management instrumentation event subscription")
 }
 
 /* ATTACKEntWindowsRemoteManagement Phases: lateral-movement
@@ -13422,10 +13420,10 @@ winrm command or by any number of programs such as PowerShell.(Citation:
 Jacobsen 2014)
 */
 func (g *Session) ATTACKEntWindowsRemoteManagement(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1021.006").
-        Msg("windows remote management")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1021.006").
+		Msg("windows remote management")
 }
 
 /* ATTACKEntWindowsService Phases: persistence privilege-escalation
@@ -13451,10 +13449,10 @@ administrator to SYSTEM. Adversaries may also directly start services through
 Service Execution.
 */
 func (g *Session) ATTACKEntWindowsService(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1543.003").
-        Msg("windows service")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1543.003").
+		Msg("windows service")
 }
 
 /* ATTACKEntWinlogonHelperDLL Phases: persistence privilege-escalation
@@ -13477,10 +13475,10 @@ a user logs on  Adversaries may take advantage of these features to repeatedly
 execute malicious code and establish persistence.
 */
 func (g *Session) ATTACKEntWinlogonHelperDLL(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1547.004").
-        Msg("winlogon helper dll")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1547.004").
+		Msg("winlogon helper dll")
 }
 
 /* ATTACKEntXDGAutostartEntries Phases: persistence privilege-escalation
@@ -13504,10 +13502,10 @@ Adversaries may also use Masquerading to make XDG autostart entries look as if
 they are associated with legitimate programs.
 */
 func (g *Session) ATTACKEntXDGAutostartEntries(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1547.013").
-        Msg("xdg autostart entries")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1547.013").
+		Msg("xdg autostart entries")
 }
 
 /* ATTACKEntXSLScriptProcessing Phases: defense-evasion
@@ -13543,10 +13541,10 @@ XSL Bypass Mar 2019)(Citation: LOLBAS Wmic)  Local File: wmic process list
 /FORMAT:”https[:]//example[.]com/evil[.]xsl”
 */
 func (g *Session) ATTACKEntXSLScriptProcessing(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T1220").
-        Msg("xsl script processing")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1220").
+		Msg("xsl script processing")
 }
 
 /* ATTACKICSActivateFirmwareUpdateMode Phases: inhibit-response-function
@@ -13561,10 +13559,10 @@ provided to it. By entering and leaving a device in this mode, the adversary may
 deny its usual functionalities.
 */
 func (g *Session) ATTACKICSActivateFirmwareUpdateMode(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0800").
-        Msg("activate firmware update mode")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0800").
+		Msg("activate firmware update mode")
 }
 
 /* ATTACKICSAlarmSuppression Phases: inhibit-response-function
@@ -13588,10 +13586,10 @@ altering device displays and logs, modifying in memory code to fixed values, or
 even tampering with assembly level instruction code.
 */
 func (g *Session) ATTACKICSAlarmSuppression(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0878").
-        Msg("alarm suppression")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0878").
+		Msg("alarm suppression")
 }
 
 /* ATTACKICSAutomatedCollection Phases: collection-ics
@@ -13604,10 +13602,10 @@ system or interface with these native protocols may allow collection and
 enumeration of other attached, communicating servers and devices.
 */
 func (g *Session) ATTACKICSAutomatedCollection(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0802").
-        Msg("automated collection")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0802").
+		Msg("automated collection")
 }
 
 /* ATTACKICSBlockCommandMessage Phases: inhibit-response-function
@@ -13620,10 +13618,10 @@ Research - Research - Taxonomy Cyber Attacks on SCADA)(Citation: Ukraine15 -
 EISAC - 201603)
 */
 func (g *Session) ATTACKICSBlockCommandMessage(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0803").
-        Msg("block command message")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0803").
+		Msg("block command message")
 }
 
 /* ATTACKICSBlockReportingMessage Phases: inhibit-response-function
@@ -13640,10 +13638,10 @@ reporting message is blocked.(Citation: Research - Research - Taxonomy Cyber
 Attacks on SCADA)(Citation: Ukraine15 - EISAC - 201603)
 */
 func (g *Session) ATTACKICSBlockReportingMessage(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0804").
-        Msg("block reporting message")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0804").
+		Msg("block reporting message")
 }
 
 /* ATTACKICSBlockSerialCOM Phases: inhibit-response-function
@@ -13667,10 +13665,10 @@ to Ethernet converter at 10.0.0.1 via Telnet on serial port 1 with the following
 command: telnet 10.0.0.1 20001.
 */
 func (g *Session) ATTACKICSBlockSerialCOM(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0805").
-        Msg("block serial com")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0805").
+		Msg("block serial com")
 }
 
 /* ATTACKICSBruteForceIO Phases: impair-process-control
@@ -13682,10 +13680,10 @@ I/O interfaces. More than one process function manipulation and enumeration pass
 may occur on the targeted I/O range in a brute force attempt.
 */
 func (g *Session) ATTACKICSBruteForceIO(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0806").
-        Msg("brute force i/o")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0806").
+		Msg("brute force i/o")
 }
 
 /* ATTACKICSChangeProgramState Phases: execution-ics impair-process-control
@@ -13695,10 +13693,10 @@ device. Program state changes may be used to allow for another program to take
 over control or be loaded onto the device.
 */
 func (g *Session) ATTACKICSChangeProgramState(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0875").
-        Msg("change program state")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0875").
+		Msg("change program state")
 }
 
 /* ATTACKICSChangeOperatingMode Phases: execution-ics evasion-ics
@@ -13733,10 +13731,10 @@ may be used as a trial for initialization.(Citation: Omrom PLC Different
 Operating Modes)
 */
 func (g *Session) ATTACKICSChangeOperatingMode(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0858").
-        Msg("change operating mode")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0858").
+		Msg("change operating mode")
 }
 
 /* ATTACKICSCommandLineInterface Phases: execution-ics
@@ -13757,10 +13755,10 @@ arguments. This information can be useful in gaining additional insight to
 adversaries' actions through how they use native processes or custom tools.
 */
 func (g *Session) ATTACKICSCommandLineInterface(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0807").
-        Msg("command-line interface")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0807").
+		Msg("command-line interface")
 }
 
 /* ATTACKICSCommonlyUsedPort Phases: command-and-control-ics
@@ -13776,10 +13774,10 @@ TCP:23 (TELNET) * UDP:161 (SNMP) * TCP:502 (MODBUS) * TCP:102 (S7comm/ISO-TSAP)
 Otorio
 */
 func (g *Session) ATTACKICSCommonlyUsedPort(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0885").
-        Msg("commonly used port")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0885").
+		Msg("commonly used port")
 }
 
 /* ATTACKICSConnectionProxy Phases: command-and-control-ics
@@ -13807,10 +13805,10 @@ the expected protocol behavior for the port that is being used. (Citation:
 University of Birmingham C2)
 */
 func (g *Session) ATTACKICSConnectionProxy(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0884").
-        Msg("connection proxy")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0884").
+		Msg("connection proxy")
 }
 
 /* ATTACKICSControlDeviceIdentification Phases: discovery-ics
@@ -13823,10 +13821,10 @@ device information can also be used to understand device functionality and
 inform the decision to target the environment.
 */
 func (g *Session) ATTACKICSControlDeviceIdentification(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0808").
-        Msg("control device identification")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0808").
+		Msg("control device identification")
 }
 
 /* ATTACKICSDamagetoProperty Phases: impact-ics
@@ -13865,10 +13863,10 @@ causing harm to those on board and the environment outside. (Citation: LodzTram-
 Schneier-2008-01)
 */
 func (g *Session) ATTACKICSDamagetoProperty(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0879").
-        Msg("damage to property")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0879").
+		Msg("damage to property")
 }
 
 /* ATTACKICSDataDestruction Phases: inhibit-response-function
@@ -13896,10 +13894,10 @@ introduce. Some monitoring tools may collect command-line arguments, but may not
 capture DEL commands since DEL is a native function within cmd.exe.
 */
 func (g *Session) ATTACKICSDataDestruction(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0809").
-        Msg("data destruction")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0809").
+		Msg("data destruction")
 }
 
 /* ATTACKICSDataHistorianCompromise Phases: initial-access-ics
@@ -13922,10 +13920,10 @@ network connectivity checks. Permissions Required: Administrator Contributors:
 Joe Slowik - Dragos
 */
 func (g *Session) ATTACKICSDataHistorianCompromise(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0810").
-        Msg("data historian compromise")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0810").
+		Msg("data historian compromise")
 }
 
 /* ATTACKICSDatafromInformationRepositories Phases: collection-ics
@@ -13940,10 +13938,10 @@ systems may provide the adversary with a better understanding of the operational
 environment, vendors used, processes, or procedures of the ICS.
 */
 func (g *Session) ATTACKICSDatafromInformationRepositories(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0811").
-        Msg("data from information repositories")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0811").
+		Msg("data from information repositories")
 }
 
 /* ATTACKICSDefaultCredentials Phases: lateral-movement-ics
@@ -13960,10 +13958,10 @@ online through unofficial means. Adversaries may leverage default credentials
 that have not been properly modified or disabled.
 */
 func (g *Session) ATTACKICSDefaultCredentials(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0812").
-        Msg("default credentials")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0812").
+		Msg("default credentials")
 }
 
 /* ATTACKICSDenialofControl Phases: impact-ics
@@ -13981,10 +13979,10 @@ operators were unable to disable the false alarms from the Office of Emergency
 Management headquarters.
 */
 func (g *Session) ATTACKICSDenialofControl(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0813").
-        Msg("denial of control")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0813").
+		Msg("denial of control")
 }
 
 /* ATTACKICSDenialofService Phases: inhibit-response-function
@@ -14014,10 +14012,10 @@ Industroyer - CVE-2015-5374) In the Maroochy attack, the adversary was able to
 shut an investigator out of the network. (Citation: Maroochy - MITRE - 200808)
 */
 func (g *Session) ATTACKICSDenialofService(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0814").
-        Msg("denial of service")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0814").
+		Msg("denial of service")
 }
 
 /* ATTACKICSDenialofView Phases: impact-ics
@@ -14036,10 +14034,10 @@ Maroochy attack, the adversary was able to temporarily shut an investigator out
 of the network, preventing them from viewing the state of the system.
 */
 func (g *Session) ATTACKICSDenialofView(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0815").
-        Msg("denial of view")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0815").
+		Msg("denial of view")
 }
 
 /* ATTACKICSDetectOperatingMode Phases: collection-ics
@@ -14066,10 +14064,10 @@ for monitoring, force set, resets, and more generally tuning or debugging of the
 system. Often monitor mode may be used as a trial for initialization.
 */
 func (g *Session) ATTACKICSDetectOperatingMode(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0868").
-        Msg("detect operating mode")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0868").
+		Msg("detect operating mode")
 }
 
 /* ATTACKICSDetectProgramState Phases: collection-ics
@@ -14081,10 +14079,10 @@ information may be leveraged as a verification of malicious program execution or
 to determine if a PLC is ready to download a new program.
 */
 func (g *Session) ATTACKICSDetectProgramState(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0870").
-        Msg("detect program state")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0870").
+		Msg("detect program state")
 }
 
 /* ATTACKICSDeviceRestartShutdown Phases: inhibit-response-function
@@ -14100,10 +14098,10 @@ malicious device modifications, as many updates require a shutdown in order to
 take effect.
 */
 func (g *Session) ATTACKICSDeviceRestartShutdown(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0816").
-        Msg("device restart/shutdown")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0816").
+		Msg("device restart/shutdown")
 }
 
 /* ATTACKICSDrivebyCompromise Phases: initial-access-ics
@@ -14126,10 +14124,10 @@ watering hole attacks to target process control, ICS, and critical
 infrastructure related trade publications and informational websites.
 */
 func (g *Session) ATTACKICSDrivebyCompromise(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0817").
-        Msg("drive-by compromise")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0817").
+		Msg("drive-by compromise")
 }
 
 /* ATTACKICSEngineeringWorkstationCompromise Phases: initial-access-ics
@@ -14148,10 +14146,10 @@ adversary utilized a computer, possibly stolen, with proprietary engineering
 software to communicate with a wastewater system.
 */
 func (g *Session) ATTACKICSEngineeringWorkstationCompromise(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0818").
-        Msg("engineering workstation compromise")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0818").
+		Msg("engineering workstation compromise")
 }
 
 /* ATTACKICSExecutionthroughAPI Phases: execution-ics
@@ -14162,10 +14160,10 @@ functionality is often coded into APIs which can be called by software to engage
 specific functions on a device or other software.
 */
 func (g *Session) ATTACKICSExecutionthroughAPI(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0871").
-        Msg("execution through api")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0871").
+		Msg("execution through api")
 }
 
 /* ATTACKICSExploitPublicFacingApplication Phases: initial-access-ics
@@ -14184,10 +14182,10 @@ protocol or remote access ports found in Commonly Used Port may be of interest
 by adversaries.
 */
 func (g *Session) ATTACKICSExploitPublicFacingApplication(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0819").
-        Msg("exploit public-facing application")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0819").
+		Msg("exploit public-facing application")
 }
 
 /* ATTACKICSExploitationforEvasion Phases: evasion-ics
@@ -14203,10 +14201,10 @@ consistency checks on control devices being targeted by adversaries to enable
 the installation of malicious System Firmware
 */
 func (g *Session) ATTACKICSExploitationforEvasion(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0820").
-        Msg("exploitation for evasion")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0820").
+		Msg("exploitation for evasion")
 }
 
 /* ATTACKICSExploitationforPrivilegeEscalation Phases: privilege-escalation-ics
@@ -14230,10 +14228,10 @@ endpoint system that has been properly configured and limits other privilege
 escalation methods.
 */
 func (g *Session) ATTACKICSExploitationforPrivilegeEscalation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0890").
-        Msg("exploitation for privilege escalation")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0890").
+		Msg("exploitation for privilege escalation")
 }
 
 /* ATTACKICSExploitationofRemoteServices Phases: lateral-movement-ics initial-access-ics
@@ -14252,10 +14250,10 @@ industrial networks, producing significant impacts. (Citation: Reference -
 Dragos - 201910)
 */
 func (g *Session) ATTACKICSExploitationofRemoteServices(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0866").
-        Msg("exploitation of remote services")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0866").
+		Msg("exploitation of remote services")
 }
 
 /* ATTACKICSExternalRemoteServices Phases: initial-access-ics
@@ -14280,10 +14278,10 @@ enabled.(Citation: Ukraine15 - EISAC - 201603) In the Maroochy Attack, the
 adversary was able to gain remote computer access to the system over radio.
 */
 func (g *Session) ATTACKICSExternalRemoteServices(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0822").
-        Msg("external remote services")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0822").
+		Msg("external remote services")
 }
 
 /* ATTACKICSGraphicalUserInterface Phases: execution-ics
@@ -14299,10 +14297,10 @@ systems. An adversary can use this access to execute programs and applications
 on the target machine.
 */
 func (g *Session) ATTACKICSGraphicalUserInterface(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0823").
-        Msg("graphical user interface")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0823").
+		Msg("graphical user interface")
 }
 
 /* ATTACKICSHooking Phases: execution-ics privilege-escalation-ics
@@ -14318,10 +14316,10 @@ pointers to imported API functions are stored. (Citation: Stuxnet - Symantec -
 201102)
 */
 func (g *Session) ATTACKICSHooking(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0874").
-        Msg("hooking")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0874").
+		Msg("hooking")
 }
 
 /* ATTACKICSIOImage Phases: collection-ics
@@ -14332,10 +14330,10 @@ I/O image. This image is used by the user program instead of directly
 interacting with physical I/O. (Citation: PLC-Blaster 2)
 */
 func (g *Session) ATTACKICSIOImage(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0877").
-        Msg("i/o image")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0877").
+		Msg("i/o image")
 }
 
 /* ATTACKICSIOModuleDiscovery Phases: discovery-ics
@@ -14351,10 +14349,10 @@ connected to the device. Information regarding the I/O modules can aid the
 adversary in understanding related control processes.
 */
 func (g *Session) ATTACKICSIOModuleDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0824").
-        Msg("i/o module discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0824").
+		Msg("i/o module discovery")
 }
 
 /* ATTACKICSIndicatorRemovalonHost Phases: evasion-ics
@@ -14365,10 +14363,10 @@ imminent, they may try to overwrite, delete, or cover up changes they have made
 to the device.
 */
 func (g *Session) ATTACKICSIndicatorRemovalonHost(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0872").
-        Msg("indicator removal on host")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0872").
+		Msg("indicator removal on host")
 }
 
 /* ATTACKICSInternetAccessibleDevice Phases: initial-access-ics
@@ -14393,10 +14391,10 @@ Siemens S7, Omron FINS, and EtherNet/IP, in addition to misconfigured VNC
 access.(Citation: Trend Micro Honeypot)
 */
 func (g *Session) ATTACKICSInternetAccessibleDevice(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0883").
-        Msg("internet accessible device")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0883").
+		Msg("internet accessible device")
 }
 
 /* ATTACKICSLocationIdentification Phases: collection-ics
@@ -14419,10 +14417,10 @@ of device location, when specific geographic identifiers cannot be determined
 from the system.
 */
 func (g *Session) ATTACKICSLocationIdentification(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0825").
-        Msg("location identification")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0825").
+		Msg("location identification")
 }
 
 /* ATTACKICSLossofAvailability Phases: impact-ics
@@ -14434,10 +14432,10 @@ Adversaries may leverage malware to delete or encrypt critical data on HMIs,
 workstations, or databases.
 */
 func (g *Session) ATTACKICSLossofAvailability(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0826").
-        Msg("loss of availability")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0826").
+		Msg("loss of availability")
 }
 
 /* ATTACKICSLossofControl Phases: impact-ics
@@ -14454,10 +14452,10 @@ breakdowns, massive impact resulted in damage and unsafe conditions from the
 uncontrolled shutdown of a blast furnace.
 */
 func (g *Session) ATTACKICSLossofControl(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0827").
-        Msg("loss of control")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0827").
+		Msg("loss of control")
 }
 
 /* ATTACKICSLossofProductivityandRevenue Phases: impact-ics
@@ -14473,10 +14471,10 @@ in an effort to contain and properly remove malware or due to the Loss of
 Safety.
 */
 func (g *Session) ATTACKICSLossofProductivityandRevenue(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0828").
-        Msg("loss of productivity and revenue")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0828").
+		Msg("loss of productivity and revenue")
 }
 
 /* ATTACKICSLossofProtection Phases: impact-ics
@@ -14495,10 +14493,10 @@ Productivity and Revenue and may meet the technical goals of adversaries seeking
 to cause process disruptions.
 */
 func (g *Session) ATTACKICSLossofProtection(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0837").
-        Msg("loss of protection")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0837").
+		Msg("loss of protection")
 }
 
 /* ATTACKICSLossofSafety Phases: impact-ics
@@ -14518,10 +14516,10 @@ Revenue and may meet the technical goals of adversaries seeking to cause process
 disruptions.
 */
 func (g *Session) ATTACKICSLossofSafety(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0880").
-        Msg("loss of safety")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0880").
+		Msg("loss of safety")
 }
 
 /* ATTACKICSLossofView Phases: impact-ics
@@ -14535,10 +14533,10 @@ loss of view can occur without affecting the physical processes themselves.
 Reference - RIoT)
 */
 func (g *Session) ATTACKICSLossofView(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0829").
-        Msg("loss of view")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0829").
+		Msg("loss of view")
 }
 
 /* ATTACKICSManintheMiddle Phases: collection-ics
@@ -14556,10 +14554,10 @@ Reporting Message, Spoof Reporting Message, Modify Parameter, Unauthorized
 Command Message
 */
 func (g *Session) ATTACKICSManintheMiddle(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0830").
-        Msg("man in the middle")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0830").
+		Msg("man in the middle")
 }
 
 /* ATTACKICSManipulateIOImage Phases: inhibit-response-function
@@ -14581,10 +14579,10 @@ override the logic driving a physical output coil and force the output to a
 desired status.
 */
 func (g *Session) ATTACKICSManipulateIOImage(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0835").
-        Msg("manipulate i/o image")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0835").
+		Msg("manipulate i/o image")
 }
 
 /* ATTACKICSManipulationofControl Phases: impact-ics
@@ -14611,10 +14609,10 @@ further risk to those on board and nearby the areas of impact.(Citation:
 Schneier Hacking Polish Trams January 2008)
 */
 func (g *Session) ATTACKICSManipulationofControl(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0831").
-        Msg("manipulation of control")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0831").
+		Msg("manipulation of control")
 }
 
 /* ATTACKICSManipulationofView Phases: impact-ics
@@ -14631,10 +14629,10 @@ systems can also be provided with inaccurate data leading to bad management
 decisions.
 */
 func (g *Session) ATTACKICSManipulationofView(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0832").
-        Msg("manipulation of view")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0832").
+		Msg("manipulation of view")
 }
 
 /* ATTACKICSMasquerading Phases: evasion-ics
@@ -14652,10 +14650,10 @@ before. This can be as simple as renaming a file to effectively disguise it in
 the ICS environment.
 */
 func (g *Session) ATTACKICSMasquerading(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0849").
-        Msg("masquerading")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0849").
+		Msg("masquerading")
 }
 
 /* ATTACKICSModifyAlarmSettings Phases: inhibit-response-function
@@ -14682,10 +14680,10 @@ This caused alarms to not be reported to the central computer. (Citation:
 Maroochy - MITRE - 200808)
 */
 func (g *Session) ATTACKICSModifyAlarmSettings(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0838").
-        Msg("modify alarm settings")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0838").
+		Msg("modify alarm settings")
 }
 
 /* ATTACKICSModifyControllerTasking Phases: execution-ics
@@ -14707,10 +14705,10 @@ their program on a Siemens controller, an adversary may add their program to the
 “task”, Organization Block 1 (OB1).
 */
 func (g *Session) ATTACKICSModifyControllerTasking(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0821").
-        Msg("modify controller tasking")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0821").
+		Msg("modify controller tasking")
 }
 
 /* ATTACKICSModifyControlLogic Phases: impair-process-control inhibit-response-function
@@ -14753,10 +14751,10 @@ liters of raw sewage being spilled out into the community. (Citation: Maroochy -
 MITRE - 200808)
 */
 func (g *Session) ATTACKICSModifyControlLogic(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0833").
-        Msg("modify control logic")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0833").
+		Msg("modify control logic")
 }
 
 /* ATTACKICSModifyParameter Phases: impair-process-control
@@ -14783,10 +14781,10 @@ raw sewage being spilled out into the community. (Citation: Maroochy - MITRE -
 200808)
 */
 func (g *Session) ATTACKICSModifyParameter(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0836").
-        Msg("modify parameter")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0836").
+		Msg("modify parameter")
 }
 
 /* ATTACKICSModuleFirmware Phases: persistence-ics impair-process-control
@@ -14817,10 +14815,10 @@ the adversary and malware. Compromise of the Ethernet card may provide a more
 direct route to compromising other modules, such as the CPU module.
 */
 func (g *Session) ATTACKICSModuleFirmware(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0839").
-        Msg("module firmware")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0839").
+		Msg("module firmware")
 }
 
 /* ATTACKICSModifyProgram Phases: persistence-ics
@@ -14838,10 +14836,10 @@ programs may allow an adversary to interact directly with the native API of the
 controller to take advantage of obscure features or vulnerabilities.
 */
 func (g *Session) ATTACKICSModifyProgram(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0889").
-        Msg("modify program")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0889").
+		Msg("modify program")
 }
 
 /* ATTACKICSMonitorProcessState Phases: collection-ics
@@ -14853,10 +14851,10 @@ information may vary such as, OPC tags, historian data, specific PLC block
 information, or network traffic.
 */
 func (g *Session) ATTACKICSMonitorProcessState(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0801").
-        Msg("monitor process state")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0801").
+		Msg("monitor process state")
 }
 
 /* ATTACKICSNetworkConnectionEnumeration Phases: discovery-ics
@@ -14870,10 +14868,10 @@ Discovery). The adversary can also use Network Sniffing to watch network traffic
 for details about the source, destination, protocol, and content.
 */
 func (g *Session) ATTACKICSNetworkConnectionEnumeration(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0840").
-        Msg("network connection enumeration")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0840").
+		Msg("network connection enumeration")
 }
 
 /* ATTACKICSNetworkServiceScanning Phases: discovery-ics
@@ -14897,10 +14895,10 @@ adversaries probe for specific ports using custom tools. This was specifically
 seen in the Triton and PLC-Blaster attacks.
 */
 func (g *Session) ATTACKICSNetworkServiceScanning(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0841").
-        Msg("network service scanning")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0841").
+		Msg("network service scanning")
 }
 
 /* ATTACKICSNetworkSniffing Phases: discovery-ics
@@ -14928,10 +14926,10 @@ more challenging. Auditing administrator logins, configuration changes, and
 device images is required to detect malicious changes.
 */
 func (g *Session) ATTACKICSNetworkSniffing(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0842").
-        Msg("network sniffing")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0842").
+		Msg("network sniffing")
 }
 
 /* ATTACKICSPointTagIdentification Phases: collection-ics
@@ -14947,10 +14945,10 @@ collected may inform an adversary on which processes and values to keep track of
 over the course of an operation.
 */
 func (g *Session) ATTACKICSPointTagIdentification(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0861").
-        Msg("point & tag identification")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0861").
+		Msg("point & tag identification")
 }
 
 /* ATTACKICSProgramDownload Phases: lateral-movement-ics
@@ -14974,10 +14972,10 @@ space. Modify Controller Tasking and Modify Program represent the configuration
 changes that are transferred to a controller via a program download.
 */
 func (g *Session) ATTACKICSProgramDownload(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0843").
-        Msg("program download")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0843").
+		Msg("program download")
 }
 
 /* ATTACKICSProgramOrganizationUnits Phases: lateral-movement-ics execution-ics
@@ -14996,10 +14994,10 @@ block. Write malicious code to the beginning of the block. *Insert the original
 OB1 code after the malicious code.
 */
 func (g *Session) ATTACKICSProgramOrganizationUnits(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0844").
-        Msg("program organization units")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0844").
+		Msg("program organization units")
 }
 
 /* ATTACKICSProgramUpload Phases: collection-ics
@@ -15012,10 +15010,10 @@ software can be used to upload the target program to a workstation, jump box, or
 an interfacing device.
 */
 func (g *Session) ATTACKICSProgramUpload(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0845").
-        Msg("program upload")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0845").
+		Msg("program upload")
 }
 
 /* ATTACKICSProjectFileInfection Phases: persistence-ics
@@ -15035,10 +15033,10 @@ disconnected with the infected project file still executing. (Citation:
 References - plcdev siemens)
 */
 func (g *Session) ATTACKICSProjectFileInfection(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0873").
-        Msg("project file infection")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0873").
+		Msg("project file infection")
 }
 
 /* ATTACKICSRoleIdentification Phases: collection-ics
@@ -15061,10 +15059,10 @@ and their role within control processes can enable the use of Rogue Master
 Device
 */
 func (g *Session) ATTACKICSRoleIdentification(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0850").
-        Msg("role identification")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0850").
+		Msg("role identification")
 }
 
 /* ATTACKICSLateralToolTransfer Phases: lateral-movement-ics
@@ -15079,10 +15077,10 @@ systems environments, malware may use SMB and other file sharing protocols to
 move laterally through industrial networks.
 */
 func (g *Session) ATTACKICSLateralToolTransfer(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0867").
-        Msg("lateral tool transfer")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0867").
+		Msg("lateral tool transfer")
 }
 
 /* ATTACKICSNativeAPI Phases: execution-ics
@@ -15099,10 +15097,10 @@ functions such as memcpy and direct operations on memory registers can be used
 to modify user and system memory space.
 */
 func (g *Session) ATTACKICSNativeAPI(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0834").
-        Msg("native api")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0834").
+		Msg("native api")
 }
 
 /* ATTACKICSRemoteSystemDiscovery Phases: discovery-ics
@@ -15115,10 +15113,10 @@ system or vendor software could also be used.(Citation: EAttack Remote System
 Discovery)
 */
 func (g *Session) ATTACKICSRemoteSystemDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0846").
-        Msg("remote system discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0846").
+		Msg("remote system discovery")
 }
 
 /* ATTACKICSRemoteSystemInformationDiscovery Phases: discovery-ics
@@ -15137,10 +15135,10 @@ and system or module firmware. An adversary may leverage this same information
 by issuing calls directly to the system’s API.
 */
 func (g *Session) ATTACKICSRemoteSystemInformationDiscovery(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0888").
-        Msg("remote system information discovery")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0888").
+		Msg("remote system information discovery")
 }
 
 /* ATTACKICSReplicationThroughRemovableMedia Phases: initial-access-ics
@@ -15163,10 +15161,10 @@ disconnection does not guarantee system safety from infection or payload
 execution.  (Citation: KGG-ESET)
 */
 func (g *Session) ATTACKICSReplicationThroughRemovableMedia(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0847").
-        Msg("replication through removable media")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0847").
+		Msg("replication through removable media")
 }
 
 /* ATTACKICSRemoteServices Phases: initial-access-ics lateral-movement-ics
@@ -15185,10 +15183,10 @@ remote services (RDP & VNC) may be a precursor to enable Graphical User
 Interface execution on devices such as HMIs or engineering workstation software.
 */
 func (g *Session) ATTACKICSRemoteServices(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0886").
-        Msg("remote services")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0886").
+		Msg("remote services")
 }
 
 /* ATTACKICSRogueMaster Phases: initial-access-ics
@@ -15206,10 +15204,10 @@ distributed sirens across the city, either through a single rogue transmitter
 with a strong signal, or using many distributed repeaters.
 */
 func (g *Session) ATTACKICSRogueMaster(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0848").
-        Msg("rogue master")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0848").
+		Msg("rogue master")
 }
 
 /* ATTACKICSRootkit Phases: evasion-ics inhibit-response-function
@@ -15233,10 +15231,10 @@ for specific types of rootkit behavior. Monitor for the existence of
 unrecognized DLLs, devices, services, and changes to the MBR.Reference - Rootkit
 */
 func (g *Session) ATTACKICSRootkit(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0851").
-        Msg("rootkit")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0851").
+		Msg("rootkit")
 }
 
 /* ATTACKICSScreenCapture Phases: collection-ics
@@ -15252,10 +15250,10 @@ adversary with an understanding of intended operations and interactions between
 critical devices.
 */
 func (g *Session) ATTACKICSScreenCapture(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0852").
-        Msg("screen capture")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0852").
+		Msg("screen capture")
 }
 
 /* ATTACKICSScripting Phases: execution-ics
@@ -15278,10 +15276,10 @@ easily, and leaves open the possibility of on-the-fly scripting to perform a
 task.
 */
 func (g *Session) ATTACKICSScripting(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0853").
-        Msg("scripting")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0853").
+		Msg("scripting")
 }
 
 /* ATTACKICSSerialConnectionEnumeration Phases: discovery-ics
@@ -15302,10 +15300,10 @@ This gives the adversary greater situational awareness and can influence the
 actions that the adversary can take in an attack.
 */
 func (g *Session) ATTACKICSSerialConnectionEnumeration(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0854").
-        Msg("serial connection enumeration")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0854").
+		Msg("serial connection enumeration")
 }
 
 /* ATTACKICSServiceStop Phases: inhibit-response-function
@@ -15318,10 +15316,10 @@ allow for modification of their data stores while running. Adversaries may stop
 services in order to conduct Data Destruction. (Citation: EAttack Service Stop)
 */
 func (g *Session) ATTACKICSServiceStop(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0881").
-        Msg("service stop")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0881").
+		Msg("service stop")
 }
 
 /* ATTACKICSSpearphishingAttachment Phases: initial-access-ics
@@ -15336,10 +15334,10 @@ upon User Execution to gain execution and access. (Citation: EAttack
 Spearphishing Attachment)
 */
 func (g *Session) ATTACKICSSpearphishingAttachment(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0865").
-        Msg("spearphishing attachment")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0865").
+		Msg("spearphishing attachment")
 }
 
 /* ATTACKICSSpoofReportingMessage Phases: evasion-ics impair-process-control
@@ -15360,10 +15358,10 @@ send false data and instructions to pumping stations and the central computer.
 (Citation: Maroochy - MITRE - 200808)
 */
 func (g *Session) ATTACKICSSpoofReportingMessage(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0856").
-        Msg("spoof reporting message")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0856").
+		Msg("spoof reporting message")
 }
 
 /* ATTACKICSStandardApplicationLayerProtocol Phases: command-and-control-ics
@@ -15377,10 +15375,10 @@ of the network for command and control, or in some cases to other infected
 devices within the network.
 */
 func (g *Session) ATTACKICSStandardApplicationLayerProtocol(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0869").
-        Msg("standard application layer protocol")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0869").
+		Msg("standard application layer protocol")
 }
 
 /* ATTACKICSSupplyChainCompromise Phases: initial-access-ics
@@ -15416,10 +15414,10 @@ websites. After being downloaded, this software infected the host computer with
 a Remote Access Trojan (RAT).
 */
 func (g *Session) ATTACKICSSupplyChainCompromise(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0862").
-        Msg("supply chain compromise")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0862").
+		Msg("supply chain compromise")
 }
 
 /* ATTACKICSSystemFirmware Phases: persistence-ics inhibit-response-function
@@ -15436,10 +15434,10 @@ adversary with root access to a device, given firmware is one of the lowest
 programming abstraction layers.(Citation: Research - Firmware Modification)
 */
 func (g *Session) ATTACKICSSystemFirmware(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0857").
-        Msg("system firmware")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0857").
+		Msg("system firmware")
 }
 
 /* ATTACKICSTheftofOperationalInformation Phases: impact-ics
@@ -15452,10 +15450,10 @@ adversaries probed systems for operational data. (Citation: Bowman Dam - Times)
 (Citation: Bowman Dam - wall street journal)
 */
 func (g *Session) ATTACKICSTheftofOperationalInformation(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0882").
-        Msg("theft of operational information")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0882").
+		Msg("theft of operational information")
 }
 
 /* ATTACKICSUnauthorizedCommandMessage Phases: impair-process-control
@@ -15476,10 +15474,10 @@ other disaster. Alarms were activated more than a dozen times. These disruptions
 occurred once in 2017, and later in a nearby county in 2019.
 */
 func (g *Session) ATTACKICSUnauthorizedCommandMessage(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0855").
-        Msg("unauthorized command message")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0855").
+		Msg("unauthorized command message")
 }
 
 /* ATTACKICSUserExecution Phases: execution-ics
@@ -15495,10 +15493,10 @@ always be noticeable to the user especially in cases of trojanized software.
 (Citation: Havex - F-Secure)
 */
 func (g *Session) ATTACKICSUserExecution(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0863").
-        Msg("user execution")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0863").
+		Msg("user execution")
 }
 
 /* ATTACKICSValidAccounts Phases: persistence-ics lateral-movement-ics
@@ -15523,10 +15521,10 @@ the enterprise and operational technology environments. Adversaries may be able
 to leverage valid credentials from one system to gain access to another system.
 */
 func (g *Session) ATTACKICSValidAccounts(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0859").
-        Msg("valid accounts")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0859").
+		Msg("valid accounts")
 }
 
 /* ATTACKICSWirelessCompromise Phases: initial-access-ics
@@ -15554,10 +15552,10 @@ initial access to the network, allowing the capture and replay of tram signals.
 (Citation: LodzTram-LondonReconnections-2017-12)
 */
 func (g *Session) ATTACKICSWirelessCompromise(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0860").
-        Msg("wireless compromise")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0860").
+		Msg("wireless compromise")
 }
 
 /* ATTACKICSWirelessSniffing Phases: discovery-ics collection-ics
@@ -15583,8 +15581,8 @@ regular test of the system. These messages were later replayed to trigger the
 alarm systems.
 */
 func (g *Session) ATTACKICSWirelessSniffing(values ...Value) {
-    l := g.addValues(values...)
-    l.Warn().
-        Str("technique", "T0887").
-        Msg("wireless sniffing")
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T0887").
+		Msg("wireless sniffing")
 }
