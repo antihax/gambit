@@ -141,6 +141,13 @@ func (g *Session) TriedExecContainer(values ...Value) {
 		Msg("exec on container")
 }
 
+func (g *Session) TriedCrontab(values ...Value) {
+	l := g.addValues(values...)
+	l.Warn().
+		Str("technique", "T1053.003").
+		Msg("set crontab")
+}
+
 func (g *Session) TriedExploitingPublicApplication(values ...Value) {
 	l := g.addValues(values...)
 	l.Warn().
