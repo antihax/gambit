@@ -1,7 +1,7 @@
 # GaMBiT
 Collection of services to run a honeypot and analytics UI. Conman can also be ran as an internal sensor reporting to syslog to detect unwanted probes. This is a work in progress and just a fun project.
 
-<a href="https://www.buymeacoffee.com/antihax" title="Donate to this project using Buy Me A Coffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg" alt="Buy Me A Coffee donate button" /></a>
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/O5O33VK5S)
 
 ## Conman
 The connection manager (Conman) attempts to sense the protocol based on matching the first few bytes of the packet, unwrapping TLS if detected, and forwarding on to a driver to attempt to extract more information about the session. A single port can seamlessly handle multiple protocols in this manner.
