@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # start master node
 kubeadm init
 
@@ -42,16 +43,25 @@ helm install haproxy haproxytech/kubernetes-ingress \
   --namespace=haproxy \
   --set controller.kind=DaemonSet \
   --set controller.daemonset.useHostPort=true \
-  --set controller.nodeSelector.gambit=haproxy
+  --set controller.nodeSelector.ingress=haproxy
 
 # setup cert manager
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
 
 # add eck for elastic
-kubectl apply -f https://download.elastic.co/downloads/eck/1.7.1/all-in-one.yaml
+kubectl create -f https://download.elastic.co/downloads/eck/2.1.0/crds.yaml
+kubectl apply -f https://download.elastic.co/downloads/eck/2.1.0/operator.yaml
+
 
 # hetzner volumes
-kubectl apply -f https://raw.githubusercontent.com/hetznercloud/csi-driver/v1.6.0/deploy/kubernetes/hcloud-csi.yml
+#kubectl apply -f https://raw.githubusercontent.com/hetznercloud/csi-driver/v1.6.0/deploy/kubernetes/hcloud-csi.yml
+
+# local volumes
+helm repo add openebs https://openebs.github.io/charts
+helm repo update
+helm install openebs --namespace openebs openebs/openebs --create-namespace
+kubectl apply -f https://openebs.github.io/charts/examples/local-hostpath/local-hostpath-pvc.yaml
+kubectl apply -f https://openebs.github.io/charts/examples/local-hostpath/local-hostpath-pod.yaml
 
 # create namespace
 kubectl apply -f gambit.yaml

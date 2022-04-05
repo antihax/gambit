@@ -4,13 +4,23 @@ metadata:
   name: gambit
   namespace: gambit
 spec:
-  version: 7.13.3
+  version: 8.1.2
   nodeSets:
     - name: store
-      count: 2
+      count: 1
       config:
         node.store.allow_mmap: false
         stack.templates.enabled: false
+      volumeClaimTemplates:
+      - metadata:
+          name: elasticsearch-data 
+        spec:
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 20Gi
+          storageClassName: local-hostpath
       podTemplate:
         spec:
           nodeSelector:

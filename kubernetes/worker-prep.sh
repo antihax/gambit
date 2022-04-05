@@ -17,10 +17,13 @@ net.bridge.bridge-nf-call-iptables = 1
 net.ipv4.ip_forward = 1
 EOF
 
-sysctl --system
-
 # bugfix: won't create CNI on occasion if this dir is not present
 mkdir -p /etc/cni/net.d
+
+apt update -y
+apt install -y curl wget apt-transport-https software-properties-common
+apt upgrade -y
+apt autoremove -y
 
 # add kubernetes repo to apt
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
