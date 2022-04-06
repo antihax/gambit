@@ -1,7 +1,7 @@
 package views
 
 import (
-	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"regexp"
@@ -9,39 +9,33 @@ import (
 
 	"github.com/antihax/gambit/internal/contrive"
 	"github.com/gorilla/mux"
-	"nhooyr.io/websocket"
 )
 
 func init() {
 	checkHash := regexp.MustCompile(`^[a-zA-Z0-9-]+$`)
-	contrive.AddRoute("GET", "/api/recent-ws",
+	contrive.AddRoute("GET", "/api/recent-sse",
 		func(w http.ResponseWriter, r *http.Request) {
-			c := contrive.GlobalsFromContext(r.Context())
-			ws, err := websocket.Accept(w, r, &websocket.AcceptOptions{InsecureSkipVerify: true})
-			if err != nil {
-				log.Println(err)
+			flusher, ok := w.(http.Flusher)
+			if !ok {
+				http.Error(w, "Streaming unsupported!", http.StatusInternalServerError)
 				return
 			}
-			defer ws.Close(websocket.StatusNormalClosure, "")
+			c := contrive.GlobalsFromContext(r.Context())
 			ch := c.NewRecentClient()
 			defer close(ch)
-			ctx, cancel := context.WithTimeout(r.Context(), time.Minute*10)
-			defer cancel()
 
-			// ignore anything from the client
-			ctx = ws.CloseRead(ctx)
+			w.Header().Set("Content-Type", "text/event-stream")
+			w.Header().Set("Cache-Control", "no-cache")
+			w.Header().Set("Connection", "keep-alive")
 
 			for {
 				select {
-				case <-ctx.Done():
-					ws.Close(websocket.StatusNormalClosure, "")
+				case msg := <-ch:
+					fmt.Fprintf(w, "data: %s\n\n", msg)
+					flusher.Flush()
+				case <-r.Context().Done():
+					flusher.Flush()
 					return
-				case st := <-ch:
-					err = ws.Write(ctx, websocket.MessageText, st)
-					if err != nil {
-						log.Println(err)
-						return
-					}
 				}
 			}
 		})

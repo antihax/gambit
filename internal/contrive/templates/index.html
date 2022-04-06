@@ -78,7 +78,6 @@
             const levelDim = cfData.dimension(d => { return d.level; });
             const levelGroup = levelDim.group();
             
-
             const colors = d3.scaleOrdinal().range(d3.schemeDark2)
             charts.msgTypeChart = new dc.RowChart('#msgTypeChart')
                 .width(240)
@@ -131,24 +130,15 @@
     });
 
     function connect() {
-        let protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-        var ws = new WebSocket(protocol + '://' + document.location.host + '/api/recent-ws');
-        ws.onerror = function () {
-            ws.close();
-        };
-        ws.onclose = function (e) {
-            this.close();
-            connect();
-        };
-        ws.onmessage = function (msgevent) {
-            var msg = JSON.parse(msgevent.data);
+        this._eventSource = new EventSource("/api/recent-sse");
+        this._eventSource.onmessage = (event => {
+            let msg = JSON.parse(event.data);
             msg = Object.keys(msg).reduce((prev, current) =>
                 ({ ...prev, [current.replace("gambit.", "")]: msg[current][0] }), {})
-
             cfData.add([msg]);
             $('#output').DataTable().clear().rows.add(cfDim.top(500)).draw();
             dc.redrawAll();
-        };
+        });
     };
 </script>
 <div class="container">
