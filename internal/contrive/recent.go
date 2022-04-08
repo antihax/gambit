@@ -7,12 +7,14 @@ import (
 	"time"
 )
 
+// NewRecentClient creates a new client for recent messages
 func (c *Contrive) NewRecentClient() chan []byte {
 	nc := make(chan []byte, 200)
 	c.recentClients = append(c.recentClients, nc)
 	return nc
 }
 
+// Send	a message to the channel
 func Send(c chan []byte, t []byte) (ok bool) {
 	defer func() { recover() }()
 	c <- t

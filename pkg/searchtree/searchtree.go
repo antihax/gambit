@@ -1,11 +1,13 @@
 // Package searchtree provides a simple tree structure to match binary data
 package searchtree
 
+// Node is a node in the tree
 type Node struct {
 	Nodes map[byte]*Node
 	Entry interface{}
 }
 
+// NewNode returns a new node
 func NewNode() *Node {
 	return &Node{
 		Nodes: make(map[byte]*Node),

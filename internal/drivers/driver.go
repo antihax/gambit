@@ -19,7 +19,7 @@ type Driver interface {
 	Patterns() [][]byte
 }
 
-// Driver driver with an exact match pattern
+// ExactDriver driver with an exact match pattern
 type ExactDriver interface {
 	ExactPattern() [][]byte
 }

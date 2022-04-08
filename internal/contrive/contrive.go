@@ -7,16 +7,18 @@ import (
 	"github.com/sethvargo/go-envconfig"
 )
 
+// Contrive is the main service
 type Contrive struct {
 	ESQ           *esq.ESQ
 	recentClients []chan []byte
 	RootContext   context.Context
-	Config        ContriveConfig
+	Config        Config
 }
 
+// NewContrive creates a new contrive service
 func NewContrive() (*Contrive, error) {
 	// load config
-	cfg := ContriveConfig{}
+	cfg := Config{}
 	if err := envconfig.Process(context.Background(), &cfg); err != nil {
 		return nil, err
 	}
@@ -45,7 +47,7 @@ func NewContrive() (*Contrive, error) {
 	return c, nil
 }
 
-// close the service
+// Close the service
 func (s *Contrive) Close() {
 
 }

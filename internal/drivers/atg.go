@@ -67,7 +67,7 @@ func (s *atg) ServeTCP(ln net.Listener) {
 	}
 }
 
-var banner string = `
+var banner = `
 I20100
 %s
 

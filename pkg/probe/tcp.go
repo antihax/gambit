@@ -50,6 +50,7 @@ const (
 	NS
 )
 
+// TCPPacket header structure
 type TCPPacket struct {
 	SrcPort    uint16 // 0
 	DestPort   uint16 // 2
@@ -62,6 +63,7 @@ type TCPPacket struct {
 	// 20
 }
 
+// Decode a packet
 func (t *TCPPacket) Decode(pkt []byte) ([]byte, error) {
 	err := binary.Read(bytes.NewReader(pkt), binary.BigEndian, t)
 	if err != nil {

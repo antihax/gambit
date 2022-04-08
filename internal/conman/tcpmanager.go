@@ -120,7 +120,7 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	n, err := r.Read(buf)
 	if err != nil {
 		if err != io.EOF {
-			s.logger.Debug().Err(err).
+			s.logger.Trace().Err(err).
 				Str("network", "tcp").
 				Msg("error reading from sniffer")
 			muc.Close()

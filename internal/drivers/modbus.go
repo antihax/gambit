@@ -36,7 +36,7 @@ func (s *modbus) ServeTCP(ln net.Listener) {
 				defer conn.Close()
 				conn.SetDeadline(time.Now().Add(time.Second * 5))
 				for {
-					hdr := &modbus_HeaderV1{}
+					hdr := &modbusHeaderV1{}
 					err := struc.Unpack(conn, hdr)
 					if err != nil || hdr.Length == 0 || hdr.Length > 260 {
 						glob.LogError(err)
@@ -48,7 +48,7 @@ func (s *modbus) ServeTCP(ln net.Listener) {
 	}
 }
 
-type modbus_HeaderV1 struct {
+type modbusHeaderV1 struct {
 	TransactionID uint16
 	ProtocolID    uint16
 	Length        uint16

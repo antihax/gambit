@@ -80,49 +80,49 @@ func (s *redis) ServeTCP(ln net.Listener) {
 						}
 						glob.LogError(err)
 						return
-					} else {
-						l.ATTACKEntActiveScanning()
-						switch cmd {
-						case "AUTH":
-							l.ATTACKEntPasswordGuessing(
-								gctx.Value{Key: "user", Value: "redis"},
-								gctx.Value{Key: "pass", Value: string(command.Get(1))},
-							)
-							writer.WriteBulkString("OK")
-						case "CLIENT":
-							switch strings.ToUpper(string(command.Get(1))) {
-							case "LIST":
-								writer.WriteBulkString(s.out(REDIS_CLIENT_LIST))
-							default:
-								writer.WriteBulkString("OK")
-							}
-
-						case "CONFIG":
-							switch strings.ToUpper(string(command.Get(1))) {
-							case "SET":
-								if string(command.Get(3)) == "crontab" || string(command.Get(3)) == "/etc/cron.d/" {
-									l.ATTACKEntCron()
-								} else {
-									l.ATTACKEntDataManipulation()
-								}
-								writer.WriteBulkString("OK")
-							default:
-								writer.WriteBulkString("OK")
-							}
-						case "FLUSHALL":
-							l.ATTACKEntDataDestruction()
-						case "PING":
-							writer.WriteBulkString("PONG")
-						case "INFO":
-							writer.WriteBulkString(s.out(REDIS_INFO))
-						case "COMMAND":
-							writer.WriteBulkString(REDIS_COMMAND)
-						case "NONEXISTENT":
-							writer.WriteError("ERR unknown command `NONEXISTENT`, with args beginning with:")
+					}
+					l.ATTACKEntActiveScanning()
+					switch cmd {
+					case "AUTH":
+						l.ATTACKEntPasswordGuessing(
+							gctx.Value{Key: "user", Value: "redis"},
+							gctx.Value{Key: "pass", Value: string(command.Get(1))},
+						)
+						writer.WriteBulkString("OK")
+					case "CLIENT":
+						switch strings.ToUpper(string(command.Get(1))) {
+						case "LIST":
+							writer.WriteBulkString(s.out(REDIS_CLIENT_LIST))
 						default:
 							writer.WriteBulkString("OK")
 						}
+
+					case "CONFIG":
+						switch strings.ToUpper(string(command.Get(1))) {
+						case "SET":
+							if string(command.Get(3)) == "crontab" || string(command.Get(3)) == "/etc/cron.d/" {
+								l.ATTACKEntCron()
+							} else {
+								l.ATTACKEntDataManipulation()
+							}
+							writer.WriteBulkString("OK")
+						default:
+							writer.WriteBulkString("OK")
+						}
+					case "FLUSHALL":
+						l.ATTACKEntDataDestruction()
+					case "PING":
+						writer.WriteBulkString("PONG")
+					case "INFO":
+						writer.WriteBulkString(s.out(REDIS_INFO))
+					case "COMMAND":
+						writer.WriteBulkString(REDIS_COMMAND)
+					case "NONEXISTENT":
+						writer.WriteError("ERR unknown command `NONEXISTENT`, with args beginning with:")
+					default:
+						writer.WriteBulkString("OK")
 					}
+
 					if command.IsLast() {
 						writer.Flush()
 					}

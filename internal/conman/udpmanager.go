@@ -56,7 +56,7 @@ func (s *ConnectionManager) udpManager() {
 			// fire up listener, kernel will take over future requests.
 			known, err := s.CreateUDPListener(header.Destination)
 			if err != nil {
-				s.logger.Debug().Err(err).Msg("creating socket")
+				s.logger.Trace().Err(err).Msg("creating socket")
 			}
 			if !known {
 				s.logger.Trace().Msgf("started udp server: %v", header.Destination)
@@ -128,7 +128,7 @@ func (s *ConnectionManager) handleDatagram(conn net.Conn, root net.Listener, wg 
 	n, err := r.Read(buf)
 	if err != nil {
 		if err != io.EOF {
-			s.logger.Debug().Err(err).
+			s.logger.Trace().Err(err).
 				Str("network", "udp").
 				Msg("error reading from sniffer")
 			muc.Close()

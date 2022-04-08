@@ -199,7 +199,7 @@ func (s *rdp) ServeTCP(ln net.Listener) {
 						//fmt.Printf("\n%+v\n%+v\n\n", hdr, b)
 					}
 
-					l.Logger.Info().Msg("rdp knock")
+					l.Logger.Trace().Msg("rdp knock")
 				}
 			}(mux)
 		}

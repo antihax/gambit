@@ -18,6 +18,7 @@ type contextKey struct {
 	key string
 }
 
+// GlobalsKey is the key used to store dependancies
 var GlobalsKey = &contextKey{"GlobalKey"}
 
 // Globals for routes so we can add them in `func init()`

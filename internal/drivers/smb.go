@@ -101,7 +101,7 @@ func (s *smb) ServeTCP(ln net.Listener) {
 					}
 
 					glob.NewSession(conn.Sequence(), StoreHash(conn.Snapshot(), glob.Store)).
-						Logger.Info().Msg("smb knock")
+						Logger.Trace().Msg("smb knock")
 				}
 			}(mux)
 		}

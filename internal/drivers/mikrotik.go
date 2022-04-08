@@ -40,7 +40,7 @@ func (s *mikrotikRouterOS) ServeTCP(ln net.Listener) {
 				conn.SetDeadline(time.Now().Add(time.Second * 5))
 				for {
 
-					hdr := &mikrotikRouterOS_Frame{}
+					hdr := &mikrotikRouterOSFrame{}
 					err := struc.Unpack(conn, hdr)
 					if err != nil {
 						glob.LogError(err)
@@ -56,7 +56,7 @@ func (s *mikrotikRouterOS) ServeTCP(ln net.Listener) {
 	}
 }
 
-type mikrotikRouterOS_Frame struct {
+type mikrotikRouterOSFrame struct {
 	Length  uint8 `struc:"sizeof=Payload"`
 	Payload []byte
 	End     uint8

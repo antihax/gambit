@@ -1,7 +1,6 @@
 package drivers
 
 import (
-	"fmt"
 	"net"
 
 	"github.com/aprice/telnet"
@@ -9,7 +8,6 @@ import (
 
 func init() {
 	serv := telnet.NewServer(":9999", telnet.HandleFunc(func(c *telnet.Connection) {
-		fmt.Println("hi")
 		c.Write([]byte("Hello world!\r\n"))
 		c.Close()
 	}))
