@@ -15,9 +15,14 @@ func init() {
 	checkHash := regexp.MustCompile(`^[a-zA-Z0-9-]+$`)
 	contrive.AddRoute("GET", "/api/recent-sse",
 		func(w http.ResponseWriter, r *http.Request) {
+			if r.Header.Get("Accept") != "text/event-stream" {
+				http.Error(w, "wrong mime, expected text/event-stream", http.StatusInternalServerError)
+				return
+			}
+
 			flusher, ok := w.(http.Flusher)
 			if !ok {
-				http.Error(w, "Streaming unsupported!", http.StatusInternalServerError)
+				http.Error(w, "streaming unsupported", http.StatusInternalServerError)
 				return
 			}
 			c := contrive.GlobalsFromContext(r.Context())
@@ -27,16 +32,20 @@ func init() {
 			w.Header().Set("Content-Type", "text/event-stream")
 			w.Header().Set("Cache-Control", "no-cache")
 			w.Header().Set("Connection", "keep-alive")
+			fmt.Fprintf(w, "event: control\ndata: OK\n\n")
+			flusher.Flush() // Send headers
 
 			for {
 				select {
 				case msg := <-ch:
-					fmt.Fprintf(w, "data: %s\n\n", msg)
-					flusher.Flush()
+					fmt.Fprintf(w, "event: event\ndata: %s\n\n", msg)
+				case <-time.After(time.Second * 20):
+					fmt.Fprint(w, "event: control\ndata: ping\n\n")
 				case <-r.Context().Done():
 					flusher.Flush()
 					return
 				}
+				flusher.Flush()
 			}
 		})
 

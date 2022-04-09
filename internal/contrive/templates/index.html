@@ -131,7 +131,7 @@
 
     function connect() {
         this._eventSource = new EventSource("/api/recent-sse");
-        this._eventSource.onmessage = (event => {
+        this._eventSource.addEventListener("event", event => {
             let msg = JSON.parse(event.data);
             msg = Object.keys(msg).reduce((prev, current) =>
                 ({ ...prev, [current.replace("gambit.", "")]: msg[current][0] }), {})

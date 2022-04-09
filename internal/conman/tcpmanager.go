@@ -140,7 +140,6 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 			n = newN
 			tlsUnwrap = true
 		}
-
 	}
 	muc.Reset()
 	muc.SetDeadline(time.Now().Add(time.Second * 5))
