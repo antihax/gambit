@@ -2,7 +2,7 @@ package conman
 
 import (
 	"net/http"
-	_ "net/http/pprof"
+	_ "net/http/pprof" // Force pprof to load
 )
 
 func runPProf() {

@@ -102,7 +102,12 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 
 	// create our sniffer
 	ctx, globalutils := s.getGlobalContext()
-	muc := muxconn.NewMuxConn(ctx, conn)
+	muc, err := muxconn.NewMuxConn(ctx, conn)
+	if err != nil {
+		s.logger.Debug().Str("network", "tcp").Err(err).Msg("error building NewMuxConn")
+		return
+	}
+
 	r := muc.StartSniffing()
 	port := strconv.Itoa(root.Addr().(*net.TCPAddr).Port)
 	ip := conn.RemoteAddr().(*net.TCPAddr).IP.String()
@@ -117,7 +122,7 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	// How are those first bytes tasting?
 	n := 1500
 	buf := make([]byte, n)
-	n, err := r.Read(buf)
+	n, err = r.Read(buf)
 	if err != nil {
 		if err != io.EOF {
 			s.logger.Trace().Err(err).

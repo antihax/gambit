@@ -17,30 +17,55 @@
 package muxconn
 
 import (
+	"bufio"
+	"bytes"
 	"context"
+	"fmt"
 	"io"
 	"net"
+	"time"
 
+	"github.com/google/gopacket"
+	"github.com/google/gopacket/layers"
+	"github.com/google/gopacket/pcapgo"
 	"github.com/google/uuid"
 )
 
 // MuxConn wraps a net.Conn and provides transparent sniffing of connection data.
 type MuxConn struct {
 	net.Conn
-	buf      BufferedReader
-	uuid     string
-	sequence int
-	Context  context.Context
+	pcap       *pcapgo.NgWriter
+	pcapBuffer bytes.Buffer
+	buf        BufferedReader
+	uuid       string
+	sequence   int
+	Context    context.Context
 }
 
 // NewMuxConn returns a new sniffable connection.
-func NewMuxConn(ctx context.Context, c net.Conn) *MuxConn {
-	return &MuxConn{
-		Conn:    c,
-		buf:     BufferedReader{source: c},
-		uuid:    uuid.NewString(),
-		Context: ctx,
+func NewMuxConn(ctx context.Context, c net.Conn) (*MuxConn, error) {
+	// setup pcapng wrapper
+	buffer := bytes.Buffer{}
+	writer := bufio.NewWriter(&buffer)
+	pcap, err := pcapgo.NewNgWriter(writer, layers.LinkTypeEthernet)
+	if err != nil {
+		return nil, err
 	}
+
+	// Build connection
+	conn := &MuxConn{
+		Conn:       c,
+		pcap:       pcap,
+		pcapBuffer: buffer,
+		buf:        BufferedReader{source: c},
+		uuid:       uuid.NewString(),
+		Context:    ctx,
+	}
+
+	if err != nil {
+		return nil, err
+	}
+	return conn, nil
 }
 
 // When Read encounters an error or end-of-file condition after
@@ -52,13 +77,57 @@ func NewMuxConn(ctx context.Context, c net.Conn) *MuxConn {
 // return either err == EOF or err == nil.  The next Read should
 // return 0, EOF.
 func (m *MuxConn) Read(p []byte) (int, error) {
-	return m.buf.Read(p)
+	n, err := m.buf.Read(p)
+	if err != nil {
+		return n, err
+	}
+	ci := gopacket.CaptureInfo{
+		Timestamp:      time.Now(),
+		Length:         len(p),
+		CaptureLength:  len(p),
+		InterfaceIndex: 0,
+	}
+
+	err = m.pcap.WritePacket(ci, p)
+	if err != nil {
+		fmt.Println(err)
+		return n, err
+	}
+
+	err = m.pcap.Flush()
+	if err != nil {
+		fmt.Println(err)
+		return n, err
+	}
+	return n, err
 }
 
 // ReadFrom PacketConn interface
 func (m *MuxConn) ReadFrom(p []byte) (int, net.Addr, error) {
-	n, e := m.buf.Read(p)
-	return n, m.RemoteAddr(), e
+	n, err := m.buf.Read(p)
+	if err != nil {
+		return n, m.RemoteAddr(), err
+	}
+	ci := gopacket.CaptureInfo{
+		Timestamp:      time.Now(),
+		Length:         len(p),
+		CaptureLength:  len(p),
+		InterfaceIndex: 0,
+	}
+
+	err = m.pcap.WritePacket(ci, p)
+	if err != nil {
+		fmt.Println(err)
+		return n, m.RemoteAddr(), err
+	}
+
+	err = m.pcap.Flush()
+	if err != nil {
+		fmt.Println(err)
+		return n, m.RemoteAddr(), err
+	}
+
+	return n, m.RemoteAddr(), err
 }
 
 // WriteTo PacketConn interface, ignores address
@@ -100,4 +169,10 @@ func (m *MuxConn) NumWritten() int {
 
 func (m *MuxConn) BufferSize() int {
 	return m.buf.bufferSize
+}
+
+func (m *MuxConn) Close() error {
+	m.pcap.Flush()
+	//fmt.Printf("%+v\n", m.pcapBuffer.Bytes())
+	return m.Conn.Close()
 }

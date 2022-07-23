@@ -18,6 +18,7 @@ import (
 	"github.com/pion/udp"
 )
 
+// UDPHeader is the header for the UDP packets
 type UDPHeader struct {
 	Source      uint16
 	Destination uint16
@@ -114,7 +115,12 @@ func (s *ConnectionManager) handleDatagram(conn net.Conn, root net.Listener, wg 
 
 	// create our sniffer
 	ctx, globalutils := s.getGlobalContext()
-	muc := muxconn.NewMuxConn(ctx, conn)
+	muc, err := muxconn.NewMuxConn(ctx, conn)
+	if err != nil {
+		s.logger.Debug().Str("network", "udp").Err(err).Msg("error building NewMuxConn")
+		return
+	}
+
 	r := muc.StartSniffing()
 	port := strconv.Itoa(root.Addr().(*net.UDPAddr).Port)
 	ip := conn.RemoteAddr().(*net.UDPAddr).IP.String()
@@ -125,7 +131,7 @@ func (s *ConnectionManager) handleDatagram(conn net.Conn, root net.Listener, wg 
 	// How are those first bytes tasting?
 	n := 1500
 	buf := make([]byte, n)
-	n, err := r.Read(buf)
+	n, err = r.Read(buf)
 	if err != nil {
 		if err != io.EOF {
 			s.logger.Trace().Err(err).

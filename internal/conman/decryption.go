@@ -87,8 +87,11 @@ func (s *ConnectionManager) decryptConn(ctx context.Context, conn net.Conn, netw
 	}
 
 	// Setup context
-	muc := muxconn.NewMuxConn(ctx, decryptConn)
-
+	muc, err := muxconn.NewMuxConn(ctx, decryptConn)
+	if err != nil {
+		s.logger.Debug().Str("network", network).Err(err).Msg("error building NewMuxConn")
+		return nil, nil, 0, err
+	}
 	r := muc.StartSniffing()
 	n, err = r.Read(buf)
 	if err != nil {
