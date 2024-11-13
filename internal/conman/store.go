@@ -58,12 +58,17 @@ func (s *ConnectionManager) setupStore() error {
 			s.config.OutputFolder = pw + "/"
 		}
 	}
+
+	if _, err := os.Stat(s.config.OutputFolder); os.IsNotExist(err) {
+		return err
+	}
+
 	if s.config.OutputFolder != "" {
 		if err := os.Mkdir(s.config.OutputFolder+"raw", 0755); err != nil {
-			return err
+			s.logger.Debug().Err(err).Msg("error with raw data")
 		}
 		if err := os.Mkdir(s.config.OutputFolder+"sessions", 0755); err != nil {
-			return err
+			s.logger.Debug().Err(err).Msg("error with sessions data")
 		}
 	}
 
