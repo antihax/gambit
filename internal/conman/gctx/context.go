@@ -29,17 +29,20 @@ func GlobalUtilsContext(ctx context.Context, globals *GlobalUtils) context.Conte
 
 // GlobalUtils provides utils for drivers
 type GlobalUtils struct {
-	MuxConn  *muxconn.MuxConn
-	Logger   zerolog.Logger
-	BaseHash string
-	Store    chan store.File
+	MuxConn      *muxconn.MuxConn
+	Logger       zerolog.Logger
+	BaseHash     string
+	Store        chan store.File
+	DriverMarked bool
 }
 
 // GetGlobalFromContext returns store channel from conman context for saving raw packets
 func GetGlobalFromContext(ctx context.Context, driver string) *GlobalUtils {
 	c := ctx.Value(GlobalContextKey).(*GlobalUtils)
-	if driver != "" {
+	// zerolog allows for multiple keys, but we only want to mark the driver once
+	if driver != "" && !c.DriverMarked {
 		c.Logger = c.Logger.With().Str("driver", driver).Logger()
+		c.DriverMarked = true
 	}
 	return c
 }
