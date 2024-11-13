@@ -3,7 +3,7 @@ package conman
 // ConnectionManagerConfig reads configuration from environment variables
 type ConnectionManagerConfig struct {
 	SyslogAddress string   `env:"CONMAN_SYSLOG_ADDRESS"`
-	SyslogNetwork string   `env:"CONMAN_SYSLOG_NETWORK"`
+	SyslogNetwork string   `env:"CONMAN_SYSLOG_NETWORK,default=stdout"`
 	LogLevel      int      `env:"CONMAN_LOGLEVEL,default=1"`
 	Preload       uint16   `env:"CONMAN_PRELOAD,default=10000"`
 	MaxPort       uint16   `env:"CONMAN_MAXPORT,default=45000"`
