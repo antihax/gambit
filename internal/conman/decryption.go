@@ -34,7 +34,7 @@ func (s *ConnectionManager) fakeTLSCertificate() (*tls.Certificate, error) {
 	tml := x509.Certificate{
 		NotBefore:    time.Now(),
 		NotAfter:     time.Now().AddDate(25, 0, 0),
-		SerialNumber: big.NewInt(fake.Int64()),
+		SerialNumber: big.NewInt(int64(fake.Uint32())),
 		Subject: pkix.Name{
 			CommonName:   fake.DomainName(),
 			Organization: []string{fake.Company()},
