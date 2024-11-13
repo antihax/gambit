@@ -69,15 +69,13 @@ func (s *ConnectionManager) udpManager() {
 
 // CreateUDPListener will create a new listener if one does not already exist and return if it was created or not.
 func (s *ConnectionManager) CreateUDPListener(port uint16) (bool, error) {
-	var wg sync.WaitGroup
-
 	if port > s.config.MaxPort {
 		return false, errors.New("above config.Maxport")
 	}
 
-	wg.Wait()
-
 	// create a new listener if one does not already exist
+	s.udpmu.Lock()
+	defer s.udpmu.Unlock()
 	if _, ok := s.udpListeners[port]; !ok {
 		addr := &net.UDPAddr{IP: net.ParseIP(gctx.IPAddress), Port: int(port)}
 		ln, err := udp.Listen("udp", addr)
@@ -88,6 +86,7 @@ func (s *ConnectionManager) CreateUDPListener(port uint16) (bool, error) {
 
 		// handle the connections
 		go func() {
+			var wg sync.WaitGroup
 			for {
 				conn, err := ln.Accept()
 				if err == nil {
@@ -95,6 +94,7 @@ func (s *ConnectionManager) CreateUDPListener(port uint16) (bool, error) {
 					go s.handleDatagram(conn, ln, &wg)
 				}
 			}
+			wg.Wait()
 		}()
 
 		return false, nil

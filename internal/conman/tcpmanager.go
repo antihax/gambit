@@ -56,15 +56,13 @@ func (s *ConnectionManager) tcpManager() {
 
 // CreateTCPListener will create a new listener if one does not already exist and return if it was created or not.
 func (s *ConnectionManager) CreateTCPListener(port uint16) (bool, error) {
-	var wg sync.WaitGroup
-
 	if port > s.config.MaxPort {
 		return false, errors.New("above config.Maxport")
 	}
 
-	wg.Wait()
-
 	// create a new listener if one does not already exist
+	s.tcpmu.Lock()
+	defer s.tcpmu.Unlock()
 	if _, ok := s.tcpListeners[port]; !ok {
 		addr := fmt.Sprintf("%s:%d", gctx.IPAddress, port)
 		ln, err := net.Listen("tcp", addr)
@@ -75,13 +73,17 @@ func (s *ConnectionManager) CreateTCPListener(port uint16) (bool, error) {
 
 		// handle the connections
 		go func() {
+			var wg sync.WaitGroup
 			for {
 				conn, err := ln.Accept()
-				if err == nil {
-					wg.Add(1)
-					go s.handleConnection(conn, ln, &wg)
+				if err != nil {
+					s.logger.Trace().Err(err).Msg("error accepting connection")
+					continue
 				}
+				wg.Add(1)
+				go s.handleConnection(conn, ln, &wg)
 			}
+			wg.Wait()
 		}()
 
 		return false, nil

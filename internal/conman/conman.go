@@ -37,6 +37,9 @@ type ConnectionManager struct {
 	knownHashes sync.Map
 	lastAddress sync.Map
 
+	tcpmu sync.Mutex
+	udpmu sync.Mutex
+
 	// root logger
 	logger zerolog.Logger
 
