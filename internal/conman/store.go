@@ -52,11 +52,11 @@ func (s *ConnectionManager) setupStore() error {
 
 	// setup local storage
 	if s.config.OutputFolder == "." {
-		if pw, err := os.Getwd(); err != nil {
+		pwd, err := os.Getwd()
+		if err != nil {
 			return err
-		} else {
-			s.config.OutputFolder = pw + "/"
 		}
+		s.config.OutputFolder = pwd + string(os.PathSeparator)
 	}
 
 	if _, err := os.Stat(s.config.OutputFolder); os.IsNotExist(err) {

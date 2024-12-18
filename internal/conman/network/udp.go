@@ -1,7 +1,7 @@
-package conman
+package network
 
+/*
 import (
-	"bytes"
 	"context"
 	"errors"
 	"io"
@@ -14,7 +14,6 @@ import (
 	"github.com/antihax/gambit/internal/drivers"
 	"github.com/antihax/gambit/internal/muxconn"
 	"github.com/antihax/gambit/internal/store"
-	"github.com/lunixbochs/struc"
 	"github.com/pion/udp"
 )
 
@@ -26,49 +25,19 @@ type UDPHeader struct {
 	Checksum    uint16
 }
 
-// udpManager listens for unknown packets and fires up listeners to handle
-// in the future
-func (s *ConnectionManager) udpManager() {
-	conn, err := net.ListenIP("ip4:udp", nil)
-	if err != nil {
-		panic(err)
-	}
-	go func() {
-		for {
-			// read max MTU if available
-			buf := make([]byte, 1500)
-			_, addr, err := conn.ReadFrom(buf)
-			if err != nil {
-				s.logger.Trace().Err(err).
-					Str("network", "udp").
-					Str("address", addr.String()).
-					Msg("reading socket")
-			}
-
-			reader := bytes.NewReader(buf)
-			header := UDPHeader{}
-
-			struc.Unpack(reader, &header)
-			if s.config.PortIgnored(header.Destination) {
-				continue
-			}
-			// see if we match a rule and transfer the connection to the driver
-
-			// fire up listener, kernel will take over future requests.
-			known, err := s.CreateUDPListener(header.Destination)
-			if err != nil {
-				s.logger.Trace().Err(err).Msg("creating socket")
-			}
-			if !known {
-				s.logger.Trace().Msgf("started udp server: %v", header.Destination)
-			}
-
-		}
-	}()
+// UDPManager is responsible for managing UDP network listeners.
+type UDPManager struct {
+	listeners map[uint16]net.Listener
 }
 
-// CreateUDPListener will create a new listener if one does not already exist and return if it was created or not.
-func (s *ConnectionManager) CreateUDPListener(port uint16) (bool, error) {
+// New creates and returns a new instance of UDPManager.
+func New() *UDPManager {
+	return &UDPManager{
+		listeners: make(map[uint16]net.Listener),
+	}
+}
+
+func (s *UDPManager) Start(port uint16) (bool, error) {
 	if port > s.config.MaxPort {
 		return false, errors.New("above config.Maxport")
 	}
@@ -76,13 +45,13 @@ func (s *ConnectionManager) CreateUDPListener(port uint16) (bool, error) {
 	// create a new listener if one does not already exist
 	s.udpmu.Lock()
 	defer s.udpmu.Unlock()
-	if _, ok := s.udpListeners[port]; !ok {
+	if _, ok := s.listeners[port]; !ok {
 		addr := &net.UDPAddr{IP: net.ParseIP(gctx.IPAddress), Port: int(port)}
 		ln, err := udp.Listen("udp", addr)
 		if err != nil {
 			return true, err
 		}
-		s.udpListeners[port] = ln
+		s.listeners[port] = ln
 
 		// handle the connections
 		go func() {
@@ -103,7 +72,7 @@ func (s *ConnectionManager) CreateUDPListener(port uint16) (bool, error) {
 	return true, nil
 }
 
-func (s *ConnectionManager) handleDatagram(conn net.Conn, root net.Listener, wg *sync.WaitGroup) {
+func (s *UDPManager) handleDatagram(conn net.Conn, root net.Listener, wg *sync.WaitGroup) {
 	defer wg.Done()
 	// ban hammers
 	if addr, ok := conn.RemoteAddr().(*net.UDPAddr); ok {
@@ -199,3 +168,4 @@ func (s *ConnectionManager) handleDatagram(conn net.Conn, root net.Listener, wg 
 		muc.Close()
 	}
 }
+*/

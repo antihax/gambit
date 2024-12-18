@@ -96,7 +96,7 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	defer wg.Done()
 	// ban hammers
 	if addr, ok := conn.RemoteAddr().(*net.TCPAddr); ok {
-		if s.tickBan(addr.IP.String()) {
+		if s.banList.TickBanCounter(addr.IP.String()) {
 			conn.Close()
 			return
 		}

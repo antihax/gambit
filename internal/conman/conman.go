@@ -10,7 +10,9 @@ import (
 	"sync"
 	"time"
 
+	"github.com/antihax/gambit/internal/conman/config"
 	"github.com/antihax/gambit/internal/conman/gctx"
+	"github.com/antihax/gambit/internal/conman/security"
 	"github.com/antihax/gambit/internal/drivers"
 	"github.com/antihax/gambit/internal/muxconn"
 	"github.com/antihax/gambit/internal/store"
@@ -20,7 +22,6 @@ import (
 	"github.com/pion/dtls/v2"
 	"github.com/pion/dtls/v2/pkg/crypto/selfsign"
 	"github.com/rs/zerolog"
-	"github.com/sethvargo/go-envconfig"
 )
 
 // ConnectionManager manages listeners
@@ -35,7 +36,8 @@ type ConnectionManager struct {
 
 	// if we are saving raw entries, keep a list to save hitting fs
 	knownHashes sync.Map
-	lastAddress sync.Map
+
+	banList *security.BanManager
 
 	tcpmu sync.Mutex
 	udpmu sync.Mutex
@@ -44,7 +46,7 @@ type ConnectionManager struct {
 	logger zerolog.Logger
 
 	// configurations
-	config     ConnectionManagerConfig
+	config     *config.Config
 	tlsConfig  tls.Config
 	dtlsConfig dtls.Config
 
@@ -56,8 +58,8 @@ type ConnectionManager struct {
 func NewConMan() (*ConnectionManager, error) {
 
 	// load config
-	cfg := ConnectionManagerConfig{}
-	if err := envconfig.Process(context.Background(), &cfg); err != nil {
+	cfg, err := config.New(context.Background())
+	if err != nil {
 		return nil, err
 	}
 
@@ -76,6 +78,7 @@ func NewConMan() (*ConnectionManager, error) {
 	}
 	zerolog.SetGlobalLevel(zerolog.Level(cfg.LogLevel))
 
+	// setup the cipher suites
 	suites := []uint16{}
 	for _, cipher := range append(tls.CipherSuites(), tls.InsecureCipherSuites()...) {
 		suites = append(suites, cipher.ID)
@@ -88,6 +91,7 @@ func NewConMan() (*ConnectionManager, error) {
 		doneCh:       make(chan struct{}),
 		tcpRules:     searchtree.NewTree(),
 		udpRules:     searchtree.NewTree(),
+		banList:      security.NewBanManager(cfg.BanCount),
 		banners:      make(map[uint16][]byte),
 		logger:       logger,
 		config:       cfg,
@@ -236,7 +240,7 @@ func (s *ConnectionManager) preloadTCPListeners() {
 // StartConning starts conman after configuration is completed
 func (s *ConnectionManager) StartConning() {
 	s.preloadTCPListeners()
-	s.banListManager()
+	s.banList.Start()
 	s.tcpManager()
 	s.udpManager()
 	for range s.doneCh {
