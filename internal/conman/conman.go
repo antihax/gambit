@@ -16,7 +16,7 @@ import (
 	"github.com/antihax/gambit/internal/drivers"
 	"github.com/antihax/gambit/internal/muxconn"
 	"github.com/antihax/gambit/internal/store"
-	"github.com/antihax/gambit/pkg/searchtree"
+	"github.com/antihax/gambit/pkg/trie"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	fake "github.com/brianvoe/gofakeit/v6"
 	"github.com/pion/dtls/v2"
@@ -29,8 +29,8 @@ type ConnectionManager struct {
 	tcpListeners map[uint16]net.Listener
 	udpListeners map[uint16]net.Listener
 	doneCh       chan struct{}
-	tcpRules     searchtree.Tree
-	udpRules     searchtree.Tree
+	tcpRules     *trie.Trie[muxconn.Proxy]
+	udpRules     *trie.Trie[muxconn.Proxy]
 	banners      map[uint16][]byte
 	addresses    []net.IP
 
@@ -89,8 +89,8 @@ func NewConMan() (*ConnectionManager, error) {
 		tcpListeners: make(map[uint16]net.Listener),
 		udpListeners: make(map[uint16]net.Listener),
 		doneCh:       make(chan struct{}),
-		tcpRules:     searchtree.NewTree(),
-		udpRules:     searchtree.NewTree(),
+		tcpRules:     trie.NewTrie[muxconn.Proxy](),
+		udpRules:     trie.NewTrie[muxconn.Proxy](),
 		banList:      security.NewBanManager(cfg.BanCount),
 		banners:      make(map[uint16][]byte),
 		logger:       logger,

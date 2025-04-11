@@ -175,12 +175,12 @@ func (s *ConnectionManager) handleConnection(conn net.Conn, root net.Listener, w
 	}
 
 	// see if we match a rule and transfer the connection to the driver
-	entry := s.tcpRules.Match(buf)
+	ln, found := s.tcpRules.Match(buf)
 
 	// stop sniffing and pass to the driver listener
 	muc.Reset()
-	ln, ok := entry.(muxconn.Proxy)
-	if ok {
+
+	if found {
 		// pipe the connection into Accept()
 		ln.InjectConn(muc)
 	} else {

@@ -181,12 +181,11 @@ func (s *ConnectionManager) handleDatagram(conn net.Conn, root net.Listener, wg 
 	}
 
 	// see if we match a rule and transfer the connection to the driver
-	entry := s.udpRules.Match(buf)
+	ln, found := s.udpRules.Match(buf)
 
 	// stop sniffing and pass to the driver listener
 	muc.Reset()
-	ln, ok := entry.(muxconn.Proxy)
-	if ok {
+	if found {
 		// pipe the connection into Accept()
 		ln.InjectConn(muc)
 	} else {
