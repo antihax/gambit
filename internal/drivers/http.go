@@ -8,7 +8,7 @@ import (
 	"net/http/httputil"
 
 	"github.com/antihax/gambit/internal/conman/gctx"
-	"github.com/antihax/gambit/internal/muxconn"
+	"github.com/antihax/gambit/pkg/muxconn"
 )
 
 var server http.Server

@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/antihax/gambit/internal/conman/gctx"
-	"github.com/antihax/gambit/internal/muxconn"
+	"github.com/antihax/gambit/pkg/muxconn"
 	"github.com/miekg/dns"
 )
 

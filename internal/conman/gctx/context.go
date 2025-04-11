@@ -4,8 +4,8 @@ package gctx
 import (
 	"context"
 
-	"github.com/antihax/gambit/internal/muxconn"
 	"github.com/antihax/gambit/internal/store"
+	"github.com/antihax/gambit/pkg/muxconn"
 	"github.com/rs/zerolog"
 )
 

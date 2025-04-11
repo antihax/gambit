@@ -14,7 +14,7 @@ import (
 	"time"
 
 	"github.com/antihax/gambit/internal/conman/gctx"
-	"github.com/antihax/gambit/internal/muxconn"
+	"github.com/antihax/gambit/pkg/muxconn"
 	fake "github.com/brianvoe/gofakeit/v6"
 	"github.com/pion/dtls/v2"
 )
