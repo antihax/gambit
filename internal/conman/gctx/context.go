@@ -9,8 +9,6 @@ import (
 	"github.com/rs/zerolog"
 )
 
-var ()
-
 // contextKey for conman contexts
 type contextKey struct {
 	key string
@@ -23,7 +21,7 @@ var (
 	IPAddress string
 )
 
-func GlobalUtilsContext(ctx context.Context, globals *GlobalUtils) context.Context {
+func NewGlobalContext(ctx context.Context, globals *GlobalUtils) context.Context {
 	return context.WithValue(ctx, GlobalContextKey, globals)
 }
 

@@ -64,7 +64,7 @@ func (s *ConnectionManager) getGlobalContext() (context.Context, *gctx.GlobalUti
 		Store:  s.storeChan,
 		Logger: s.logger,
 	}
-	return gctx.GlobalUtilsContext(context.Background(), g), g
+	return gctx.NewGlobalContext(context.Background(), g), g
 }
 
 // decryptConn attempts to return a decrypting connection
@@ -73,15 +73,13 @@ func (s *ConnectionManager) decryptConn(ctx context.Context, conn net.Conn, netw
 		decryptConn net.Conn
 		err         error
 	)
-	n := 1500
-	buf := make([]byte, n)
 
 	if network == "tcp" {
 		decryptConn = tls.Server(conn, &s.tlsConfig)
 	} else {
 		decryptConn, err = dtls.Server(conn, &s.dtlsConfig)
 		if err != nil {
-			s.logger.Trace().Str("network", network).Err(err).Msg("error decryption session")
+			s.logger.Trace().Str("network", network).Err(err).Msg("error decrypting session")
 			return nil, nil, 0, err
 		}
 	}
@@ -92,8 +90,16 @@ func (s *ConnectionManager) decryptConn(ctx context.Context, conn net.Conn, netw
 		s.logger.Debug().Str("network", network).Err(err).Msg("error building NewMuxConn")
 		return nil, nil, 0, err
 	}
+
+	// Reset and start sniffing
 	r := muc.StartSniffing()
-	n, err = r.Read(buf)
+	bufSize := 4096
+	if network == "udp" {
+		bufSize = 1500
+	}
+	buf := make([]byte, bufSize)
+
+	n, err := r.Read(buf)
 	if err != nil {
 		if err != io.EOF {
 			s.logger.Debug().Str("network", network).Err(err).Msg("error unwrapping tls")

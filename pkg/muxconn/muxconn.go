@@ -20,6 +20,7 @@ import (
 	"bufio"
 	"bytes"
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"net"
@@ -62,9 +63,6 @@ func NewMuxConn(ctx context.Context, c net.Conn) (*MuxConn, error) {
 		Context:    ctx,
 	}
 
-	if err != nil {
-		return nil, err
-	}
 	return conn, nil
 }
 
@@ -172,7 +170,11 @@ func (m *MuxConn) BufferSize() int {
 }
 
 func (m *MuxConn) Close() error {
+
+	if m == nil {
+		return errors.New("Nil MuxConn")
+	}
 	m.pcap.Flush()
-	//fmt.Printf("%+v\n", m.pcapBuffer.Bytes())
+
 	return m.Conn.Close()
 }
