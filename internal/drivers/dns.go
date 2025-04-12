@@ -150,7 +150,18 @@ func (s *evildns) Handler(w dns.ResponseWriter, r *dns.Msg) {
 
 	m.Answer = append(m.Answer, rr)
 
-	s.Glob.Logger.Debug().Str("dig", r.String()).Msg("dns dig")
+	if s.Glob != nil {
+		s.Glob.Logger.Debug().
+			Uint16("id", r.Id).
+			Bool("response", r.Response).
+			Int("opcode", int(r.Opcode)).
+			Bool("authoritative", r.Authoritative).
+			Bool("truncated", r.Truncated).
+			Bool("recursion_desired", r.RecursionDesired).
+			Bool("recursion_available", r.RecursionAvailable).
+			Int("rcode", int(r.Rcode)).
+			Msg("dns header received")
+	}
 
 	if m.Question[0].Name == "." {
 		m.Truncated = true
